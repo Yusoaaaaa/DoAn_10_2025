@@ -51,7 +51,7 @@
             this.TxtTK_DangNhap.Location = new System.Drawing.Point(141, 73);
             this.TxtTK_DangNhap.Margin = new System.Windows.Forms.Padding(4);
             this.TxtTK_DangNhap.Name = "TxtTK_DangNhap";
-            this.TxtTK_DangNhap.Size = new System.Drawing.Size(308, 27);
+            this.TxtTK_DangNhap.Size = new System.Drawing.Size(308, 23);
             this.TxtTK_DangNhap.TabIndex = 0;
             // 
             // TxtMatKhau_DangNhap
@@ -60,7 +60,7 @@
             this.TxtMatKhau_DangNhap.Location = new System.Drawing.Point(141, 124);
             this.TxtMatKhau_DangNhap.Margin = new System.Windows.Forms.Padding(4);
             this.TxtMatKhau_DangNhap.Name = "TxtMatKhau_DangNhap";
-            this.TxtMatKhau_DangNhap.Size = new System.Drawing.Size(308, 27);
+            this.TxtMatKhau_DangNhap.Size = new System.Drawing.Size(308, 23);
             this.TxtMatKhau_DangNhap.TabIndex = 1;
             // 
             // label1
@@ -71,7 +71,7 @@
             this.label1.Location = new System.Drawing.Point(14, 15);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(268, 53);
+            this.label1.Size = new System.Drawing.Size(212, 42);
             this.label1.TabIndex = 3;
             this.label1.Text = "Đăng Nhập";
             // 
@@ -82,7 +82,7 @@
             this.label2.Location = new System.Drawing.Point(7, 80);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 20);
+            this.label2.Size = new System.Drawing.Size(46, 17);
             this.label2.TabIndex = 4;
             this.label2.Text = "Email ";
             // 
@@ -93,7 +93,7 @@
             this.label3.Location = new System.Drawing.Point(7, 131);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 20);
+            this.label3.Size = new System.Drawing.Size(66, 17);
             this.label3.TabIndex = 5;
             this.label3.Text = "Mật khẩu";
             // 
@@ -130,7 +130,7 @@
             this.HienThiMatKhau.AutoSize = true;
             this.HienThiMatKhau.Location = new System.Drawing.Point(141, 155);
             this.HienThiMatKhau.Name = "HienThiMatKhau";
-            this.HienThiMatKhau.Size = new System.Drawing.Size(162, 24);
+            this.HienThiMatKhau.Size = new System.Drawing.Size(137, 21);
             this.HienThiMatKhau.TabIndex = 10;
             this.HienThiMatKhau.Text = "Hiển thị mật khẩu";
             this.HienThiMatKhau.UseVisualStyleBackColor = true;
@@ -141,7 +141,7 @@
             this.lLForgetPassWord.AutoSize = true;
             this.lLForgetPassWord.Location = new System.Drawing.Point(315, 242);
             this.lLForgetPassWord.Name = "lLForgetPassWord";
-            this.lLForgetPassWord.Size = new System.Drawing.Size(134, 20);
+            this.lLForgetPassWord.Size = new System.Drawing.Size(115, 17);
             this.lLForgetPassWord.TabIndex = 8;
             this.lLForgetPassWord.TabStop = true;
             this.lLForgetPassWord.Text = "Quên Mật Khẩu?";
@@ -181,7 +181,7 @@
             // FrmLogin
             // 
             this.AcceptButton = this.BtnDangNhap;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ClientSize = new System.Drawing.Size(910, 423);

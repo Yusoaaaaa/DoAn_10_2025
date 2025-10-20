@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Dashboard.Properties {
+namespace DoAn.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Dashboard.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Dashboard.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DoAn.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -115,7 +115,7 @@ namespace Dashboard.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap menu_bar {
             get {
-                object obj = ResourceManager.GetObject("menu-bar", resourceCulture);
+                object obj = ResourceManager.GetObject("menu_bar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace Dashboard.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap menu_bar__1_ {
             get {
-                object obj = ResourceManager.GetObject("menu-bar (1)", resourceCulture);
+                object obj = ResourceManager.GetObject("menu_bar__1_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace Dashboard.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap power_on {
             get {
-                object obj = ResourceManager.GetObject("power-on", resourceCulture);
+                object obj = ResourceManager.GetObject("power_on", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace Dashboard.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap power_on1 {
             get {
-                object obj = ResourceManager.GetObject("power-on1", resourceCulture);
+                object obj = ResourceManager.GetObject("power_on1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

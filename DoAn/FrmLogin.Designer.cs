@@ -177,6 +177,7 @@
             this.PanelQuenMatKhau.Name = "PanelQuenMatKhau";
             this.PanelQuenMatKhau.Size = new System.Drawing.Size(350, 432);
             this.PanelQuenMatKhau.TabIndex = 9;
+            this.PanelQuenMatKhau.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelQuenMatKhau_Paint);
             // 
             // FrmLogin
             // 

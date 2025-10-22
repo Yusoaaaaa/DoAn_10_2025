@@ -36,6 +36,17 @@ namespace DoAn
         private void Dashboard_Load(object sender, EventArgs e)
         {
 
+            /*using (FrmLogin frmLogin = new FrmLogin())
+            {
+                if (frmLogin.ShowDialog() == DialogResult.OK)
+                {
+                    this.Show();
+                }
+                else
+                {
+                    this.Close();
+                }
+            }*/
         }
 
         private void mdiProp()
@@ -81,20 +92,24 @@ namespace DoAn
             if (sidebarExpand)
             {
                 flowLayoutPanelSidebar.Width -= 10;
-                if (flowLayoutPanelSidebar.Width <= 40)
+                flowLayoutPanelInfo.Width += 10;
+                if (flowLayoutPanelSidebar.Width <= 40 || flowLayoutPanelInfo.Width >= 220)
                 {
                     sidebarExpand = false;
                     sidebartransition.Stop();
                 }
+                //pictureBox1.Visible = true;
             }
             else
             {
                 flowLayoutPanelSidebar.Width += 10;
-                if (flowLayoutPanelSidebar.Width >= 260)
+                flowLayoutPanelInfo.Width -= 10;
+                if (flowLayoutPanelSidebar.Width >= 260 || flowLayoutPanelInfo.Width <= 0)
                 {
                     sidebarExpand = true;
                     sidebartransition.Stop();
                 }
+                //pictureBox1.Visible = ;
             }
         }
 
@@ -110,7 +125,8 @@ namespace DoAn
                 frmDashboard = new FrmDashboard();
                 frmDashboard.FormClosed += FrmDashboard_FormClosed;
                 frmDashboard.MdiParent = this;
-                frmDashboard.Dock = DockStyle.Fill;
+                frmDashboard.StartPosition = FormStartPosition.Manual;
+                frmDashboard.Location = new Point(260, 50);
                 frmDashboard.Show();
             }
             else
@@ -131,7 +147,8 @@ namespace DoAn
                 frmSubMenu2 = new FrmSubMenu2();
                 frmSubMenu2.FormClosed += FrmSubMenu2_FormClosed;
                 frmSubMenu2.MdiParent = this;
-                frmSubMenu2.Dock = DockStyle.Fill;
+                frmSubMenu2.StartPosition = FormStartPosition.Manual;
+                frmSubMenu2.Location = new Point(260, 50);
                 frmSubMenu2.Show();
             }
             else
@@ -152,7 +169,8 @@ namespace DoAn
                 frmSubMenu3 = new FrmSubMenu3();
                 frmSubMenu3.FormClosed += FrmSubMenu3_FormClosed;
                 frmSubMenu3.MdiParent = this;
-                frmSubMenu3.Dock = DockStyle.Fill;
+                frmSubMenu3.StartPosition = FormStartPosition.Manual;
+                frmSubMenu3.Location = new Point(260, 50);
                 frmSubMenu3.Show();
             }
             else
@@ -173,7 +191,8 @@ namespace DoAn
                 frmSetting = new FrmSetting();
                 frmSetting.FormClosed += FrmSetting_FormClosed;
                 frmSetting.MdiParent = this;
-                frmSetting.Dock = DockStyle.Fill;
+                frmSetting.StartPosition = FormStartPosition.Manual;
+                frmSetting.Location = new Point(260, 50);
                 frmSetting.Show();
             }
             else
@@ -194,7 +213,8 @@ namespace DoAn
                 frmReport = new FrmReport();
                 frmReport.FormClosed += FrmReport_FormClosed;
                 frmReport.MdiParent = this;
-                frmReport.Dock = DockStyle.Fill;
+                frmReport.StartPosition = FormStartPosition.Manual;
+                frmReport.Location = new Point(260, 50);
                 frmReport.Show();
             }
             else
@@ -210,7 +230,22 @@ namespace DoAn
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-
+            if(MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Đăng Xuất", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                this.Hide();
+                using (FrmLogin frmLogin = new FrmLogin())
+                {
+                    frmLogin.ShowDialog();
+                    if (frmLogin.DialogResult == DialogResult.OK)
+                    {
+                        this.Show();
+                    }
+                    else if(frmLogin.DialogResult == DialogResult.Yes)
+                    {
+                        Application.Exit();
+                    }
+                }
+            }
         }
 
         private void btnImport_Click(object sender, EventArgs e)
@@ -220,7 +255,8 @@ namespace DoAn
                 frmSubMenu1 = new FrmSubMenu1();
                 frmSubMenu1.FormClosed += FrmSubMenu1_FormClosed;
                 frmSubMenu1.MdiParent = this;
-                frmSubMenu1.Dock = DockStyle.Fill;
+                frmSubMenu1.StartPosition = FormStartPosition.Manual;
+                frmSubMenu1.Location = new Point(260, 50);
                 frmSubMenu1.Show();
             }
             else
@@ -232,6 +268,11 @@ namespace DoAn
         private void FrmSubMenu1_FormClosed(object sender, FormClosedEventArgs e)
         {
             frmSubMenu1 = null;
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -86,5 +86,10 @@ namespace DoAn
                 TxtMatKhau_DangNhap.UseSystemPasswordChar = true;
             }
         }
+
+        private void PanelQuenMatKhau_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

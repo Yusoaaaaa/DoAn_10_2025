@@ -19,7 +19,7 @@ namespace DoAn
 
         private void FrmSetting_Load(object sender, EventArgs e)
         {
-            this.ControlBox = false;
+            //this.ControlBox = false;
         }
     }
 }

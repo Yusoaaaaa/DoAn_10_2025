@@ -19,7 +19,8 @@ namespace DoAn
 
         private void FrmReport_Load(object sender, EventArgs e)
         {
-            this.ControlBox = false;
+            //this.ControlBox = false;
+            this.reportViewer1.RefreshReport();
         }
     }
 }

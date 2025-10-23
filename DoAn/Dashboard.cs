@@ -292,6 +292,10 @@ namespace DoAn
 
         private async Task panel2Status(string status)
         {
+            if(labelStatus.Text.Length >= 20)
+            {
+                status = status.Insert(20, "\n");
+            }
             this.labelStatus.Text = status;
             CenterLabel(labelStatus, panel2);
             Status.Start();
@@ -333,6 +337,11 @@ namespace DoAn
         }
 
         private void btnStaff_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -19,7 +19,7 @@ namespace DoAn
 
         private void FrmSubMenu3_Load(object sender, EventArgs e)
         {
-            this.ControlBox = false;
+            //this.ControlBox = false;
         }
     }
 }

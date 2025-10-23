@@ -4,14 +4,19 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace DoAn
 {
     public partial class Dashboard : Form
     {
+        public Point mouseLocation;
+
+
         FrmDashboard frmDashboard;
         FrmSubMenu1 frmSubMenu1;
         FrmSubMenu2 frmSubMenu2;
@@ -344,6 +349,21 @@ namespace DoAn
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void bunifuPanel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseLocation = new Point(-e.X, -e.Y);
+        }
+
+        private void bunifuPanel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Point mousePose = Control.MousePosition;
+                mousePose.Offset(mouseLocation.X, mouseLocation.Y);
+                this.Location = mousePose;
+            }
         }
     }
 }

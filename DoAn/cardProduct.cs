@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,10 +32,30 @@ namespace DoAn
             }
             set
             {
-                Price.Text = value.ToString();
+                Price.Text = value.ToString() + "VND";
             }
         }
-        public string image { get; set; }
+        public string image { 
+            get
+            {
+                return image;
+            }
+            set
+            {
+                if(string.IsNullOrEmpty(value))
+                {
+                    pictureBox1.Image = null;
+                }
+                else
+                {
+                    string parentDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+                    string imagePath = Path.Combine(parentDirectory, "Illustrations", value);
+                    pictureBox1.Image = Image.FromFile(imagePath);
+                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                    pictureBox1.Refresh();
+                }
+            }
+        }
         public int stock
         {
             get

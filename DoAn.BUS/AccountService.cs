@@ -48,5 +48,15 @@ namespace DoAn.BUS
             context.Accounts.AddOrUpdate(account);
             context.SaveChanges();
         }
+
+        public void Delete(int id)
+        {
+            var account = context.Accounts.Find(id);
+            if (account != null)
+            {
+                context.Accounts.Remove(account);
+                context.SaveChanges();
+            }
+        }
     }
 }

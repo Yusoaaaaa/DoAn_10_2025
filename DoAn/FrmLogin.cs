@@ -1,4 +1,5 @@
-﻿using DoAn.model;
+﻿using DoAn.DAL.Models;
+using DoAn.DAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

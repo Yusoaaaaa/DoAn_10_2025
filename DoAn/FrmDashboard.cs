@@ -24,12 +24,22 @@ namespace DoAn
 
         private void FrmDashboard_Load(object sender, EventArgs e)
         {
-            this.ControlBox = false;
-            try { 
+            //this.ControlBox = false;
+            try {
                 var listProduct = productService.GetAll();
                 loadcarditem(listProduct);
+                carditem(1, "test", "test.jpg", 33000, 36, "giay");
+                carditem(2, "test2", "test2.jpg", 45000, 12, "ao");
+                carditem(1, "test", "test.jpg", 33000, 36, "giay");
+                carditem(1, "test", "test.jpg", 33000, 36, "giay");
+                carditem(1, "test", "test.jpg", 33000, 36, "giay");
+                carditem(1, "test", "test.jpg", 33000, 36, "giay");
+                carditem(1, "test", "test.jpg", 33000, 36, "giay");
+                carditem(1, "test", "test.jpg", 33000, 36, "giay");
+                carditem(1, "test", "test.jpg", 33000, 36, "giay");
+                carditem(1, "test", "test.jpg", 33000, 36, "giay");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -48,14 +58,14 @@ namespace DoAn
                 category = category
             };
 
-            this.Controls.Add(card);
+            flowLayoutPanel1.Controls.Add(card);
         }
 
         public void loadcarditem(List<Product> listProduct)
         {
             try
             {
-                this.Controls.Clear();
+                flowLayoutPanel1.Controls.Clear();
                 foreach (var item in listProduct)
                 {
                     int id = item.SKU;
@@ -68,10 +78,112 @@ namespace DoAn
                     carditem(id, name, image, price, stock, category);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
+
+        public void refresh()
+        {
+            try
+            {
+                var listProduct = productService.GetAll();
+                loadcarditem(listProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /*public void filterByCategory(string category)
+        {
+            try
+            {
+                var listProduct = productService.GetProductsByCategory(category);
+                loadcarditem(listProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }*/
+
+        /*public void searchByName(string name)
+        {
+            try
+            {
+                var listProduct = productService.SearchProductsByName(name);
+                loadcarditem(listProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }*/
+
+        /*public void filterByPriceRange(double minPrice, double maxPrice)
+        {
+            try
+            {
+                var listProduct = productService.GetProductsByPriceRange(minPrice, maxPrice);
+                loadcarditem(listProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }*/
+
+        public void filterByStockAvailability(bool inStock)
+        {
+            try
+            {
+                var listProduct = productService.GetProductsByStockAvailability(inStock);
+                loadcarditem(listProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public void sortByPrice(bool ascending)
+        {
+            try
+            {
+                var listProduct = productService.GetProductsSortedByPrice(ascending);
+                loadcarditem(listProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        /*public void sortByName(bool ascending)
+        {
+            try
+            {
+                var listProduct = productService.GetProductsSortedByName(ascending);
+                loadcarditem(listProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }*/
+        /*public void sortByStock(bool ascending)
+        {
+            try
+            {
+                var listProduct = productService.GetProductsSortedByStock(ascending);
+                loadcarditem(listProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }*/
+
     }
 }

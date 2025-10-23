@@ -24,6 +24,16 @@ namespace DoAn.BUS
             return context.Products.FirstOrDefault(p => p.SKU == id);
         }
 
+        public List<Product> GetProductsByStockAvailability(bool inStock)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Product> GetProductsSortedByPrice(bool ascending)
+        {
+            throw new NotImplementedException();
+        }
+
         public void InsertUpdate(Product product)
         {
             // Implementation to insert or update a product

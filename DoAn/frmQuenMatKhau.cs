@@ -1,4 +1,5 @@
-﻿using DoAn.model;
+﻿using DoAn.DAL;
+using DoAn.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,10 +55,10 @@ namespace DoAn
 
             try
             {
-                using (var dbContext = new AccountDB()) 
+                using (var dbContext = new StoreDBContext()) 
                 {
                     
-                    var account = dbContext.ACCOUNTs.FirstOrDefault(a => a.EMAIL == email && a.TRANG_THAI == 1);
+                    var account = dbContext.Accounts.FirstOrDefault(a => a.Email == email && a.AccStatus == 1);
 
                     if (account == null)
                     {
@@ -68,7 +69,7 @@ namespace DoAn
 
                     string matKhauTamThoi = TaoMatKhauNgauNhien(8);
 
-                    account.MK_TK = matKhauTamThoi;
+                    account.Pass = matKhauTamThoi;
 
                     dbContext.SaveChanges();
 

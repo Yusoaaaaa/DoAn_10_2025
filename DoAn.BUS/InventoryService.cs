@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,13 @@ namespace DoAn.BUS
                           .Where(i => i.SKU == SKU)
                           .Select(i => i.instock)
                           .FirstOrDefault();
+        }
+
+        public void InsertUpdate(Inventory inventory)
+        {
+            // Implementation to insert or update an inventory record
+            context.Inventories.AddOrUpdate(inventory);
+            context.SaveChanges();
         }
     }
 }

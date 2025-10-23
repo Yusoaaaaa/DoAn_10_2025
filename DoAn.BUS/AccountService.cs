@@ -22,23 +22,18 @@ namespace DoAn.BUS
             {
                 return 1; // Lỗi nhập liệu, không cần gọi DAL
             }
-
-            var account = GetAccount(Email,MatKhau);
+            
+            var account = GetAccount(Email,MatKhau); // Gọi DAL để lấy thông tin tài khoản
 
             if (account == null)
             {
                 return 1; // Sai tài khoản hoặc mật khẩu
             }
 
-            if (account.AccStatus != 1)
-            {
-                return 2; // Tài khoản chưa kích hoạt
-            }
-
             return 0; // Đăng nhập thành công
         }
 
-        public List<Account> GetAll()
+        public List<Account> GetAll() //Lấy tất cả tài khoản
         {
             return context.Accounts.ToList();
         }

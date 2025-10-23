@@ -24,7 +24,7 @@ namespace DoAn
 
         private void FrmDashboard_Load(object sender, EventArgs e)
         {
-            //this.ControlBox = false;
+            /*//this.ControlBox = false;
             try {
                 var listProduct = productService.GetAll();
                 loadcarditem(listProduct);
@@ -42,7 +42,7 @@ namespace DoAn
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
+            }*/
 
         }
 

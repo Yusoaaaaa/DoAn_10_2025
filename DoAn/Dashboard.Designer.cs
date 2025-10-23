@@ -1066,7 +1066,7 @@
             this.bunifuImageButton1.FadeWhenInactive = false;
             this.bunifuImageButton1.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
             this.bunifuImageButton1.Image = global::DoAn.Properties.Resources.shutdown;
-            this.bunifuImageButton1.ImageActive = null;
+            this.bunifuImageButton1.ActiveImage = null;
             this.bunifuImageButton1.ImageLocation = null;
             this.bunifuImageButton1.ImageMargin = 20;
             this.bunifuImageButton1.ImageSize = new System.Drawing.Size(30, 30);
@@ -1084,7 +1084,7 @@
             this.bunifuImageButton1.TabIndex = 1;
             this.bunifuImageButton1.ToolTipText = "";
             this.bunifuImageButton1.WaitOnLoad = false;
-            this.bunifuImageButton1.Zoom = 20;
+            this.bunifuImageButton1.ImageMargin = 20;
             this.bunifuImageButton1.ZoomSpeed = 10;
             this.bunifuImageButton1.Click += new System.EventHandler(this.bunifuImageButton1_Click_1);
             // 
@@ -1102,7 +1102,7 @@
             this.btnSidebarMenu.FadeWhenInactive = false;
             this.btnSidebarMenu.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
             this.btnSidebarMenu.Image = global::DoAn.Properties.Resources.burger_menu;
-            this.btnSidebarMenu.ImageActive = null;
+            this.btnSidebarMenu.ActiveImage = null;
             this.btnSidebarMenu.ImageLocation = null;
             this.btnSidebarMenu.ImageMargin = 20;
             this.btnSidebarMenu.ImageSize = new System.Drawing.Size(30, 30);
@@ -1120,7 +1120,7 @@
             this.btnSidebarMenu.TabIndex = 1;
             this.btnSidebarMenu.ToolTipText = "";
             this.btnSidebarMenu.WaitOnLoad = false;
-            this.btnSidebarMenu.Zoom = 20;
+            this.btnSidebarMenu.ImageMargin = 20;
             this.btnSidebarMenu.ZoomSpeed = 10;
             this.btnSidebarMenu.Click += new System.EventHandler(this.bunifuImageButton1_Click);
             // 

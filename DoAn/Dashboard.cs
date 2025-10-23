@@ -18,7 +18,7 @@ namespace DoAn
         FrmSubMenu3 frmSubMenu3;
         FrmSetting frmSetting;
         FrmReport frmReport;
-
+        FrmNhanVien frmNhanVien;
 
         bool menuExpand = false;
         bool sidebarExpand = true;
@@ -36,7 +36,7 @@ namespace DoAn
             mdiProp();
             timer1.Start();
             panel2.Left = this.Width + 10;
-            panel2Status("Chào mừng bạn đến với\nhệ thống quản lý kho!");
+            panel2Status("Chào mừng bạn đến với\nhệ thống quản lý kho!"); 
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
@@ -274,7 +274,25 @@ namespace DoAn
             }
             
         }
-
+        private void btnStaff_Click(object sender, EventArgs e)
+        {
+            if(frmNhanVien == null) {                
+                frmNhanVien = new FrmNhanVien();
+                frmNhanVien.FormClosed += FrmNhanVien_FormClosed;
+                frmNhanVien.MdiParent = this;
+                frmNhanVien.StartPosition = FormStartPosition.Manual;
+                frmNhanVien.Location = new Point(260, 50);
+                frmNhanVien.Show();
+            }
+            else
+            {
+                frmNhanVien.Activate();
+            }
+        }
+        private void FrmNhanVien_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmNhanVien = null;
+        }
         private void FrmSubMenu1_FormClosed(object sender, FormClosedEventArgs e)
         {
             frmSubMenu1 = null;
@@ -332,9 +350,6 @@ namespace DoAn
 
         }
 
-        private void btnStaff_Click(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

@@ -73,7 +73,7 @@
             // Price
             // 
             this.Price.AutoSize = true;
-            this.Price.Location = new System.Drawing.Point(15, 163);
+            this.Price.Location = new System.Drawing.Point(14, 170);
             this.Price.Name = "Price";
             this.Price.Size = new System.Drawing.Size(39, 13);
             this.Price.TabIndex = 1;

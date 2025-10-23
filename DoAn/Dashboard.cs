@@ -229,6 +229,7 @@ namespace DoAn
             {
                 frmReport.Activate();
             }
+            
         }
 
         private void FrmReport_FormClosed(object sender, FormClosedEventArgs e)
@@ -271,6 +272,7 @@ namespace DoAn
             {
                 frmSubMenu1.Activate();
             }
+            
         }
 
         private void FrmSubMenu1_FormClosed(object sender, FormClosedEventArgs e)

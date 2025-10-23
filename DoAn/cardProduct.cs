@@ -24,26 +24,26 @@ namespace DoAn
                 PName.Text = value;
             }
         }
-        public decimal price { get; set; }
-        public Image image { 
+        public double price { 
             get
             {
-                return pictureBox1.Image;
+                return double.Parse(Price.Text);
             }
             set
             {
-                pictureBox1.Image = value;
+                Price.Text = value.ToString();
             }
         }
-        public string stock
+        public string image { get; set; }
+        public int stock
         {
             get
             {
-                return labelAmount.Text;
+                return int.Parse(labelAmount.Text);
             }
             set
             {
-                labelAmount.Text = value;
+                labelAmount.Text = value.ToString();
             }
         }
         public string category { get; set; }

@@ -15,7 +15,7 @@ namespace DoAn
     public partial class FrmLogin : Form
     {
 
-        private AccountBUS bus = new AccountBUS();
+        private AccountService bus = new AccountService();
 
         public FrmLogin()
         {

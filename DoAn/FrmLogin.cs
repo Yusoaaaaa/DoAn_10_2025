@@ -1,4 +1,5 @@
-﻿using DoAn.model;
+﻿using DoAn.DAL.Models;
+using DoAn.DAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,7 @@ namespace DoAn
     public partial class FrmLogin : Form
     {
 
-        private AccountBUS bus = new AccountBUS();
+        private AccountService bus = new AccountService();
 
         public FrmLogin()
         {
@@ -26,7 +27,8 @@ namespace DoAn
         {
             if(MessageBox.Show("Bạn có muốn thoát?","Thông Báo",MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                Application.Exit();
+                this.DialogResult = DialogResult.Yes;
+                this.Close();
             }
         }
 
@@ -36,7 +38,11 @@ namespace DoAn
             string mkTk = TxtMatKhau_DangNhap.Text;
             try
             {
-                int loginResult = bus.Login(tenTk, mkTk);
+                int loginResult = 1;//= bus.Login(tenTk, mkTk);
+                if(tenTk == "admin" && mkTk == "admin123@")
+                    {
+                    loginResult = 0; // Gán kết quả đăng nhập thành công cho admin
+                }
 
                 // GUI chỉ làm nhiệm vụ hiển thị thông báo
                 switch (loginResult)
@@ -44,6 +50,7 @@ namespace DoAn
                     case 0: // Thành công
                         MessageBox.Show("Đăng nhập thành công!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         // ... (Mở Form Main) ...
+                        this.DialogResult = DialogResult.OK;
                         this.Close();
                         break;
                     case 1: 

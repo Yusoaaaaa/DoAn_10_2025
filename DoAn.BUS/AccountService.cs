@@ -11,7 +11,7 @@ namespace DoAn.BUS
 {
     public class AccountService
     {
-        private StoreDBContext context = new StoreDBContext();
+        StoreDBContext context = new StoreDBContext();
         public Account GetAccount(string email, string password)
         {
                 return context.Accounts.FirstOrDefault(a => a.Email == email && a.Pass == password);

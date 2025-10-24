@@ -160,18 +160,23 @@ namespace DoAn
                 MessageBox.Show(ex.Message);
             }
         }
-        /*public void sortByName(bool ascending)
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
-                var listProduct = productService.GetProductsSortedByName(ascending);
-                loadcarditem(listProduct);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }*/
+
+        }
+        /*public void sortByName(bool ascending)
+{
+   try
+   {
+       var listProduct = productService.GetProductsSortedByName(ascending);
+       loadcarditem(listProduct);
+   }
+   catch (Exception ex)
+   {
+       MessageBox.Show(ex.Message);
+   }
+}*/
         /*public void sortByStock(bool ascending)
         {
             try

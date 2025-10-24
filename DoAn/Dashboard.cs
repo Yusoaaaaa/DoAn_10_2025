@@ -276,7 +276,8 @@ namespace DoAn
         }
         private void btnStaff_Click(object sender, EventArgs e)
         {
-            if(frmNhanVien == null) {                
+            if(frmNhanVien == null) 
+            {            
                 frmNhanVien = new FrmNhanVien();
                 frmNhanVien.FormClosed += FrmNhanVien_FormClosed;
                 frmNhanVien.MdiParent = this;

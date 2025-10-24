@@ -324,6 +324,33 @@
     <Folder Include="Illustrations\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\debut.JPG" />
+    <None Include="Resources\textbox_password.png" />
+    <None Include="Resources\textbox_user_1.jpg" />
+    <None Include="Resources\textbox_user_2.jpg" />
+    <None Include="Resources\textbox_user_3.jpg" />
+    <None Include="Resources\textbox_user_4.jpg" />
+    <None Include="Resources\textbox_user_5.jpg" />
+    <None Include="Resources\textbox_user_6.jpg" />
+    <None Include="Resources\textbox_user_7.jpg" />
+    <None Include="Resources\textbox_user_8.jpg" />
+    <None Include="Resources\textbox_user_9.jpg" />
+    <None Include="Resources\textbox_user_10.jpg" />
+    <None Include="Resources\textbox_user_11.jpg" />
+    <None Include="Resources\textbox_user_12.jpg" />
+    <None Include="Resources\textbox_user_13.jpg" />
+    <None Include="Resources\textbox_user_14.jpg" />
+    <None Include="Resources\textbox_user_15.jpg" />
+    <None Include="Resources\textbox_user_16.jpg" />
+    <None Include="Resources\textbox_user_17.jpg" />
+    <None Include="Resources\textbox_user_18.jpg" />
+    <None Include="Resources\textbox_user_19.jpg" />
+    <None Include="Resources\textbox_user_20.jpg" />
+    <None Include="Resources\textbox_user_21.jpg" />
+    <None Include="Resources\textbox_user_22.jpg" />
+    <None Include="Resources\textbox_user_23.jpg" />
+    <None Include="Resources\textbox_user_24.jpg" />
+    <None Include="Resources\textbox_user_Clicked.JPG" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoAn.BUS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,9 +15,19 @@ namespace DoAn
 {
     public partial class Dashboard : Form
     {
+        //khai báo dịch vụ
+        private readonly ProductService productService = new ProductService();
+        private readonly InventoryService inventoryService = new InventoryService();
+
+        //biến dùng để làm carousel
+        private int scrollSpeed = 1;
+        private bool isScrolling = false;
+        private int direction = 1; // 1 for right, -1 for left
+
+        //biến vị trí chuột dùng di chuyển form
         public Point mouseLocation;
 
-
+        //khai báo MDIChildren
         FrmDashboard frmDashboard;
         FrmSubMenu1 frmSubMenu1;
         FrmSubMenu2 frmSubMenu2;
@@ -24,7 +35,7 @@ namespace DoAn
         FrmSetting frmSetting;
         FrmReport frmReport;
 
-
+        //khai báo trạng thái sidebar, menu container
         bool menuExpand = false;
         bool sidebarExpand = true;
         bool statusExpand = false;
@@ -33,19 +44,67 @@ namespace DoAn
         public Dashboard()
         {
             InitializeComponent();
+
+            //cài đặt mặc định cho sidebar
             menuExpand = false;
             sidebarExpand = false;
             menuTransition.Interval = 10;
             flowLayoutPanelSidebar.Width = 40;
             flowLayoutPaneldropdown.Height = 40;
+            btnStaff.Visible = false;
+
             mdiProp();
-            timer1.Start();
+
+            timer1.Start(); //chạy thời gian
+
+            //cài đặt mặc định cho panel trạng thái
             panel2.Left = this.Width + 10;
             panel2Status("Chào mừng bạn đến với\nhệ thống quản lý kho!");
+
+            //cài đặt cho carousel
+            /*for(int i = 0; i < 8; i++)
+            {
+                var uc = new cardProduct()
+                {
+                    id = 1,
+                    name = "test",
+                    image = "test.jpg",
+                    price = 33000,
+                    stock = 36,
+                    category = "giay"
+                };
+                flowLayoutPanel1.Controls.Add(uc);
+            }
+            duplicateEdges();
+
+            slideTimer.Interval = 10;
+            slideTimer.Tick += slideTimer_Tick;*/
         }
+
+        //Clone cardProduct trước và sau
+        public void duplicateEdges()
+        {
+            var first = (cardProduct)flowLayoutPanel1.Controls[0];
+            var firstClone = CloneControl(first);
+            flowLayoutPanel1.Controls.Add(firstClone);
+
+            var last = (cardProduct)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 2];
+            var lastClone = CloneControl(last);
+            flowLayoutPanel1.Controls.Add(lastClone);
+        }
+
+        public UserControl CloneControl(UserControl original)
+        {
+            var clone = new cardProduct();
+            clone = (cardProduct)original;
+            return clone;
+        }
+
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
+
+            //sử dụng form đăng nhập khi mở app
             /*using (FrmLogin frmLogin = new FrmLogin())
             {
                 if (frmLogin.ShowDialog() == DialogResult.OK)
@@ -65,17 +124,20 @@ namespace DoAn
             Controls.OfType<MdiClient>().FirstOrDefault().BackColor = Color.White;
         }
 
+        //chạy animation sibebar
         private void bunifuImageButton1_Click(object sender, EventArgs e)
         {
             sidebartransition.Start();
         }
 
+        //nút nguồn góc trên phải
         private void bunifuImageButton1_Click_1(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn có muốn thoát?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 this.Close();
         }
 
+        //cài đặt sự kiện menu container
         private void menuTransition_Tick(object sender, EventArgs e)
         {
             if (menuExpand == false)
@@ -98,6 +160,7 @@ namespace DoAn
             }
         }
 
+        //cài đặt sự kiện sidebar
         private void sidebartransition_Tick(object sender, EventArgs e)
         {
             if (sidebarExpand)
@@ -126,11 +189,14 @@ namespace DoAn
             }
         }
 
+        //kích hoạt sự kiện nút Menu
         private void btnMenu_Click(object sender, EventArgs e)
         {
             menuTransition.Start();
         }
 
+
+        //mở MDIChildren FrmDashboard
         private void btnDashboard_Click(object sender, EventArgs e)
         {
             if (frmDashboard == null)
@@ -153,6 +219,7 @@ namespace DoAn
             frmDashboard = null;
         }
 
+        //mở MDIChildren FrmSubMenu2
         private void btnWareHouse_Click(object sender, EventArgs e)
         {
             if (frmSubMenu2 == null)
@@ -175,6 +242,7 @@ namespace DoAn
             frmSubMenu2 = null;
         }
 
+        //mở MDIChildren FrmSubMenu3
         private void btnOrder_Click(object sender, EventArgs e)
         {
             if (frmSubMenu3 == null)
@@ -197,6 +265,7 @@ namespace DoAn
             frmSubMenu3 = null;
         }
 
+        //mở MDIChildren FrmSetting
         private void btnSetting_Click(object sender, EventArgs e)
         {
             if (frmSetting == null)
@@ -219,6 +288,7 @@ namespace DoAn
             frmSetting = null;
         }
 
+        //mở MDIChildren FrmReport
         private void btnReport_Click(object sender, EventArgs e)
         {
             if (frmReport == null)
@@ -242,6 +312,7 @@ namespace DoAn
             frmReport = null;
         }
 
+        //đóng Dashboard và mở FrmLogin
         private void btnLogout_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Đăng Xuất", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -262,6 +333,7 @@ namespace DoAn
             }
         }
 
+        //mở MDIChildren FrmSubMenu1
         private void btnImport_Click(object sender, EventArgs e)
         {
             if (frmSubMenu1 == null)
@@ -290,11 +362,13 @@ namespace DoAn
 
         }
 
+        //cài đặt date
         private void timer1_Tick(object sender, EventArgs e)
         {
             this.label2.Text = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
         }
 
+        //cài đặt panel status
         private async Task panel2Status(string status)
         {
             if(labelStatus.Text.Length >= 20)
@@ -363,6 +437,42 @@ namespace DoAn
                 Point mousePose = Control.MousePosition;
                 mousePose.Offset(mouseLocation.X, mouseLocation.Y);
                 this.Location = mousePose;
+            }
+        }
+        
+        private void slideTimer_Tick(object sender, EventArgs e)
+        {
+            flowLayoutPanel1.Left -= scrollSpeed * direction;
+
+            int itemWidth = flowLayoutPanel1.Controls[0].Width;
+            if (Math.Abs(flowLayoutPanel1.Left) >= itemWidth)
+            {
+                /*slideTimer.Stop();
+                isScrolling = false;*/
+
+                if(direction == 1)
+                {
+                    var first = flowLayoutPanel1.Controls[0];
+                    flowLayoutPanel1.Controls.RemoveAt(0);
+                    flowLayoutPanel1.Controls.Add(first);
+                }
+                else
+                {
+                    var last = flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 1];
+                    flowLayoutPanel1.Controls.RemoveAt(flowLayoutPanel1.Controls.Count - 1);
+                    flowLayoutPanel1.Controls.Add(last);
+                    flowLayoutPanel1.Controls.SetChildIndex(last, 0);
+                }
+                flowLayoutPanel1.Left = 0;
+            }
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            if (!isScrolling) {
+                direction = 1;
+                slideTimer.Start();
+                isScrolling = true;
             }
         }
     }

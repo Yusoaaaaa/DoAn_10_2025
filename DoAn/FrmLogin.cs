@@ -23,28 +23,32 @@ namespace DoAn
             InitializeComponent();
         }
 
-        private void BtnExit_Click(object sender, EventArgs e)
+        // Đã đổi tên từ BtnExit_Click
+        private void lblClose_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("Bạn có muốn thoát?","Thông Báo",MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Bạn có muốn thoát?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 this.DialogResult = DialogResult.Yes;
                 this.Close();
             }
         }
 
+        // Đã đổi tên từ BtnDangNhap_Click và cập nhật tên control
         private void BtnDangNhap_Click(object sender, EventArgs e)
         {
-            string tenTk = TxtTK_DangNhap.Text;
-            string mkTk = TxtMatKhau_DangNhap.Text;
+            // Cập nhật tên control
+            string tenTk = bunifuTxtEmail.Text;
+            string mkTk = bunifuTxtPassword.Text;
             try
             {
                 int loginResult = 1;//= bus.Login(tenTk, mkTk);
-                if(tenTk == "admin" && mkTk == "admin123@")
-                    {
+                if (tenTk == "admin" && mkTk == "admin123@")
+                {
                     loginResult = 0; // Gán kết quả đăng nhập thành công cho admin
                 }
 
                 // GUI chỉ làm nhiệm vụ hiển thị thông báo
+                // Logic này giữ nguyên
                 switch (loginResult)
                 {
                     case 0: // Thành công
@@ -53,10 +57,10 @@ namespace DoAn
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                         break;
-                    case 1: 
+                    case 1:
                         MessageBox.Show("Tên tài khoản hoặc mật khẩu không đúng.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
-                    case 2: 
+                    case 2:
                         MessageBox.Show("Tài khoản của bạn đang chờ Admin phê duyệt.", "Tài Khoản Chưa Kích Hoạt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                 }
@@ -69,34 +73,16 @@ namespace DoAn
 
         private void lLForgetPassWord_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
+            // Giữ nguyên logic (hiện tại đang trống)
         }
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            TxtMatKhau_DangNhap.UseSystemPasswordChar = true;
+            // Đặt mật khẩu làm ký tự che giấu
+            bunifuTxtPassword.UseSystemPasswordChar = true;
         }
 
-        private void HienThiMatKhau_CheckedChanged(object sender, EventArgs e)
-        {
-            if(HienThiMatKhau.Checked)
-            {
-                TxtMatKhau_DangNhap.UseSystemPasswordChar = false;
-            }
-            else
-            {
-                TxtMatKhau_DangNhap.UseSystemPasswordChar = true;
-            }
-        }
-
-        private void PanelQuenMatKhau_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        // Các hàm xử lý sự kiện cũ không còn control (panel2_Paint, HienThiMatKhau_CheckedChanged, PanelQuenMatKhau_Paint)
+        // đã được gỡ bỏ vì các control đó không còn tồn tại.
     }
 }

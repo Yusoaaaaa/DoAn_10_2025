@@ -16,7 +16,7 @@ namespace DoAn
     public partial class FrmNhanVien : Form
     {
         private AccountService accountService; //Khai báo biến dịch vụ tài khoản
-        
+
         public FrmNhanVien()
         {
             InitializeComponent();
@@ -41,10 +41,10 @@ namespace DoAn
         private void avatar_Click(object sender, EventArgs e) { }
 
 
-        
+
         private void dgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-           if(e.RowIndex >= 0)
+            if (e.RowIndex >= 0)
             {
                 var selectedRow = dgvNhanVien.Rows[e.RowIndex];
                 var account = (Account)selectedRow.DataBoundItem;
@@ -54,7 +54,7 @@ namespace DoAn
                 txtEmail.Text = account.Email;
                 txtAcc.Text = account.LoginName;
                 txtPass.Text = account.Pass;
-                
+
                 int ChucVu = account.AccStatus;
 
                 string chucVuText = "";
@@ -80,7 +80,7 @@ namespace DoAn
         }
         private void showAvatar(string source_Image)
         {
-            try 
+            try
             {
                 if (string.IsNullOrEmpty(source_Image))
                 {
@@ -90,8 +90,8 @@ namespace DoAn
                 else
                 {
                     string appPath = AppDomain.CurrentDomain.BaseDirectory;
-                    string ImagePath = Path.Combine(appPath,"Avatars",source_Image);
-                    if (File.Exists(ImagePath)) 
+                    string ImagePath = Path.Combine(appPath, "Avatars", source_Image);
+                    if (File.Exists(ImagePath))
                     {
                         avatar.Image = LoadImageWithoutLocking(ImagePath);
                     }
@@ -101,7 +101,7 @@ namespace DoAn
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Lỗi hiển thị ảnh: " + ex.Message);
             }
@@ -123,6 +123,11 @@ namespace DoAn
                 return null;
             }
         }
+
+        private void TsmBack_Click(object sender, EventArgs e)
+        {
+
+        }
     }
-    
+
 }

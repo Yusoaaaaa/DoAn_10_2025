@@ -105,17 +105,25 @@ namespace DoAn
         {
 
             //sử dụng form đăng nhập khi mở app
-            /*using (FrmLogin frmLogin = new FrmLogin())
+            using (FrmLogin frmLogin = new FrmLogin())
             {
                 if (frmLogin.ShowDialog() == DialogResult.OK)
                 {
+                    if(frmLogin.level == 1)
+                    {
+                        btnStaff.Visible = false;
+                    } 
+                    else
+                    {
+                        btnStaff.Visible = true;
+                    }
                     this.Show();
                 }
                 else
                 {
                     this.Close();
                 }
-            }*/
+            }
         }
 
         private void mdiProp()

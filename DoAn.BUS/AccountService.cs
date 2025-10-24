@@ -38,6 +38,16 @@ namespace DoAn.BUS
             return 0; // Đăng nhập thành công
         }
 
+        public int GetRole(string email, string password)
+        {
+            var account = GetAccount(email, password);
+            if (account != null)
+            {
+                return account.AccStatus;
+            }
+            return -1; // Trả về -1 nếu không tìm thấy tài khoản
+        }
+
         public List<Account> GetAll()
         {
             return context.Accounts.ToList();

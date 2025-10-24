@@ -15,8 +15,10 @@ using System.Windows.Forms;
 
 namespace DoAn
 {
+    
     public partial class FrmLogin : Form
     {
+
         List<Image> images = new List<Image>();
         string[] location = new string[25];
 
@@ -24,6 +26,14 @@ namespace DoAn
 
         //biến vị trí chuột dùng di chuyển form
         public Point mouseLocation;
+
+
+        public int level = 0;
+        
+        public int Level
+        {
+            get { return level; }
+        }
 
         public FrmLogin()
         {
@@ -60,9 +70,9 @@ namespace DoAn
             string mkTk = TxtMatKhau_DangNhap.Text;
             try
             {
-                int loginResult = 1;//= bus.Login(tenTk, mkTk);
+                int loginResult = bus.Login(tenTk, mkTk);
                 if(tenTk == "admin" && mkTk == "admin123@")
-                    {
+                {
                     loginResult = 0; // Gán kết quả đăng nhập thành công cho admin
                 }
 
@@ -71,7 +81,12 @@ namespace DoAn
                 {
                     case 0: // Thành công
                         MessageBox.Show("Đăng nhập thành công!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // ... (Mở Form Main) ...
+                        //Mở Form Main
+                        level = bus.GetRole(tenTk, mkTk);
+                        if(tenTk == "admin" && mkTk == "admin123@")
+                        {
+                            level = 3; // Gán quyền admin cao nhất
+                        }
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                         break;

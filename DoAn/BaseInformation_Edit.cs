@@ -377,7 +377,81 @@ namespace DoAn
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            //DeleteProduct.DeleteProductBySKU(productToEdit.SKU);    
+            // 1. Chỉ thực hiện xóa khi đang ở chế độ SỬA (isEditMode == true)
+            //    và đã có thông tin sản phẩm (productToEdit != null)
+            if (!isEditMode || productToEdit == null)
+            {
+                MessageBox.Show("Không có sản phẩm nào được chọn để xóa.", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // 2. Vô hiệu hóa các nút để tránh người dùng click nhiều lần
+            btnSave.Enabled = false;
+            btnCancel.Enabled = false;
+            btnDelete.Enabled = false; // Vô hiệu hóa chính nó
+
+            // 3. Hiển thị hộp thoại XÁC NHẬN trước khi xóa
+            DialogResult confirm = MessageBox.Show(
+                $"Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này?\n\n" +
+                $"SKU: {productToEdit.SKU}\n" +
+                $"Tên: {productToEdit.Name}",
+                "Xác nhận xóa sản phẩm",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            // 4. Nếu người dùng không đồng ý (nhấn No) -> kích hoạt lại nút và dừng
+            if (confirm == DialogResult.No)
+            {
+                btnSave.Enabled = true;
+                btnCancel.Enabled = true;
+                btnDelete.Enabled = true;
+                return;
+            }
+
+            // 5. Nếu người dùng đồng ý (nhấn Yes) -> Tiến hành xóa
+            try
+            {
+                int skuToDelete = productToEdit.SKU;
+
+                // [RẤT QUAN TRỌNG]
+                // 6. Xóa các dữ liệu liên quan TRƯỚC (ví dụ: Tồn kho)
+                //    Nếu không, việc xóa Product sẽ bị lỗi khóa ngoại (Foreign Key)
+                //    Tôi giả định bạn có hàm DeleteBySKU trong InventoryService
+                bool inventoryDeleted = productService.DeleteProduct(skuToDelete);
+
+                // (Nếu bạn có bảng Chi Tiết Hóa Đơn, cũng phải xóa/xử lý ở đây)
+
+                // 7. Sau khi xóa các bảng phụ, tiến hành xóa Bảng Chính (Product)
+                //    Tôi giả định bạn có hàm DeleteProduct(sku) trong ProductService
+                bool productDeleted = productService.DeleteProduct(skuToDelete);
+
+                if (productDeleted)
+                {
+                    MessageBox.Show("Xóa sản phẩm thành công!", "Hoàn tất",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    this.DialogResult = DialogResult.OK;
+                    this.Close(); // Đóng form
+                    return; // Thoát khỏi hàm
+                }
+                else
+                {
+                    MessageBox.Show("Xóa sản phẩm thất bại. (ProductService không thành công)", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                // 9. Báo lỗi nếu có vấn đề (ví dụ: lỗi khóa ngoại do chưa xóa hết ở bảng phụ)
+                MessageBox.Show("Đã xảy ra lỗi trong quá trình xóa: " + ex.Message, "Lỗi Hệ thống",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // 10. Kích hoạt lại các nút nếu việc xóa thất bại (code chạy đến đây là thất bại)
+            btnSave.Enabled = true;
+            btnCancel.Enabled = true;
+            btnDelete.Enabled = true;
         }
     }
 }

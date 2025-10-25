@@ -16,6 +16,8 @@ namespace DoAn
     public partial class FrmLogin : Form
     {
 
+        frmQuenMatKhau FrmQuenMatKhau;
+
         private AccountService bus = new AccountService();
 
         public FrmLogin()
@@ -73,7 +75,25 @@ namespace DoAn
 
         private void lLForgetPassWord_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Giữ nguyên logic (hiện tại đang trống)
+            if (FrmQuenMatKhau == null)
+            {
+                FrmQuenMatKhau = new frmQuenMatKhau();
+                FrmQuenMatKhau.FormClosed += frmQuenMatKhau_FormClosed;
+                //FrmQuenMatKhau.MdiParent = this;
+                FrmQuenMatKhau.StartPosition = FormStartPosition.Manual;
+                FrmQuenMatKhau.Location = new Point(260, 50);
+                FrmQuenMatKhau.Show();
+            }
+            else
+            {
+                FrmQuenMatKhau.Activate();
+            }
+
+        }
+
+        private void frmQuenMatKhau_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FrmQuenMatKhau = null;
         }
 
         private void FrmLogin_Load(object sender, EventArgs e)
@@ -81,8 +101,5 @@ namespace DoAn
             // Đặt mật khẩu làm ký tự che giấu
             bunifuTxtPassword.UseSystemPasswordChar = true;
         }
-
-        // Các hàm xử lý sự kiện cũ không còn control (panel2_Paint, HienThiMatKhau_CheckedChanged, PanelQuenMatKhau_Paint)
-        // đã được gỡ bỏ vì các control đó không còn tồn tại.
     }
 }

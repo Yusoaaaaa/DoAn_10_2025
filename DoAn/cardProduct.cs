@@ -25,7 +25,8 @@ namespace DoAn
                 PName.Text = value;
             }
         }
-        public double price { 
+        public double price
+        {
             get
             {
                 return double.Parse(Price.Text);
@@ -35,14 +36,15 @@ namespace DoAn
                 Price.Text = value.ToString() + "VND";
             }
         }
-        public string image { 
+        public string image
+        {
             get
             {
                 return image;
             }
             set
             {
-                if(string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                 {
                     pictureBox1.Image = null;
                 }
@@ -74,6 +76,11 @@ namespace DoAn
         }
 
         private void cardProduct_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }

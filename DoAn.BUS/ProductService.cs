@@ -32,9 +32,6 @@ namespace DoAn.BUS
             }
         }
 
-        /// <summary>
-        /// Lấy sản phẩm theo SKU (int Key). Đổi tên từ GetById cho rõ ràng.
-        /// </summary>
         public Product GetBySKU(int sku)
         {
             try
@@ -49,10 +46,6 @@ namespace DoAn.BUS
             }
         }
 
-        /// <summary>
-        /// Thêm sản phẩm mới.
-        /// </summary>
-        /// <returns>True nếu thành công.</returns>
         public bool AddProduct(Product product)
         {
             try
@@ -262,6 +255,72 @@ namespace DoAn.BUS
             {
                 Console.WriteLine("Lỗi trong InsertUpdate product: " + ex.Message);
             }
+        }
+
+
+
+        //HUY
+
+        public int CountProductsAvail()
+        {
+            // Implementation to count total products
+            return context.Products.Select(o => o.Name == "Hoạt động").Count();
+        }
+
+        //không hoạt động
+        public int CountProductsNotAvail()
+        {
+            // Implementation to count total products
+            return context.Products.Select(o => o.Name == "Không hoạt động").Count();
+        }
+
+        public double GetImportPrice(int sku)
+        {
+            return context.Products.Where(p => p.SKU == sku).Select(p => p.ImportCost).FirstOrDefault();
+        }
+        public Product GetById(int id)
+        {
+            // Implementation to retrieve a product by its ID
+            return context.Products.FirstOrDefault(p => p.SKU == id) != null ? context.Products.FirstOrDefault(p => p.SKU == id) : new Product();
+        }
+
+
+
+        //==========================================================================================
+        
+
+        public List<Product> GetProductsByCategory(string category)
+        {
+            return context.Products.Where(p => p.Category == category).ToList();
+        }
+
+        public List<Product> SearchProductsByName(string name)
+        {
+            return context.Products.Where(p => p.Name.Contains(name)).ToList();
+        }
+
+        public List<Product> GetProductsByPriceRange(double minPrice, double maxPrice)
+        {
+            return context.Products.Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
+        }
+
+        public List<Product> GetProductsSortedByName(bool ascending)
+        {
+            return ascending ?
+                context.Products.OrderBy(p => p.Name).ToList() :
+                context.Products.OrderByDescending(p => p.Name).ToList();
+        }
+
+        public List<Product> GetProductsSortedByCategory(bool ascending)
+        {
+            return ascending ?
+                context.Products.OrderBy(p => p.Category).ToList() :
+                context.Products.OrderByDescending(p => p.Category).ToList();
+        }
+
+        private void SubmitChanges()
+        {
+            context.SaveChanges();
         }
     }
 }

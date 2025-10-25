@@ -194,6 +194,17 @@
   <metadata name="bunifuToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>142, 17</value>
   </metadata>
+  <data name="btnAddProduct.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAJsAAAAnCAYAAAAYaTqCAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAErSURBVHhe7dwxTsMwGIZhj4zs2LVsS7XN0pWRsRdh7AHY
+        OAcX4BasPQISAxfoAEJVFwaQ0yJVhi3JN72WnsVOtldOpt+Y07ry5caF+mxj2blYvoExho5aT2m5/m1s
+        WC5c37uY3/sXgLFs6yrkp+ONlvKti4XQMBsby8cilTvjQt32h8AM3oyL5fDPATC5FtufTWAOxAYZYoMM
+        sUGG2CBDbJAhNsgQG2SIDTLEBhligwyxQYbYIENskCE2yBAbZIgNMsQGGWKDDLFBhtggQ2yQITbIEBtk
+        iA0yxAYZYoMMsUGG2CBjbCxf/SYwB+Nifuk3gam1sadmkfLGhvLZHwJTaV9PG+rjaaZu3dq43PcPAWMN
+        v2kpv3rvL86GONcHplBiYod2o3m/umyN/QBnv+/GVFZ0lQAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="btnFilter.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAHgAAAAnCAYAAADEvIzwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -216,17 +227,6 @@
         kEx4AZLV4R2u12t9A8CEHsIbET/O53N9A8BEhmG4RcT2Ht6maT5tNptf9SEA09jtdkPf91/v4X356n3e
         breHcRzrewBeqTT1Jbqzvu/fPIS36LruS9u2p/IOYWZmk+xUvnT7vn9bNxeAJL8Bv+YG1ZG+zO8AAAAA
         SUVORK5CYII=
-</value>
-  </data>
-  <data name="btnAddProduct.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAJsAAAAnCAYAAAAYaTqCAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAErSURBVHhe7dwxTsMwGIZhj4zs2LVsS7XN0pWRsRdh7AHY
-        OAcX4BasPQISAxfoAEJVFwaQ0yJVhi3JN72WnsVOtldOpt+Y07ry5caF+mxj2blYvoExho5aT2m5/m1s
-        WC5c37uY3/sXgLFs6yrkp+ONlvKti4XQMBsby8cilTvjQt32h8AM3oyL5fDPATC5FtufTWAOxAYZYoMM
-        sUGG2CBDbJAhNsgQG2SIDTLEBhligwyxQYbYIENskCE2yBAbZIgNMsQGGWKDDLFBhtggQ2yQITbIEBtk
-        iA0yxAYZYoMMsUGG2CBjbCxf/SYwB+Nifuk3gam1sadmkfLGhvLZHwJTaV9PG+rjaaZu3dq43PcPAWMN
-        v2kpv3rvL86GONcHplBiYod2o3m/umyN/QBnv+/GVFZ0lQAAAABJRU5ErkJggg==
 </value>
   </data>
   <metadata name="bunifuFormDock1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

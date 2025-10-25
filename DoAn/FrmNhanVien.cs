@@ -17,7 +17,8 @@ namespace DoAn
     public partial class FrmNhanVien : Form
     {
         private AccountService accountService; //Khai báo biến dịch vụ tài khoản
-        private string _currentAvatarPath = string.Empty;
+        private string currentDBAvatarPath = string.Empty;
+        private string imagePath = string.Empty;
         public FrmNhanVien()
         {
             InitializeComponent();
@@ -92,7 +93,9 @@ namespace DoAn
                 switch (ChucVu) { case 3: chucVuText = "Admin"; break; case 2: chucVuText = "Manager"; break; case 1: chucVuText = "Staff"; break; }
                 CmbChucVu.Text = chucVuText;
 
-                showAvatar(account.Avatar); // cái loz
+                // LƯU ĐƯỜNG DẪN ẢNH HIỆN TẠI TỪ DB VÀ HIỂN THỊ
+                currentDBAvatarPath = account.Avatar; // <-- LƯU ĐƯỜNG DẪN CŨ
+                showAvatar(account.Avatar);
 
 
             }
@@ -107,7 +110,7 @@ namespace DoAn
                 }
                 else
                 {
-                    string ImagePath = Path.Combine("Anh_dai_dien", source_Image);
+                    string ImagePath = Path.Combine(Application.StartupPath, source_Image);
                     if (File.Exists(ImagePath))
                     {
                         avatar.Image = LoadImageWithoutLocking(ImagePath);
@@ -143,49 +146,76 @@ namespace DoAn
 
         private void BtnAdd_Update_Click(object sender, EventArgs e)
         {
+            // 1. KIỂM TRA DỮ LIỆU BẮT BUỘC
             if (string.IsNullOrEmpty(txtHoTen.Text) || string.IsNullOrEmpty(txtAcc.Text) ||
                 string.IsNullOrEmpty(txtPass.Text) || CmbChucVu.SelectedItem == null)
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             var a = new Account();
 
-            a.AccountID = string.IsNullOrEmpty(txtID.Text) ? 0 : int.Parse(txtID.Text); // Nếu txtID rỗng, gán 0 để thêm mới
+            // 2. GÁN DỮ LIỆU VÀ XÁC ĐỊNH HÀNH ĐỘNG
+            a.AccountID = string.IsNullOrEmpty(txtID.Text) ? 0 : int.Parse(txtID.Text);
             a.Username = txtHoTen.Text;
             a.SDT = txtSDT.Text;
             a.Email = txtEmail.Text;
             a.LoginName = txtAcc.Text;
             a.Pass = txtPass.Text;
             a.AccStatus = CmbChucVu.SelectedItem.ToString() == "Admin" ? 3 : CmbChucVu.SelectedItem.ToString() == "Manager" ? 2 : 1;
-            a.Avatar = _currentAvatarPath;
-            a.Pos = "Nhân Viên";
+            a.Pos = CmbChucVu.Text;
 
             string action = a.AccountID == 0 ? "thêm mới" : "cập nhật";
-
             AccountService accountService = new AccountService();
-            accountService.InsertUpdate(a);
-            BindGird();
-            MessageBox.Show($"Đã {action} thông tin thành công.", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            ClearInputs();
+            bool success = false;
 
+            // 3. XỬ LÝ ẢNH
 
+            // Nếu imagePath CÓ giá trị (Người dùng đã chọn ảnh mới)
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                // Gọi Service: Xử lý file copy, gán a.Avatar = "Avatars\ten_file.jpg", và lưu DB
+                success = accountService.AddAccountWithAvatar(a, imagePath);
+            }
+            else
+            {
+                // Nếu imagePath RỖNG (Không chọn ảnh mới)
+
+                // Bảo tồn đường dẫn ảnh cũ (chỉ áp dụng cho Update)
+                if (a.AccountID > 0)
+                {
+                    a.Avatar = currentDBAvatarPath; // Gán lại đường dẫn cũ từ DB
+                }
+                else
+                {
+                    // Thêm mới không có ảnh, để Avatar = null/string.Empty
+                    a.Avatar = string.Empty;
+                }
+
+                // Gọi phương thức chỉ lưu dữ liệu vào DB (InsertUpdate)
+                accountService.InsertUpdate(a);
+                success = true;
+            }
+
+            // 4. HIỂN THỊ THÔNG BÁO VÀ LÀM MỚI
+            if (success)
+            {
+                BindGird();
+                MessageBox.Show($"Đã {action} thông tin thành công.", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearInputs();
+            }
+            else
+            {
+                MessageBox.Show($"Thao tác {action} thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Đặt lại biến trạng thái
+            imagePath = string.Empty;
+            currentDBAvatarPath = string.Empty;
         }
         // Đặt hàm này trong lớp FrmNhanVien
-        private void ClearInputs()
-        {
 
-            txtID.Clear();
-            txtHoTen.Clear();
-            txtSDT.Clear();
-            txtEmail.Clear();
-            txtAcc.Clear();
-            txtPass.Clear();
-            CmbChucVu.SelectedIndex = -1;
-            _currentAvatarPath = string.Empty;
-            avatar.Image = Properties.Resources.profile;
-            txtHoTen.Focus();
-        }
 
         private void BtnDel_Click(object sender, EventArgs e)
         {
@@ -257,29 +287,21 @@ namespace DoAn
         private void BtnLinkAnh_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Tệp ảnh (*.jpg; *.jpeg; *.png; *.gif)|*.jpg;*.jpeg;*.png;*.gif|Tất cả tệp (*.*)|*.*";
+            openFileDialog.Filter = "Tệp ảnh (*.jpg; *.jpeg; *.png; *.gif; *.bmp)|*.jpg;*.jpeg;*.png;*.gif;*.bmp|Tất cả tệp (*.*)|*.*";
             openFileDialog.Title = "Chọn ảnh đại diện";
 
+            // CHỈ HIỂN THỊ HỘP THOẠI MỘT LẦN
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    // 1. Lưu đường dẫn tệp ảnh vào biến thành viên (Field)
-                    _currentAvatarPath = openFileDialog.FileName;
-
-                    // 2. Hiển thị ảnh lên PictureBox (giả sử PictureBox có tên là ptbAvatar)
-                    if (avatar != null)
-                    {
-                        avatar.ImageLocation = _currentAvatarPath;
-                        avatar.SizeMode = PictureBoxSizeMode.Zoom;
-                    }
-
-                    MessageBox.Show("Đã chọn ảnh thành công.", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    imagePath = openFileDialog.FileName; // Lấy đường dẫn file đã chọn
+                    avatar.Image = Image.FromFile(imagePath);
                 }
                 catch (Exception ex)
                 {
-                    _currentAvatarPath = string.Empty; // Xóa đường dẫn nếu có lỗi
-                    MessageBox.Show($"Lỗi khi tải ảnh: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Không thể tải ảnh: " + ex.Message, "Lỗi Ảnh", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    imagePath = string.Empty; // Đặt lại về empty
                 }
             }
         }
@@ -302,6 +324,24 @@ namespace DoAn
         private void txtPass_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtID_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void ClearInputs()
+        {
+
+            txtID.Clear();
+            txtHoTen.Clear();
+            txtSDT.Clear();
+            txtEmail.Clear();
+            txtAcc.Clear();
+            txtPass.Clear();
+            CmbChucVu.SelectedIndex = -1;
+            avatar.Image = Properties.Resources.profile;
+            txtHoTen.Focus();
         }
     }
 

@@ -15,6 +15,7 @@ namespace DoAn
 {
     public partial class FrmLogin : Form
     {
+        public int level = 0;
 
         frmQuenMatKhau FrmQuenMatKhau;
 
@@ -43,11 +44,8 @@ namespace DoAn
             string mkTk = bunifuTxtPassword.Text;
             try
             {
-                int loginResult = 1;//= bus.Login(tenTk, mkTk);
-                if (tenTk == "admin" && mkTk == "admin123@")
-                {
-                    loginResult = 0; // Gán kết quả đăng nhập thành công cho admin
-                }
+                int loginResult = bus.Login(tenTk, mkTk);
+
 
                 // GUI chỉ làm nhiệm vụ hiển thị thông báo
                 // Logic này giữ nguyên

@@ -1,14 +1,14 @@
 ﻿
-
+using DoAn.DAL;
+using DoAn.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DoAn.DAL;
-using DoAn.DAL.Models;
 
 namespace DoAn.BUS
 {
@@ -64,9 +64,6 @@ namespace DoAn.BUS
                     return false;
                 }
 
-                // Set default values or timestamps if needed before adding
-                // product.LastUpdated = DateTime.Now; // Example if you add LastUpdated field to Product model
-
                 context.Products.Add(product);
                 return context.SaveChanges() > 0;
             }
@@ -93,7 +90,18 @@ namespace DoAn.BUS
                     // Update properties using SetValues (efficient for tracked entities)
                     context.Entry(existingProduct).CurrentValues.SetValues(product);
 
-                   
+                    // Or update manually if you want more control
+                    /*
+                    existingProduct.Name = product.Name;
+                    existingProduct.Category = product.Category;
+                    existingProduct.Gender = product.Gender;
+                    existingProduct.Size = product.Size;
+                    existingProduct.ImportCost = product.ImportCost;
+                    existingProduct.Illustration = product.Illustration;
+                    existingProduct.Price = product.Price;
+                    // existingProduct.LastUpdated = DateTime.Now; // Example
+                    */
+
                     // Mark as modified (important for EF6)
                     context.Entry(existingProduct).State = EntityState.Modified;
 
@@ -116,29 +124,66 @@ namespace DoAn.BUS
         /// Xóa sản phẩm dựa trên SKU.
         /// </summary>
         /// <returns>True nếu thành công.</returns>
-        public bool DeleteProduct(int sku) // Parameter is int
+        public bool DeleteProduct(int SKU) // Parameter is int
         {
-            try
+            // Bắt buộc phải sử dụng Context mới cho mỗi thao tác (Clean Code)
+            using (var context = new StoreDBContext())
             {
-                var productToDelete = context.Products.Find(sku); // Use Find for PK
-                if (productToDelete != null)
+                // Bắt đầu Transaction để đảm bảo: hoặc tất cả thành công, hoặc tất cả thất bại.
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                
+                    try
+                    {
+                        // Tải sản phẩm cùng với các bản ghi con (Orders và Inventory)
+                        var productToDelete = context.Products
+                                                     .Include(p => p.Orders)
+                                                     .Include(p => p.Inventory) // Nếu Inventory là Navigation Property
+                                                     .FirstOrDefault(p => p.SKU == SKU);
 
-                    context.Products.Remove(productToDelete);
-                    return context.SaveChanges() > 0;
+                        if (productToDelete == null)
+                        {
+                            transaction.Rollback();
+                            return false; // Sản phẩm không tồn tại
+                        }
+
+                        // --- Xóa Tầng (Cascading Delete) ---
+
+                        // 1. XÓA CÁC ĐƠN HÀNG (Orders) LIÊN QUAN (Phải xóa trước Product)
+                        if (productToDelete.Orders != null && productToDelete.Orders.Any())
+                        {
+                            // Dùng ToList() để tránh lỗi khi sửa đổi Collection đang được liệt kê
+                            context.Orders.RemoveRange(productToDelete.Orders.ToList());
+                        }
+
+                        // 2. XÓA TỒN KHO (Inventory) LIÊN QUAN (Phải xóa trước Product)
+                        if (productToDelete.Inventory != null)
+                        {
+                            // Inventory là mối quan hệ 1-0..1, xóa riêng Inventory
+                            context.Inventories.Remove(productToDelete.Inventory);
+                        }
+
+                        // 3. XÓA SẢN PHẨM (Product)
+                        context.Products.Remove(productToDelete);
+
+                        int changes = context.SaveChanges();
+
+                        transaction.Commit(); // Hoàn tất giao dịch
+                        return changes > 0;
+                    }
+                    catch (DbUpdateException dbEx)
+                    {
+                        transaction.Rollback();
+                        // Nếu vẫn có lỗi, nghĩa là có Entity khác (ví dụ: OrderDetail, hay một bảng ẩn) tham chiếu đến Product.SKU
+                        Console.WriteLine("Lỗi Khóa ngoại/DB Update khi xóa: " + dbEx.Message);
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine("Lỗi hệ thống khi xóa sản phẩm: " + ex.Message);
+                        return false;
+                    }
                 }
-                else
-                {
-                    Console.WriteLine($"Không tìm thấy sản phẩm với SKU '{sku}' để xóa.");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Catch potential foreign key constraint errors if cascade delete isn't set up
-                Console.WriteLine("Lỗi khi xóa sản phẩm: " + ex.Message);
-                return false;
             }
         }
 

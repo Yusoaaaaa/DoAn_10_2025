@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DoAn.BUS; 
+using DoAn.BUS;
 using DoAn.DAL.Models;
 
 namespace DoAn
@@ -116,7 +116,7 @@ namespace DoAn
             {
                 if (frmAdd.ShowDialog() == DialogResult.OK)
                 {
-                    LoadData(); 
+                    LoadData();
                 }
             }
         }
@@ -126,18 +126,17 @@ namespace DoAn
             // Bỏ qua nếu click vào header
             if (e.RowIndex < 0) return;
 
-            // Lấy SKU từ dòng được click
-            // Đảm bảo rằng cột colSKU tồn tại và có giá trị
+            // Lấy SKU từ dòng được click Đảm bảo rằng cột colSKU tồn tại và có giá trị
             if (dgvProducts.Rows[e.RowIndex].Cells["colSKU"].Value == null) return;
 
             int sku = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["colSKU"].Value);
 
-            // 1. XỬ LÝ NÚT SỬA (colEdit)
+            // 1. XỬ LÝ NÚT SỬA 
             if (dgvProducts.Columns[e.ColumnIndex].Name == "colEdit")
             {
                 try
                 {
-                    Product productToEdit = productService.GetBySKU(sku);
+                    Product productToEdit = productService.GetBySKU(sku); // Lấy đối tượng Product đầy đủ từ BUS
                     if (productToEdit == null)
                     {
                         MessageBox.Show("Không tìm thấy sản phẩm để sửa.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -145,7 +144,7 @@ namespace DoAn
                         return;
                     }
 
-                   
+
                 }
                 catch (Exception ex)
                 {
@@ -153,7 +152,7 @@ namespace DoAn
                 }
             }
 
-            // 2. XỬ LÝ NÚT XÓA (colDelete)
+            // 2. XỬ LÝ NÚT XÓA 
             if (dgvProducts.Columns[e.ColumnIndex].Name == "colDelete")
             {
                 try
@@ -356,17 +355,42 @@ namespace DoAn
 
         private void dgvProducts_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-           
+
         }
 
         private void dgvProducts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            using (BaseInformation_Edit frmEdit = new BaseInformation_Edit())
+            // Bỏ qua nếu click vào header
+            if (e.RowIndex < 0) return;
+
+            // 1. Lấy SKU từ dòng được double-click
+            var cellValue = dgvProducts.Rows[e.RowIndex].Cells["colSKU"].Value;
+            if (cellValue == null || !int.TryParse(cellValue.ToString(), out int sku)) return;
+
+            try
             {
-                if (frmEdit.ShowDialog() == DialogResult.OK)
+                // 2. Lấy đối tượng Product đầy đủ từ BUS
+                Product productToEdit = productService.GetBySKU(sku);
+
+                if (productToEdit == null)
                 {
+                    MessageBox.Show("Không tìm thấy sản phẩm để sửa.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     LoadData();
+                    return;
                 }
+
+                // 3. Khởi tạo Form sửa với tham số Product
+                using (BaseInformation_Edit frmEdit = new BaseInformation_Edit(productToEdit))
+                {
+                    if (frmEdit.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi mở form sửa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -41,16 +41,21 @@ namespace DoAn
             inventoryService = new InventoryService();
             productToEdit = product;
             isEditMode = true;
+
+            LoadCategories();
+            LoadGenders();
+            LoadSizes();
+
             SetupFormForEdit();
             LoadProductData();
         }
 
         private void Inven_AddEditProduct_Load(object sender, EventArgs e)
         {
-            // Load danh sách cho các Dropdown
-            LoadCategories();
-            LoadGenders(); // *** HÀM MỚI ***
-            LoadSizes();   // *** HÀM MỚI ***
+            //// Load danh sách cho các Dropdown
+            //LoadCategories();
+            //LoadGenders(); // *** HÀM MỚI ***
+            //LoadSizes();   // *** HÀM MỚI ***
         }
 
         private void SetupFormForAdd()
@@ -81,8 +86,9 @@ namespace DoAn
             {
                 List<string> categories = productService.GetAllCategories();
                 categories.Insert(0, "-- Chọn Loại SP --");
+                ddlCategory.DataSource = null; // Clear trước khi gán
                 ddlCategory.DataSource = categories;
-                ddlCategory.SelectedIndex = 0;
+                //ddlCategory.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -146,7 +152,8 @@ namespace DoAn
 
                 // SỬA LỖI: Dùng .Text thay vì .Value
                 numPrice.Text = productToEdit.Price.ToString();
-                numImportCost.Text = productToEdit.ImportCost.ToString(); // *** THÊM CODE ***
+                // *** THÊM CODE ***
+                numImportCost.Text = productToEdit.ImportCost.ToString();
 
                 // Load ảnh
                 selectedImagePath = productToEdit.Illustration;
@@ -165,6 +172,15 @@ namespace DoAn
                 else
                 {
                     selectedImagePath = null;
+                }
+                // *** thêm load status nếu có ***
+                if (!string.IsNullOrEmpty(productToEdit.Status) && cbbStatus.Items.Contains(productToEdit.Status))
+                {
+                    cbbStatus.SelectedItem = productToEdit.Status;
+                }
+                else
+                {
+                    cbbStatus.SelectedIndex = 0;
                 }
             }
         }
@@ -291,6 +307,16 @@ namespace DoAn
                 product.Size = ddlSize.SelectedItem.ToString();
                 product.ImportCost = (double)decimal.Parse(numImportCost.Text.Trim());
 
+                // cập nhật Status
+                if (cbbStatus.SelectedIndex > 0)
+                {
+                    product.Status = cbbStatus.SelectedItem.ToString();
+                }
+                else
+                {
+                    product.Status = null; // Hoặc gán giá trị mặc định nếu cần
+                }
+
                 if (!isEditMode)
                 {
                     product.SKU = int.Parse(txtSKU.Text.Trim());
@@ -377,81 +403,46 @@ namespace DoAn
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            // 1. Chỉ thực hiện xóa khi đang ở chế độ SỬA (isEditMode == true)
-            //    và đã có thông tin sản phẩm (productToEdit != null)
-            if (!isEditMode || productToEdit == null)
+            if (productToEdit == null)
             {
-                MessageBox.Show("Không có sản phẩm nào được chọn để xóa.", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Không tìm thấy sản phẩm để xóa.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // 2. Vô hiệu hóa các nút để tránh người dùng click nhiều lần
-            btnSave.Enabled = false;
-            btnCancel.Enabled = false;
-            btnDelete.Enabled = false; // Vô hiệu hóa chính nó
-
-            // 3. Hiển thị hộp thoại XÁC NHẬN trước khi xóa
-            DialogResult confirm = MessageBox.Show(
-                $"Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này?\n\n" +
-                $"SKU: {productToEdit.SKU}\n" +
-                $"Tên: {productToEdit.Name}",
-                "Xác nhận xóa sản phẩm",
+            // 1. Xác nhận xóa
+            string productName = productToEdit.Name ?? $"SKU {productToEdit.SKU}";
+            var confirmResult = MessageBox.Show(
+                $"Bạn có chắc chắn muốn xóa sản phẩm '{productName}' này không?",
+                "Xác Nhận Xóa",
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
+                MessageBoxIcon.Warning
+            );
 
-            // 4. Nếu người dùng không đồng ý (nhấn No) -> kích hoạt lại nút và dừng
-            if (confirm == DialogResult.No)
+            if (confirmResult == DialogResult.Yes)
             {
-                btnSave.Enabled = true;
-                btnCancel.Enabled = true;
-                btnDelete.Enabled = true;
-                return;
-            }
-
-            // 5. Nếu người dùng đồng ý (nhấn Yes) -> Tiến hành xóa
-            try
-            {
-                int skuToDelete = productToEdit.SKU;
-
-                // [RẤT QUAN TRỌNG]
-                // 6. Xóa các dữ liệu liên quan TRƯỚC (ví dụ: Tồn kho)
-                //    Nếu không, việc xóa Product sẽ bị lỗi khóa ngoại (Foreign Key)
-                //    Tôi giả định bạn có hàm DeleteBySKU trong InventoryService
-                bool inventoryDeleted = productService.DeleteProduct(skuToDelete);
-
-                // (Nếu bạn có bảng Chi Tiết Hóa Đơn, cũng phải xóa/xử lý ở đây)
-
-                // 7. Sau khi xóa các bảng phụ, tiến hành xóa Bảng Chính (Product)
-                //    Tôi giả định bạn có hàm DeleteProduct(sku) trong ProductService
-                bool productDeleted = productService.DeleteProduct(skuToDelete);
-
-                if (productDeleted)
+                try
                 {
-                    MessageBox.Show("Xóa sản phẩm thành công!", "Hoàn tất",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    this.DialogResult = DialogResult.OK;
-                    this.Close(); // Đóng form
-                    return; // Thoát khỏi hàm
+                    // DÙNG FIELD ĐÃ CÓ:
+                    bool success = this.productService.DeleteProduct(productToEdit.SKU);
+
+                    if (success)
+                    {
+                        MessageBox.Show("Xóa sản phẩm và dữ liệu liên quan thành công!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.DialogResult = DialogResult.OK; // Đặt DialogResult để Form cha reload dữ liệu
+                        this.Close();
+                    }
+                    else
+                    {
+                        // Thông báo chung cho các lỗi khác (ví dụ: lỗi hệ thống, lỗi vẫn còn ràng buộc không lường trước)
+                        MessageBox.Show("Xóa sản phẩm thất bại. Vui lòng kiểm tra lại dữ liệu.", "Lỗi Xóa", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Xóa sản phẩm thất bại. (ProductService không thành công)", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Đã xảy ra lỗi hệ thống khi xóa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (Exception ex)
-            {
-                // 9. Báo lỗi nếu có vấn đề (ví dụ: lỗi khóa ngoại do chưa xóa hết ở bảng phụ)
-                MessageBox.Show("Đã xảy ra lỗi trong quá trình xóa: " + ex.Message, "Lỗi Hệ thống",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            // 10. Kích hoạt lại các nút nếu việc xóa thất bại (code chạy đến đây là thất bại)
-            btnSave.Enabled = true;
-            btnCancel.Enabled = true;
-            btnDelete.Enabled = true;
         }
     }
 }

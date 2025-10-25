@@ -53,5 +53,23 @@ namespace DoAn.BUS
                 context.SaveChanges();
             }
         }
+        public List<Account> Search(string keyword)
+        {
+            using (var freshContext = new StoreDBContext())
+            {
+                if (string.IsNullOrWhiteSpace(keyword))
+                {
+                    return freshContext.Accounts.ToList();
+                }
+
+                string searchKeyword = keyword.ToLower();
+                return freshContext.Accounts
+                    .Where(a => a.Username.ToLower().Contains(searchKeyword) ||
+                                a.LoginName.ToLower().Contains(searchKeyword) ||
+                                a.Email.ToLower().Contains(searchKeyword) ||
+                                a.SDT.ToLower().Contains(searchKeyword))
+                    .ToList();
+            }
+        }
     }
 }

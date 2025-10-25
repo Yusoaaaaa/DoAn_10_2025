@@ -120,13 +120,34 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="BTBValue.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAATUAAAAYCAYAAACbWmpYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACISURBVHhe7dRBCcQwAAXR+leVEBkrowJacimshAzvwb98
-        AXNdADVrrd8Y4zEzO3W7Y1/U9gFwst0xUQMyRA1IETUgRdSAFFEDUkQNSBE1IEXUgBRRA1JEDUgRNSBF
-        1IAUUQNSRA1IETUgRdSAFFEDUkQNSBE1IOUvanPOex9mZqdud+yLGkDFC6bTQWQ/HwSdAAAAAElFTkSu
-        QmCC
+        iVBORw0KGgoAAAANSUhEUgAAARYAAAAYCAYAAAA/MNKLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACGSURBVHhe7dSxDcMwAANB7z+VBI3hMTxAAjUGUuvT3QFs
+        OMBfF8A/rLXuMcbHzOxkuyVvWPYBcGq3RFiAlLAAOWEBcsIC5IQFyAkLkBMWICcsQE5YgJywADlhAXLC
+        AuSEBcgJC5ATFiAnLEBOWICcsAA5YQFyP2GZcz77MDM72W7JGxaA0heFttEtDZzGkwAAAABJRU5ErkJg
+        gg==
 </value>
   </data>
+  <metadata name="MaNhanVien.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="FullName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="LoginName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Passwordlogin.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Email.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="SDT.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="AccStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="MaNhanVien.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

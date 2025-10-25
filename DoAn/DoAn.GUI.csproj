@@ -151,6 +151,12 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmBaseInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBaseInformation.Designer.cs">
+      <DependentUpon>FrmBaseInformation.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,23 +211,26 @@
     <Compile Include="FrmSubMenu3.Designer.cs">
       <DependentUpon>FrmSubMenu3.cs</DependentUpon>
     </Compile>
-    <Compile Include="BaseInformation.cs">
+    <Compile Include="BaseInformation_Addnew.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BaseInformation.Designer.cs">
-      <DependentUpon>BaseInformation.cs</DependentUpon>
+    <Compile Include="BaseInformation_Addnew.Designer.cs">
+      <DependentUpon>BaseInformation_Addnew.cs</DependentUpon>
     </Compile>
     <Compile Include="MdiProperties.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="BaseInformation.resx">
-      <DependentUpon>BaseInformation.cs</DependentUpon>
+    <EmbeddedResource Include="BaseInformation_Addnew.resx">
+      <DependentUpon>BaseInformation_Addnew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="cardProduct.resx">
       <DependentUpon>cardProduct.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmBaseInformation.resx">
+      <DependentUpon>FrmBaseInformation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmDashboard.resx">
       <DependentUpon>FrmDashboard.cs</DependentUpon>
@@ -328,7 +337,23 @@
     <None Include="Resources\test.jpg.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\btnAddProduct_BackgroundImage.png" />
+    <None Include="Resources\txtSearch_BackgroundImage.png.png" />
+    <None Include="Resources\pnlMain_BackgroundImage.png1.png" />
+    <None Include="Resources\btnAddProduct_BackgroundImage.png.png" />
+    <None Include="Resources\btnAddProduct_BackgroundImage.png1.png" />
+    <Content Include="Resources\btnFilter_BackgroundImage.png" />
+    <None Include="Resources\btnFilter_BackgroundImage.png.png" />
+    <None Include="Resources\btnFilter_BackgroundImage.png1.png" />
+    <Content Include="Resources\delete_icon.png" />
+    <None Include="Resources\delete_icon.png.png" />
+    <None Include="Resources\delete_icon.png1.png" />
+    <Content Include="Resources\edit_icon.png" />
+    <None Include="Resources\edit_icon.png.png" />
+    <None Include="Resources\edit_icon.png1.png" />
     <Content Include="Resources\login_mainimage.png" />
+    <Content Include="Resources\pnlMain_BackgroundImage.png" />
+    <None Include="Resources\pnlMain_BackgroundImage.png.png" />
     <None Include="Resources\logo-190x190.jpg" />
     <None Include="Resources\login_mainimage1.png" />
   </ItemGroup>

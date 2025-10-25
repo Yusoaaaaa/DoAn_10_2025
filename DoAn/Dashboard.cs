@@ -19,12 +19,13 @@ namespace DoAn
         FrmSetting frmSetting;
         FrmReport frmReport;
         FrmNhanVien frmNhanVien;
+        BaseInformation baseInformation;
 
         bool menuExpand = false;
         bool sidebarExpand = true;
         bool statusExpand = false;
 
-
+    
         public Dashboard()
         {
             InitializeComponent();
@@ -350,6 +351,26 @@ namespace DoAn
 
         }
 
-        
+        private void btnBaseInfo_Click(object sender, EventArgs e)
+        {
+            if (baseInformation == null)
+            {
+                baseInformation = new BaseInformation();
+                baseInformation.FormClosed += BaseInformation_FormClosed;
+                baseInformation.MdiParent = this;
+                baseInformation.StartPosition = FormStartPosition.Manual;
+                baseInformation.Location = new Point(260, 50);
+                baseInformation.Show();
+            }
+            else
+            {
+                baseInformation.Activate();
+            }
+        }
+
+        private void BaseInformation_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            baseInformation = null;
+        }
     }
 }

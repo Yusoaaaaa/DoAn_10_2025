@@ -46,7 +46,7 @@ namespace DoAn.BUS
 
 using System;
 using System.Collections.Generic;
-using System.Data.Entity; // **QUAN TRỌNG:** Needed for EntityState
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
@@ -67,8 +67,6 @@ namespace DoAn.BUS
         {
             try
             {
-                // Include Inventory data if needed for display (optional)
-                // return context.Products.Include(p => p.Inventory).AsNoTracking().ToList(); 
                 return context.Products.AsNoTracking().ToList();
             }
             catch (Exception ex)
@@ -85,10 +83,8 @@ namespace DoAn.BUS
         {
             try
             {
-                // Find uses the primary key directly
                 return context.Products.Find(sku);
-                // Or using FirstOrDefault:
-                // return context.Products.FirstOrDefault(p => p.SKU == sku);
+
             }
             catch (Exception ex)
             {
@@ -251,10 +247,8 @@ namespace DoAn.BUS
             }
         }
 
-        // --- HÀM KHÔNG THAY ĐỔI / CHƯA IMPLEMENT ---
         public List<Product> GetProductsByStockAvailability(bool inStock)
         {
-            // You would need to join with Inventory table here
             throw new NotImplementedException();
         }
 
@@ -278,21 +272,17 @@ namespace DoAn.BUS
             }
         }
 
-        // --- HÀM InsertUpdate HIỆN CÓ ---
-        // Sử dụng hàm này cẩn thận, đảm bảo SKU là khóa chính được EF nhận diện.
-        // Các hàm AddProduct/UpdateProduct riêng biệt thường an toàn hơn.
+
         public void InsertUpdate(Product product)
         {
             try
             {
-                // product.LastUpdated = DateTime.Now; // Add this if you add the field
                 context.Products.AddOrUpdate(product); // Relies on SKU being the recognized Key
                 context.SaveChanges();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Lỗi trong InsertUpdate product: " + ex.Message);
-                // Should handle or re-throw
             }
         }
     }

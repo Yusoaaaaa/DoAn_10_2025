@@ -1,12 +1,12 @@
-﻿using Bunifu.UI.WinForms; 
-using DoAn.BUS; 
-using DoAn.DAL.Models; 
+﻿using Bunifu.UI.WinForms;
+using DoAn.BUS;
+using DoAn.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO; 
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace DoAn
 {
-    public partial class BaseInformation : Form
+    public partial class BaseInformation_Addnew : Form
     {
         private ProductService productService;
         private InventoryService inventoryService;
@@ -23,7 +23,7 @@ namespace DoAn
         private string selectedImagePath = null;
 
         // Constructor cho THÊM MỚI
-        public BaseInformation()
+        public BaseInformation_Addnew()
         {
             InitializeComponent();
             productService = new ProductService();
@@ -33,7 +33,7 @@ namespace DoAn
         }
 
         // Constructor cho SỬA
-        public BaseInformation(Product product)
+        public BaseInformation_Addnew(Product product)
         {
             InitializeComponent();
             productService = new ProductService();
@@ -56,7 +56,7 @@ namespace DoAn
         {
             lblTitle.Text = "Add New Product";
             txtSKU.ReadOnly = false;
-           
+
         }
 
         private void SetupFormForEdit()
@@ -141,20 +141,11 @@ namespace DoAn
                     ddlSize.SelectedIndex = 0;
                 }
 
-                // Lấy số lượng tồn kho từ InventoryService
-                try
-                {
-                    numStock.Value = inventoryService.GetStockBySKU(productToEdit.SKU);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Lỗi khi lấy số lượng tồn kho cho SKU {productToEdit.SKU}: " + ex.Message, "Lỗi Tồn Kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    numStock.Value = 0;
-                }
 
-                // Price và ImportCost là double
-                numPrice.Value = (decimal)productToEdit.Price;
-                numImportCost.Value = (decimal)productToEdit.ImportCost; // *** THÊM CODE ***
+
+                // SỬA LỖI: Dùng .Text thay vì .Value
+                numPrice.Text = productToEdit.Price.ToString();
+                numImportCost.Text = productToEdit.ImportCost.ToString(); // *** THÊM CODE ***
 
                 // Load ảnh
                 selectedImagePath = productToEdit.Illustration;
@@ -167,13 +158,11 @@ namespace DoAn
                     catch (Exception ex)
                     {
                         MessageBox.Show("Lỗi khi tải ảnh sản phẩm: " + ex.Message, "Lỗi Ảnh", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        // pbProductImage.Image = Properties.Resources.placeholder_image; 
                         selectedImagePath = null;
                     }
                 }
                 else
                 {
-                    // pbProductImage.Image = Properties.Resources.placeholder_image;
                     selectedImagePath = null;
                 }
             }
@@ -231,16 +220,17 @@ namespace DoAn
                 return false;
             }
 
-            // Kiểm tra Số lượng
-            if (numStock.Value < 0)
+
+
+            // SỬA LỖI: Dùng .Text và TryParse để kiểm tra số
+            // *** THÊM CODE: Kiểm tra Giá nhập ***
+            if (!decimal.TryParse(numImportCost.Text, out decimal importCostValue))
             {
-                MessageBox.Show("Số lượng không thể là số âm.", "Dữ liệu không hợp lệ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                numStock.Focus();
+                MessageBox.Show("Giá nhập phải là một số hợp lệ.", "Sai định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                numImportCost.Focus();
                 return false;
             }
-
-            // *** THÊM CODE: Kiểm tra Giá nhập ***
-            if (numImportCost.Value < 0)
+            if (importCostValue < 0)
             {
                 MessageBox.Show("Giá nhập không thể là số âm.", "Dữ liệu không hợp lệ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 numImportCost.Focus();
@@ -248,7 +238,13 @@ namespace DoAn
             }
 
             // Kiểm tra Giá bán
-            if (numPrice.Value < 0)
+            if (!decimal.TryParse(numPrice.Text, out decimal priceValue))
+            {
+                MessageBox.Show("Giá bán phải là một số hợp lệ.", "Sai định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                numPrice.Focus();
+                return false;
+            }
+            if (priceValue < 0)
             {
                 MessageBox.Show("Giá bán không thể là số âm.", "Dữ liệu không hợp lệ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 numPrice.Focus();
@@ -256,7 +252,7 @@ namespace DoAn
             }
 
             // *** THÊM CODE: Kiểm tra Giá nhập < Giá bán (Nếu cần) ***
-            if (numImportCost.Value > numPrice.Value)
+            if (importCostValue > priceValue)
             {
                 MessageBox.Show("Giá bán phải lớn hơn hoặc bằng giá nhập.", "Dữ liệu không hợp lệ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 numPrice.Focus();
@@ -269,8 +265,15 @@ namespace DoAn
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            // 1. VÔ HIỆU HÓA CÁC NÚT ĐỂ TRÁNH DOUBLE-CLICK
+            btnSave.Enabled = false;
+            btnCancel.Enabled = false;
+
             if (!ValidateInput())
             {
+                // 2. KÍCH HOẠT LẠI NÚT NẾU VALIDATE THẤT BẠI
+                btnSave.Enabled = true;
+                btnCancel.Enabled = true;
                 return;
             }
 
@@ -279,31 +282,20 @@ namespace DoAn
                 Product product = isEditMode ? productToEdit : new Product();
 
                 // Cập nhật thông tin Product từ controls
-                product.Name = txtName.Text.Trim(); // [Required]
-                product.Category = ddlCategory.SelectedItem.ToString(); // [Required]
-                product.Price = (double)numPrice.Value;
-                product.Illustration = selectedImagePath; // [StringLength(255)]
+                product.Name = txtName.Text.Trim();
+                product.Category = ddlCategory.SelectedItem.ToString();
+                product.Price = (double)decimal.Parse(numPrice.Text.Trim());
+                product.Illustration = selectedImagePath;
+                product.Gender = ddlGender.SelectedItem.ToString();
+                product.Size = ddlSize.SelectedItem.ToString();
+                product.ImportCost = (double)decimal.Parse(numImportCost.Text.Trim());
 
-                // *** THÊM CODE: Lấy dữ liệu cho các trường mới ***
-                product.Gender = ddlGender.SelectedItem.ToString(); // [Required]
-                product.Size = ddlSize.SelectedItem.ToString(); // [Required]
-                product.ImportCost = (double)numImportCost.Value;
-
-                // Chỉ gán SKU khi thêm mới
                 if (!isEditMode)
                 {
-                    product.SKU = int.Parse(txtSKU.Text.Trim()); // [Key]
+                    product.SKU = int.Parse(txtSKU.Text.Trim());
                 }
 
-                // *** XÓA CODE: Xóa các giá trị mặc định đã thêm trước đó ***
-                // if (!isEditMode)
-                // {
-                //     product.Gender = "N/A"; 
-                //     product.Size = "N/A";   
-                //     product.ImportCost = 0; 
-                // }
 
-                // 3. Gọi ProductService để lưu Product
                 bool productSuccess;
                 if (isEditMode)
                 {
@@ -314,26 +306,24 @@ namespace DoAn
                     productSuccess = productService.AddProduct(product);
                 }
 
-                // 4. Nếu lưu Product thành công, cập nhật Inventory
                 if (productSuccess)
                 {
                     try
                     {
                         Inventory inventory = inventoryService.GetBySKU(product.SKU) ?? new Inventory();
                         inventory.SKU = product.SKU;
-                        inventory.instock = (int)numStock.Value;
-                        //inventory.last_updated = DateTime.Now; // Cập nhật thời gian cho Inventory
-
                         inventoryService.InsertUpdate(inventory);
 
                         this.DialogResult = DialogResult.OK;
-                        this.Close();
+                        this.Close(); // 3. Form đóng, không cần kích hoạt lại nút
+                        return; // Thoát khỏi hàm
                     }
                     catch (Exception invEx)
                     {
                         MessageBox.Show("Lưu thông tin sản phẩm thành công, nhưng lỗi khi cập nhật tồn kho: " + invEx.Message, "Lỗi Tồn Kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         this.DialogResult = DialogResult.OK;
-                        this.Close();
+                        this.Close(); // 3. Form đóng, không cần kích hoạt lại nút
+                        return; // Thoát khỏi hàm
                     }
                 }
                 else
@@ -345,10 +335,18 @@ namespace DoAn
             {
                 MessageBox.Show("Đã xảy ra lỗi khi lưu sản phẩm: " + ex.Message, "Lỗi Hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            // 4. KÍCH HOẠT LẠI NÚT NẾU LƯU THẤT BẠI (code chạy đến đây nghĩa là có lỗi)
+            btnSave.Enabled = true;
+            btnCancel.Enabled = true;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            // VÔ HIỆU HÓA CÁC NÚT ĐỂ TRÁNH DOUBLE-CLICK
+            btnCancel.Enabled = false;
+            btnSave.Enabled = false;
+
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
@@ -371,7 +369,6 @@ namespace DoAn
                     {
                         MessageBox.Show("Không thể tải ảnh: " + ex.Message, "Lỗi Ảnh", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         selectedImagePath = null;
-                        // pbProductImage.Image = Properties.Resources.placeholder_image; 
                     }
                 }
             }

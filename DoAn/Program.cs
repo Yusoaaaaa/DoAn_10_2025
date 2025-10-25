@@ -17,7 +17,7 @@ namespace DoAn
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BaseInformation());
+            Application.Run(new Dashboard());
         }
     }
 }

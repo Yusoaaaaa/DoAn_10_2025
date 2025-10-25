@@ -14,13 +14,11 @@ namespace DoAn.BUS
         StoreDBContext context = new StoreDBContext();
         public List<Inventory> GetAll()
         {
-            // Implementation to retrieve all inventory records
             return context.Inventories.ToList();
         }
 
         public Inventory GetById(int SKU)
         {
-            // Implementation to retrieve an inventory record by its ID
             return context.Inventories.FirstOrDefault(i => i.SKU == SKU);
         }
 
@@ -54,7 +52,6 @@ namespace DoAn.BUS
             catch (Exception ex)
             {
                 Console.WriteLine($"Lỗi khi lấy inventory theo SKU ({sku}): " + ex.Message);
-                // Xem xét ghi log chi tiết hoặc ném lại lỗi
                 return null;
             }
         }

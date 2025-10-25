@@ -78,7 +78,7 @@
             this.BtnTimKiem.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.BtnTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.BtnTimKiem.Location = new System.Drawing.Point(712, 25);
-            this.BtnTimKiem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnTimKiem.Margin = new System.Windows.Forms.Padding(2);
             this.BtnTimKiem.Name = "BtnTimKiem";
             this.BtnTimKiem.Size = new System.Drawing.Size(80, 24);
             this.BtnTimKiem.TabIndex = 2;
@@ -115,7 +115,7 @@
             this.BTBValue.IconRightCursor = System.Windows.Forms.Cursors.IBeam;
             this.BTBValue.Lines = new string[0];
             this.BTBValue.Location = new System.Drawing.Point(390, 25);
-            this.BTBValue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BTBValue.Margin = new System.Windows.Forms.Padding(2);
             this.BTBValue.MaxLength = 32767;
             this.BTBValue.MinimumSize = new System.Drawing.Size(1, 1);
             this.BTBValue.Modified = false;
@@ -141,7 +141,7 @@
             stateProperties4.ForeColor = System.Drawing.Color.Empty;
             stateProperties4.PlaceholderForeColor = System.Drawing.Color.Empty;
             this.BTBValue.OnIdleState = stateProperties4;
-            this.BTBValue.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BTBValue.Padding = new System.Windows.Forms.Padding(2);
             this.BTBValue.PasswordChar = '\0';
             this.BTBValue.PlaceholderForeColor = System.Drawing.Color.Silver;
             this.BTBValue.PlaceholderText = "Tìm kiếm Trạng thái";
@@ -178,12 +178,12 @@
             this.AccStatus});
             this.dgvNhanVien.GridColor = System.Drawing.SystemColors.ActiveCaption;
             this.dgvNhanVien.Location = new System.Drawing.Point(9, 54);
-            this.dgvNhanVien.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvNhanVien.Margin = new System.Windows.Forms.Padding(2);
             this.dgvNhanVien.Name = "dgvNhanVien";
             this.dgvNhanVien.ReadOnly = true;
             this.dgvNhanVien.RowHeadersWidth = 51;
             this.dgvNhanVien.RowTemplate.Height = 24;
-            this.dgvNhanVien.Size = new System.Drawing.Size(788, 293);
+            this.dgvNhanVien.Size = new System.Drawing.Size(947, 293);
             this.dgvNhanVien.TabIndex = 4;
             this.dgvNhanVien.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvNhanVien_CellClick);
             // 
@@ -251,7 +251,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(806, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(985, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -269,20 +269,20 @@
             // 
             this.TsmAdd.Name = "TsmAdd";
             this.TsmAdd.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.TsmAdd.Size = new System.Drawing.Size(180, 22);
+            this.TsmAdd.Size = new System.Drawing.Size(148, 22);
             this.TsmAdd.Text = "Thêm";
             // 
             // TsmDel
             // 
             this.TsmDel.Name = "TsmDel";
             this.TsmDel.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.TsmDel.Size = new System.Drawing.Size(180, 22);
+            this.TsmDel.Size = new System.Drawing.Size(148, 22);
             this.TsmDel.Text = "Xóa ";
             // 
             // TsmBack
             // 
             this.TsmBack.Name = "TsmBack";
-            this.TsmBack.Size = new System.Drawing.Size(180, 22);
+            this.TsmBack.Size = new System.Drawing.Size(148, 22);
             this.TsmBack.Text = "Trở về";
             this.TsmBack.Click += new System.EventHandler(this.TsmBack_Click);
             // 
@@ -290,8 +290,8 @@
             // 
             this.BtnAdd_Update.BackColor = System.Drawing.Color.LightGreen;
             this.BtnAdd_Update.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.BtnAdd_Update.Location = new System.Drawing.Point(452, 531);
-            this.BtnAdd_Update.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnAdd_Update.Location = new System.Drawing.Point(775, 532);
+            this.BtnAdd_Update.Margin = new System.Windows.Forms.Padding(2);
             this.BtnAdd_Update.Name = "BtnAdd_Update";
             this.BtnAdd_Update.Size = new System.Drawing.Size(80, 34);
             this.BtnAdd_Update.TabIndex = 6;
@@ -302,8 +302,8 @@
             // 
             this.BtnDel.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.BtnDel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.BtnDel.Location = new System.Drawing.Point(553, 531);
-            this.BtnDel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnDel.Location = new System.Drawing.Point(876, 532);
+            this.BtnDel.Margin = new System.Windows.Forms.Padding(2);
             this.BtnDel.Name = "BtnDel";
             this.BtnDel.Size = new System.Drawing.Size(80, 34);
             this.BtnDel.TabIndex = 7;
@@ -390,7 +390,7 @@
             // avatar
             // 
             this.avatar.Location = new System.Drawing.Point(226, 78);
-            this.avatar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.avatar.Margin = new System.Windows.Forms.Padding(2);
             this.avatar.Name = "avatar";
             this.avatar.Size = new System.Drawing.Size(122, 115);
             this.avatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -402,7 +402,7 @@
             // 
             this.BtnLinkAnh.Font = new System.Drawing.Font("Tahoma", 32F);
             this.BtnLinkAnh.Location = new System.Drawing.Point(352, 170);
-            this.BtnLinkAnh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnLinkAnh.Margin = new System.Windows.Forms.Padding(2);
             this.BtnLinkAnh.Name = "BtnLinkAnh";
             this.BtnLinkAnh.Size = new System.Drawing.Size(28, 23);
             this.BtnLinkAnh.TabIndex = 16;
@@ -412,7 +412,7 @@
             // txtID
             // 
             this.txtID.Location = new System.Drawing.Point(86, 11);
-            this.txtID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtID.Margin = new System.Windows.Forms.Padding(2);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(101, 20);
             this.txtID.TabIndex = 17;
@@ -420,7 +420,7 @@
             // txtHoTen
             // 
             this.txtHoTen.Location = new System.Drawing.Point(86, 44);
-            this.txtHoTen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtHoTen.Margin = new System.Windows.Forms.Padding(2);
             this.txtHoTen.Name = "txtHoTen";
             this.txtHoTen.Size = new System.Drawing.Size(101, 20);
             this.txtHoTen.TabIndex = 18;
@@ -428,7 +428,7 @@
             // txtPass
             // 
             this.txtPass.Location = new System.Drawing.Point(86, 115);
-            this.txtPass.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPass.Margin = new System.Windows.Forms.Padding(2);
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(101, 20);
             this.txtPass.TabIndex = 20;
@@ -436,7 +436,7 @@
             // txtAcc
             // 
             this.txtAcc.Location = new System.Drawing.Point(86, 81);
-            this.txtAcc.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtAcc.Margin = new System.Windows.Forms.Padding(2);
             this.txtAcc.Name = "txtAcc";
             this.txtAcc.Size = new System.Drawing.Size(101, 20);
             this.txtAcc.TabIndex = 19;
@@ -444,7 +444,7 @@
             // txtEmail
             // 
             this.txtEmail.Location = new System.Drawing.Point(86, 147);
-            this.txtEmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtEmail.Margin = new System.Windows.Forms.Padding(2);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(101, 20);
             this.txtEmail.TabIndex = 21;
@@ -452,7 +452,7 @@
             // txtSDT
             // 
             this.txtSDT.Location = new System.Drawing.Point(281, 9);
-            this.txtSDT.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtSDT.Margin = new System.Windows.Forms.Padding(2);
             this.txtSDT.Name = "txtSDT";
             this.txtSDT.Size = new System.Drawing.Size(101, 20);
             this.txtSDT.TabIndex = 22;
@@ -461,7 +461,7 @@
             // 
             this.CmbChucVu.FormattingEnabled = true;
             this.CmbChucVu.Location = new System.Drawing.Point(281, 42);
-            this.CmbChucVu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CmbChucVu.Margin = new System.Windows.Forms.Padding(2);
             this.CmbChucVu.Name = "CmbChucVu";
             this.CmbChucVu.Size = new System.Drawing.Size(101, 21);
             this.CmbChucVu.TabIndex = 23;
@@ -486,7 +486,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(9, 362);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(401, 219);
             this.panel1.TabIndex = 24;
@@ -496,7 +496,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(806, 590);
+            this.ClientSize = new System.Drawing.Size(985, 590);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.BtnDel);
             this.Controls.Add(this.BtnAdd_Update);
@@ -506,7 +506,7 @@
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FrmNhanVien";
             this.Text = "FrmNhanVien";
             this.Load += new System.EventHandler(this.FrmNhanVien_Load);

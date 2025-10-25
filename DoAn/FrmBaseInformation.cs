@@ -360,5 +360,16 @@ namespace DoAn
                 MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void dgvProducts_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            using (BaseInformation_Edit frmEdit = new BaseInformation_Edit())
+            {
+                if (frmEdit.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
+            }
+        }
     }
 }

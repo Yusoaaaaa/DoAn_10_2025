@@ -13,9 +13,9 @@ namespace DoAn
     public partial class Dashboard : Form
     {
         FrmDashboard frmDashboard;
-        FrmSubMenu1 frmSubMenu1;
-        FrmSubMenu2 frmSubMenu2;
-        FrmSubMenu3 frmSubMenu3;
+        FrmNhapHang frmNhapHang;
+        FrmInventory FrmInventory;
+        FrmBanHang FrmBanHang;
         FrmSetting frmSetting;
         FrmReport frmReport;
         FrmNhanVien frmNhanVien;
@@ -151,46 +151,46 @@ namespace DoAn
 
         private void btnWareHouse_Click(object sender, EventArgs e)
         {
-            if (frmSubMenu2 == null)
+            if (FrmInventory == null)
             {
-                frmSubMenu2 = new FrmSubMenu2();
-                frmSubMenu2.FormClosed += FrmSubMenu2_FormClosed;
-                frmSubMenu2.MdiParent = this;
-                frmSubMenu2.StartPosition = FormStartPosition.Manual;
-                frmSubMenu2.Location = new Point(260, 50);
-                frmSubMenu2.Show();
+                FrmInventory = new FrmInventory();
+                FrmInventory.FormClosed += FrmInventory_FormClosed;
+                FrmInventory.MdiParent = this;
+                FrmInventory.StartPosition = FormStartPosition.Manual;
+                FrmInventory.Location = new Point(260, 50);
+                FrmInventory.Show();
             }
             else
             {
-                frmSubMenu2.Activate();
+                FrmInventory.Activate();
             }
         }
 
-        private void FrmSubMenu2_FormClosed(object sender, FormClosedEventArgs e)
+        private void FrmInventory_FormClosed(object sender, FormClosedEventArgs e)
         {
-            frmSubMenu2 = null;
+            FrmInventory = null;
         }
 
         private void btnOrder_Click(object sender, EventArgs e)
         {
-            if (frmSubMenu3 == null)
+            if (FrmBanHang == null)
             {
-                frmSubMenu3 = new FrmSubMenu3();
-                frmSubMenu3.FormClosed += FrmSubMenu3_FormClosed;
-                frmSubMenu3.MdiParent = this;
-                frmSubMenu3.StartPosition = FormStartPosition.Manual;
-                frmSubMenu3.Location = new Point(260, 50);
-                frmSubMenu3.Show();
+                FrmBanHang = new FrmBanHang();
+                FrmBanHang.FormClosed += FrmBanHang_FormClosed;
+                FrmBanHang.MdiParent = this;
+                FrmBanHang.StartPosition = FormStartPosition.Manual;
+                FrmBanHang.Location = new Point(260, 50);
+                FrmBanHang.Show();
             }
             else
             {
-                frmSubMenu3.Activate();
+                FrmBanHang.Activate();
             }
         }
 
-        private void FrmSubMenu3_FormClosed(object sender, FormClosedEventArgs e)
+        private void FrmBanHang_FormClosed(object sender, FormClosedEventArgs e)
         {
-            frmSubMenu3 = null;
+            FrmBanHang = null;
         }
 
         private void btnSetting_Click(object sender, EventArgs e)
@@ -260,18 +260,18 @@ namespace DoAn
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            if (frmSubMenu1 == null)
+            if (frmNhapHang == null)
             {
-                frmSubMenu1 = new FrmSubMenu1();
-                frmSubMenu1.FormClosed += FrmSubMenu1_FormClosed;
-                frmSubMenu1.MdiParent = this;
-                frmSubMenu1.StartPosition = FormStartPosition.Manual;
-                frmSubMenu1.Location = new Point(260, 50);
-                frmSubMenu1.Show();
+                frmNhapHang = new FrmNhapHang();
+                frmNhapHang.FormClosed += frmNhapHang_FormClosed;
+                frmNhapHang.MdiParent = this;
+                frmNhapHang.StartPosition = FormStartPosition.Manual;
+                frmNhapHang.Location = new Point(260, 50);
+                frmNhapHang.Show();
             }
             else
             {
-                frmSubMenu1.Activate();
+                frmNhapHang.Activate();
             }
             
         }
@@ -294,9 +294,9 @@ namespace DoAn
         {
             frmNhanVien = null;
         }
-        private void FrmSubMenu1_FormClosed(object sender, FormClosedEventArgs e)
+        private void frmNhapHang_FormClosed(object sender, FormClosedEventArgs e)
         {
-            frmSubMenu1 = null;
+            frmNhapHang = null;
         }
 
         private void label1_Click(object sender, EventArgs e)

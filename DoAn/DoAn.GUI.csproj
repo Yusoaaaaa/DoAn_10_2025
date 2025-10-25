@@ -139,6 +139,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseInformation_Edit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseInformation_Edit.Designer.cs">
+      <DependentUpon>BaseInformation_Edit.cs</DependentUpon>
+    </Compile>
     <Compile Include="cardProduct.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -193,23 +199,23 @@
     <Compile Include="FrmSetting.Designer.cs">
       <DependentUpon>FrmSetting.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmSubMenu1.cs">
+    <Compile Include="FrmNhapHang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmSubMenu1.Designer.cs">
-      <DependentUpon>FrmSubMenu1.cs</DependentUpon>
+    <Compile Include="FrmNhapHang.Designer.cs">
+      <DependentUpon>FrmNhapHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmSubMenu2.cs">
+    <Compile Include="FrmInventory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmSubMenu2.Designer.cs">
-      <DependentUpon>FrmSubMenu2.cs</DependentUpon>
+    <Compile Include="FrmInventory.Designer.cs">
+      <DependentUpon>FrmInventory.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmSubMenu3.cs">
+    <Compile Include="FrmBanHang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmSubMenu3.Designer.cs">
-      <DependentUpon>FrmSubMenu3.cs</DependentUpon>
+    <Compile Include="FrmBanHang.Designer.cs">
+      <DependentUpon>FrmBanHang.cs</DependentUpon>
     </Compile>
     <Compile Include="BaseInformation_Addnew.cs">
       <SubType>Form</SubType>
@@ -222,6 +228,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="BaseInformation_Addnew.resx">
       <DependentUpon>BaseInformation_Addnew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseInformation_Edit.resx">
+      <DependentUpon>BaseInformation_Edit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="cardProduct.resx">
       <DependentUpon>cardProduct.cs</DependentUpon>
@@ -250,14 +259,14 @@
     <EmbeddedResource Include="FrmSetting.resx">
       <DependentUpon>FrmSetting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmSubMenu1.resx">
-      <DependentUpon>FrmSubMenu1.cs</DependentUpon>
+    <EmbeddedResource Include="FrmNhapHang.resx">
+      <DependentUpon>FrmNhapHang.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmSubMenu2.resx">
-      <DependentUpon>FrmSubMenu2.cs</DependentUpon>
+    <EmbeddedResource Include="FrmInventory.resx">
+      <DependentUpon>FrmInventory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmSubMenu3.resx">
-      <DependentUpon>FrmSubMenu3.cs</DependentUpon>
+    <EmbeddedResource Include="FrmBanHang.resx">
+      <DependentUpon>FrmBanHang.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace DoAn
 {
-    public partial class FrmSubMenu3 : Form
+    public partial class FrmNhapHang : Form
     {
-        public FrmSubMenu3()
+        public FrmNhapHang()
         {
             InitializeComponent();
         }
 
-        private void FrmSubMenu3_Load(object sender, EventArgs e)
+        private void FrmSubMenu1_Load(object sender, EventArgs e)
         {
             this.ControlBox = false;
         }

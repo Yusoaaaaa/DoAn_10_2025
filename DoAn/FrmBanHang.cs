@@ -134,32 +134,7 @@ namespace DoAn
                 int sku = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["colSKU"].Value);
 
                 // 1. XỬ LÝ NÚT SỬA (colEdit)
-                if (dgvProducts.Columns[e.ColumnIndex].Name == "colEdit")
-                {
-                    try
-                    {
-                        Product productToEdit = productService.GetBySKU(sku);
-                        if (productToEdit == null)
-                        {
-                            MessageBox.Show("Không tìm thấy sản phẩm để sửa.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            LoadData(); // Tải lại grid phòng trường hợp dữ liệu cũ
-                            return;
-                        }
-
-                        // Mở form Sửa (truyền sản phẩm vào constructor)
-                        using (BaseInformation_Addnew frmEdit = new BaseInformation_Addnew(productToEdit))
-                        {
-                            if (frmEdit.ShowDialog() == DialogResult.OK)
-                            {
-                                LoadData(); // Tải lại dữ liệu
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi khi mở form sửa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                
 
                 // 2. XỬ LÝ NÚT XÓA (colDelete)
                 if (dgvProducts.Columns[e.ColumnIndex].Name == "colDelete")

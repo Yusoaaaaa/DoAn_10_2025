@@ -64,10 +64,10 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanelInfo = new System.Windows.Forms.FlowLayoutPanel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.Status = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.bunifuIconButton1 = new Bunifu.UI.WinForms.BunifuButton.BunifuIconButton();
             this.labelStatus = new System.Windows.Forms.Label();
-            this.Status = new System.Windows.Forms.Timer(this.components);
             this.bunifuPanel1 = new Bunifu.UI.WinForms.BunifuPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanelMain = new System.Windows.Forms.FlowLayoutPanel();
@@ -1134,11 +1134,16 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // Status
+            // 
+            this.Status.Interval = 10;
+            this.Status.Tick += new System.EventHandler(this.Status_Tick);
+            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.bunifuIconButton1);
             this.panel2.Controls.Add(this.labelStatus);
-            this.panel2.Location = new System.Drawing.Point(975, 531);
+            this.panel2.Location = new System.Drawing.Point(959, 520);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(261, 100);
@@ -1187,11 +1192,6 @@
             this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelStatus.Click += new System.EventHandler(this.label3_Click);
             // 
-            // Status
-            // 
-            this.Status.Interval = 10;
-            this.Status.Tick += new System.EventHandler(this.Status_Tick);
-            // 
             // bunifuPanel1
             // 
             this.bunifuPanel1.BackgroundColor = System.Drawing.Color.Transparent;
@@ -1211,6 +1211,8 @@
             this.bunifuPanel1.ShowBorders = true;
             this.bunifuPanel1.Size = new System.Drawing.Size(1245, 50);
             this.bunifuPanel1.TabIndex = 0;
+            this.bunifuPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bunifuPanel1_MouseDown);
+            this.bunifuPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.bunifuPanel1_MouseMove);
             // 
             // label2
             // 
@@ -1256,13 +1258,13 @@
             this.bunifuImageButton1.FadeWhenInactive = false;
             this.bunifuImageButton1.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
             this.bunifuImageButton1.Image = global::DoAn.Properties.Resources.shutdown;
-            this.bunifuImageButton1.ActiveImage = null;
+            this.bunifuImageButton1.ImageActive = null;
             this.bunifuImageButton1.ImageLocation = null;
             this.bunifuImageButton1.ImageMargin = 20;
             this.bunifuImageButton1.ImageSize = new System.Drawing.Size(30, 30);
             this.bunifuImageButton1.ImageZoomSize = new System.Drawing.Size(50, 50);
             this.bunifuImageButton1.InitialImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageButton1.InitialImage")));
-            this.bunifuImageButton1.Location = new System.Drawing.Point(1195, 0);
+            this.bunifuImageButton1.Location = new System.Drawing.Point(1186, 0);
             this.bunifuImageButton1.Margin = new System.Windows.Forms.Padding(0);
             this.bunifuImageButton1.Name = "bunifuImageButton1";
             this.bunifuImageButton1.Rotation = 0;
@@ -1274,7 +1276,7 @@
             this.bunifuImageButton1.TabIndex = 1;
             this.bunifuImageButton1.ToolTipText = "";
             this.bunifuImageButton1.WaitOnLoad = false;
-            this.bunifuImageButton1.ImageMargin = 20;
+            this.bunifuImageButton1.Zoom = 20;
             this.bunifuImageButton1.ZoomSpeed = 10;
             this.bunifuImageButton1.Click += new System.EventHandler(this.bunifuImageButton1_Click_1);
             // 
@@ -1292,7 +1294,7 @@
             this.btnSidebarMenu.FadeWhenInactive = false;
             this.btnSidebarMenu.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
             this.btnSidebarMenu.Image = global::DoAn.Properties.Resources.burger_menu;
-            this.btnSidebarMenu.ActiveImage = null;
+            this.btnSidebarMenu.ImageActive = null;
             this.btnSidebarMenu.ImageLocation = null;
             this.btnSidebarMenu.ImageMargin = 20;
             this.btnSidebarMenu.ImageSize = new System.Drawing.Size(30, 30);
@@ -1310,7 +1312,7 @@
             this.btnSidebarMenu.TabIndex = 1;
             this.btnSidebarMenu.ToolTipText = "";
             this.btnSidebarMenu.WaitOnLoad = false;
-            this.btnSidebarMenu.ImageMargin = 20;
+            this.btnSidebarMenu.Zoom = 20;
             this.btnSidebarMenu.ZoomSpeed = 10;
             this.btnSidebarMenu.Click += new System.EventHandler(this.bunifuImageButton1_Click);
             // 
@@ -1318,7 +1320,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1245, 640);
+            this.ClientSize = new System.Drawing.Size(1240, 639);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.flowLayoutPanelInfo);
             this.Controls.Add(this.flowLayoutPanelSidebar);
@@ -1370,11 +1372,11 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelName;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Timer Status;
-        private Bunifu.UI.WinForms.BunifuButton.BunifuIconButton bunifuIconButton1;
-        private System.Windows.Forms.Label labelStatus;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton btnStaff;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton btnBaseInfo;
+        private System.Windows.Forms.Panel panel2;
+        private Bunifu.UI.WinForms.BunifuButton.BunifuIconButton bunifuIconButton1;
+        private System.Windows.Forms.Label labelStatus;
     }
 }

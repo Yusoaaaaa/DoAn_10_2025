@@ -1,58 +1,99 @@
-﻿using System;
+﻿using DoAn.BUS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace DoAn
 {
     public partial class Dashboard : Form
     {
+        
+
+        //khai báo dịch vụ
+        private readonly ProductService productService = new ProductService();
+        private readonly InventoryService inventoryService = new InventoryService();
+       
+        
+
+        //biến vị trí chuột dùng di chuyển form
+        public Point mouseLocation;
+
+        //khai báo MDIChildren
         FrmDashboard frmDashboard;
         FrmNhapHang frmNhapHang;
-        FrmInventory FrmInventory;
         FrmBanHang FrmBanHang;
         FrmSetting frmSetting;
         FrmReport frmReport;
-        FrmNhanVien frmNhanVien;
+        FrmMainMenu frmMainMenu;
         BaseInformation baseInformation;
+        FrmNhanVien frmNhanVien;
 
+        //khai báo trạng thái sidebar, menu container
         bool menuExpand = false;
         bool sidebarExpand = true;
         bool statusExpand = false;
 
-    
+
+
         public Dashboard()
         {
             InitializeComponent();
+
+            //cài đặt mặc định cho sidebar
             menuExpand = false;
             sidebarExpand = false;
             menuTransition.Interval = 10;
             flowLayoutPanelSidebar.Width = 40;
             flowLayoutPaneldropdown.Height = 40;
+            btnStaff.Visible = false;
+
             mdiProp();
-            timer1.Start();
+
+            timer1.Start(); //chạy thời gian
+
+            //cài đặt mặc định cho panel trạng thái
             panel2.Left = this.Width + 10;
-            panel2Status("Chào mừng bạn đến với\nhệ thống quản lý kho!"); 
+            
         }
+        public UserControl CloneControl(UserControl original)
+        {
+            var clone = new cardProduct();
+            clone = (cardProduct)original;
+            return clone;
+        }
+
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
-            /*using (FrmLogin frmLogin = new FrmLogin())
+
+            using (FrmLogin frmLogin = new FrmLogin())
             {
                 if (frmLogin.ShowDialog() == DialogResult.OK)
                 {
+                    if (frmLogin.level == 1)
+                    {
+                        btnStaff.Visible = false;
+                    }
+                    else
+                    {
+                        btnStaff.Visible = true;
+                    }
                     this.Show();
+                    panel2Status("Chào mừng bạn đến với\nhệ thống quản lý kho!");
                 }
                 else
                 {
                     this.Close();
                 }
-            }*/
+            }
         }
 
         private void mdiProp()
@@ -61,11 +102,13 @@ namespace DoAn
             Controls.OfType<MdiClient>().FirstOrDefault().BackColor = Color.White;
         }
 
+        //chạy animation sibebar
         private void bunifuImageButton1_Click(object sender, EventArgs e)
         {
             sidebartransition.Start();
         }
 
+        //nút nguồn góc trên phải
         private void bunifuImageButton1_Click_1(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn có muốn thoát?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -118,7 +161,6 @@ namespace DoAn
                     sidebarExpand = true;
                     sidebartransition.Stop();
                 }
-                //pictureBox1.Visible = ;
             }
         }
 
@@ -129,10 +171,32 @@ namespace DoAn
 
         private void btnDashboard_Click(object sender, EventArgs e)
         {
+            if (frmMainMenu == null)
+            {
+                frmMainMenu = new FrmMainMenu();
+                frmMainMenu.FormClosed += FrmDashboard_FormClosed;
+                frmMainMenu.MdiParent = this;
+                frmMainMenu.StartPosition = FormStartPosition.Manual;
+                frmMainMenu.Location = new Point(260, 50);
+                frmMainMenu.Show();
+            }
+            else
+            {
+                frmMainMenu.Activate();
+            }
+        }
+
+        private void FrmDashboard_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmMainMenu = null;
+        }
+
+        private void btnWareHouse_Click(object sender, EventArgs e)
+        {
             if (frmDashboard == null)
             {
                 frmDashboard = new FrmDashboard();
-                frmDashboard.FormClosed += FrmDashboard_FormClosed;
+                frmDashboard.FormClosed += FrmInventory_FormClosed;
                 frmDashboard.MdiParent = this;
                 frmDashboard.StartPosition = FormStartPosition.Manual;
                 frmDashboard.Location = new Point(260, 50);
@@ -144,31 +208,9 @@ namespace DoAn
             }
         }
 
-        private void FrmDashboard_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            frmDashboard = null;
-        }
-
-        private void btnWareHouse_Click(object sender, EventArgs e)
-        {
-            if (FrmInventory == null)
-            {
-                FrmInventory = new FrmInventory();
-                FrmInventory.FormClosed += FrmInventory_FormClosed;
-                FrmInventory.MdiParent = this;
-                FrmInventory.StartPosition = FormStartPosition.Manual;
-                FrmInventory.Location = new Point(260, 50);
-                FrmInventory.Show();
-            }
-            else
-            {
-                FrmInventory.Activate();
-            }
-        }
-
         private void FrmInventory_FormClosed(object sender, FormClosedEventArgs e)
         {
-            FrmInventory = null;
+            frmDashboard = null;
         }
 
         private void btnOrder_Click(object sender, EventArgs e)
@@ -311,6 +353,10 @@ namespace DoAn
 
         private async Task panel2Status(string status)
         {
+            if (labelStatus.Text.Length >= 20)
+            {
+                status = status.Insert(20, "\n");
+            }
             this.labelStatus.Text = status;
             CenterLabel(labelStatus, panel2);
             Status.Start();
@@ -371,6 +417,20 @@ namespace DoAn
         private void BaseInformation_FormClosed(object sender, FormClosedEventArgs e)
         {
             baseInformation = null;
+        }
+        private void bunifuPanel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseLocation = new Point(-e.X, -e.Y);
+        }
+
+        private void bunifuPanel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Point mousePose = Control.MousePosition;
+                mousePose.Offset(mouseLocation.X, mouseLocation.Y);
+                this.Location = mousePose;
+            }
         }
     }
 }

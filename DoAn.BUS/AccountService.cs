@@ -3,9 +3,11 @@ using DoAn.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DoAn.BUS
 {
@@ -14,7 +16,7 @@ namespace DoAn.BUS
         private StoreDBContext context = new StoreDBContext();
         public Account GetAccount(string email, string password)
         {
-                return context.Accounts.FirstOrDefault(a => a.Email == email && a.Pass == password);
+            return context.Accounts.FirstOrDefault(a => a.Email == email && a.Pass == password || a.LoginName == email);
         }
         public int Login (String Email , String MatKhau)
         {
@@ -53,6 +55,56 @@ namespace DoAn.BUS
                 context.SaveChanges();
             }
         }
+
+
+        public bool AddAccountWithAvatar(Account newAccount, string originalFilePath)
+        {
+            try
+            {
+                // 1. XỬ LÝ LƯU HÌNH ẢNH              
+                string appDirectory = System.Windows.Forms.Application.StartupPath;
+
+                string avatarFolder = Path.Combine(appDirectory, "Avatars");
+
+                if (!Directory.Exists(avatarFolder))
+                {
+                    Directory.CreateDirectory(avatarFolder);
+                }
+
+                string fileExtension = Path.GetExtension(originalFilePath);
+                string newFileName = newAccount.LoginName + fileExtension;
+
+                string destinationPath = Path.Combine(avatarFolder, newFileName);
+
+                File.Copy(originalFilePath, destinationPath, true);
+
+
+                newAccount.Avatar = Path.Combine("Avatars", newFileName);
+
+                // THÊM: Logic phân biệt Add/Update
+                if (newAccount.AccountID == 0)
+                {
+                    context.Accounts.Add(newAccount);
+                }
+                else
+                {
+                    context.Accounts.AddOrUpdate(newAccount);
+                }
+
+                context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm nhân viên hoặc lưu ảnh: " + ex.Message);
+                return false;
+            }
+        }
+
+
+
+
         public List<Account> Search(string keyword)
         {
             using (var freshContext = new StoreDBContext())

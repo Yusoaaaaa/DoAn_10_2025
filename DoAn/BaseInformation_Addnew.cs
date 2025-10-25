@@ -7,7 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-
+using System.Text.RegularExpressions;
 namespace DoAn
 {
     public partial class BaseInformation_Addnew : Form

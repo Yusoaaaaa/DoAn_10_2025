@@ -17,6 +17,8 @@ namespace DoAn
     {
         private readonly ProductService productService = new ProductService();
         private readonly InventoryService inventoryService = new InventoryService();
+
+        public Point mouseLocation;
         public FrmDashboard()
         {
             InitializeComponent();
@@ -165,17 +167,37 @@ namespace DoAn
         {
 
         }
+
+        private void bunifuImageButton1_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseLocation = new Point(-e.X, -e.Y);
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Point mousePose = Control.MousePosition;
+                mousePose.Offset(mouseLocation.X, mouseLocation.Y);
+                this.Location = mousePose;
+            }
+        }
         /*public void sortByName(bool ascending)
 {
-   try
-   {
-       var listProduct = productService.GetProductsSortedByName(ascending);
-       loadcarditem(listProduct);
-   }
-   catch (Exception ex)
-   {
-       MessageBox.Show(ex.Message);
-   }
+try
+{
+var listProduct = productService.GetProductsSortedByName(ascending);
+loadcarditem(listProduct);
+}
+catch (Exception ex)
+{
+MessageBox.Show(ex.Message);
+}
 }*/
         /*public void sortByStock(bool ascending)
         {

@@ -38,5 +38,7 @@ namespace DoAn.BUS
             context.Inventories.AddOrUpdate(inventory);
             context.SaveChanges();
         }
+
+        
     }
 }

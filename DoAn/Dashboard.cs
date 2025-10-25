@@ -34,6 +34,7 @@ namespace DoAn
         FrmSubMenu3 frmSubMenu3;
         FrmSetting frmSetting;
         FrmReport frmReport;
+        FrmMainMenu frmMainMenu;
 
         //khai báo trạng thái sidebar, menu container
         bool menuExpand = false;
@@ -82,7 +83,7 @@ namespace DoAn
         }
 
         //Clone cardProduct trước và sau
-        public void duplicateEdges()
+        /*public void duplicateEdges()
         {
             var first = (cardProduct)flowLayoutPanel1.Controls[0];
             var firstClone = CloneControl(first);
@@ -91,7 +92,7 @@ namespace DoAn
             var last = (cardProduct)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 2];
             var lastClone = CloneControl(last);
             flowLayoutPanel1.Controls.Add(lastClone);
-        }
+        }*/
 
         public UserControl CloneControl(UserControl original)
         {
@@ -207,24 +208,24 @@ namespace DoAn
         //mở MDIChildren FrmDashboard
         private void btnDashboard_Click(object sender, EventArgs e)
         {
-            if (frmDashboard == null)
+            if (frmMainMenu == null)
             {
-                frmDashboard = new FrmDashboard();
-                frmDashboard.FormClosed += FrmDashboard_FormClosed;
-                frmDashboard.MdiParent = this;
-                frmDashboard.StartPosition = FormStartPosition.Manual;
-                frmDashboard.Location = new Point(260, 50);
-                frmDashboard.Show();
+                frmMainMenu = new FrmMainMenu();
+                frmMainMenu.FormClosed += frmMainMenu_FormClosed;
+                frmMainMenu.MdiParent = this;
+                frmMainMenu.StartPosition = FormStartPosition.Manual;
+                frmMainMenu.Location = new Point(260, 50);
+                frmMainMenu.Show();
             }
             else
             {
-                frmDashboard.Activate();
+                frmMainMenu.Activate();
             }
         }
 
-        private void FrmDashboard_FormClosed(object sender, FormClosedEventArgs e)
+        private void frmMainMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
-            frmDashboard = null;
+            frmMainMenu = null;
         }
 
         //mở MDIChildren FrmSubMenu2
@@ -450,13 +451,13 @@ namespace DoAn
         
         private void slideTimer_Tick(object sender, EventArgs e)
         {
-            flowLayoutPanel1.Left -= scrollSpeed * direction;
+            /*flowLayoutPanel1.Left -= scrollSpeed * direction;
 
             int itemWidth = flowLayoutPanel1.Controls[0].Width;
             if (Math.Abs(flowLayoutPanel1.Left) >= itemWidth)
             {
-                /*slideTimer.Stop();
-                isScrolling = false;*/
+                *//*slideTimer.Stop();
+                isScrolling = false;*//*
 
                 if(direction == 1)
                 {
@@ -472,7 +473,7 @@ namespace DoAn
                     flowLayoutPanel1.Controls.SetChildIndex(last, 0);
                 }
                 flowLayoutPanel1.Left = 0;
-            }
+            }*/
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -482,6 +483,11 @@ namespace DoAn
                 slideTimer.Start();
                 isScrolling = true;
             }
+        }
+
+        private void bunifuPanel1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

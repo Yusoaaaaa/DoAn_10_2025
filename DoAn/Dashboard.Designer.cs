@@ -71,10 +71,7 @@
             this.Title = new System.Windows.Forms.Label();
             this.bunifuImageButton1 = new Bunifu.UI.WinForms.BunifuImageButton();
             this.btnSidebarMenu = new Bunifu.UI.WinForms.BunifuImageButton();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.slideTimer = new System.Windows.Forms.Timer(this.components);
-            this.btnStart = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.flowLayoutPaneldropdown.SuspendLayout();
             this.flowLayoutPanelSidebar.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -82,7 +79,6 @@
             this.flowLayoutPanelInfo.SuspendLayout();
             this.panel2.SuspendLayout();
             this.bunifuPanel1.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPaneldropdown
@@ -1120,6 +1116,7 @@
             this.bunifuPanel1.ShowBorders = true;
             this.bunifuPanel1.Size = new System.Drawing.Size(1245, 50);
             this.bunifuPanel1.TabIndex = 0;
+            this.bunifuPanel1.Click += new System.EventHandler(this.bunifuPanel1_Click);
             this.bunifuPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bunifuPanel1_MouseDown);
             this.bunifuPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.bunifuPanel1_MouseMove);
             // 
@@ -1225,45 +1222,15 @@
             this.btnSidebarMenu.ZoomSpeed = 10;
             this.btnSidebarMenu.Click += new System.EventHandler(this.bunifuImageButton1_Click);
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 16);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1090, 254);
-            this.flowLayoutPanel1.TabIndex = 6;
-            this.flowLayoutPanel1.WrapContents = false;
-            // 
             // slideTimer
             // 
             this.slideTimer.Tick += new System.EventHandler(this.slideTimer_Tick);
-            // 
-            // btnStart
-            // 
-            this.btnStart.Location = new System.Drawing.Point(1101, 416);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
-            this.btnStart.TabIndex = 8;
-            this.btnStart.Text = "start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Visible = false;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.flowLayoutPanel1);
-            this.panel3.Location = new System.Drawing.Point(263, 100);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(970, 290);
-            this.panel3.TabIndex = 9;
-            this.panel3.Visible = false;
             // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1245, 640);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.flowLayoutPanelInfo);
             this.Controls.Add(this.flowLayoutPanelSidebar);
@@ -1283,7 +1250,6 @@
             this.panel2.PerformLayout();
             this.bunifuPanel1.ResumeLayout(false);
             this.bunifuPanel1.PerformLayout();
-            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1321,9 +1287,6 @@
         private Bunifu.UI.WinForms.BunifuButton.BunifuIconButton bunifuIconButton1;
         private System.Windows.Forms.Label labelStatus;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton btnStaff;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Timer slideTimer;
-        private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Panel panel3;
     }
 }

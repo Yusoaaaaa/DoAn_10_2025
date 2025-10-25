@@ -14,13 +14,11 @@ namespace DoAn.BUS
         StoreDBContext context = new StoreDBContext();
         public List<Inventory> GetAll()
         {
-            // Implementation to retrieve all inventory records
             return context.Inventories.ToList();
         }
 
         public Inventory GetById(int SKU)
         {
-            // Implementation to retrieve an inventory record by its ID
             return context.Inventories.FirstOrDefault(i => i.SKU == SKU);
         }
 
@@ -37,6 +35,56 @@ namespace DoAn.BUS
             // Implementation to insert or update an inventory record
             context.Inventories.AddOrUpdate(inventory);
             context.SaveChanges();
+        }
+        /// <summary>
+        /// Lấy bản ghi inventory theo SKU (int Key).
+        /// Đổi tên từ GetById cho rõ ràng hơn, giữ nguyên logic gốc.
+        /// </summary>
+        /// <param name="sku">Mã SKU kiểu int.</param>
+        /// <returns>Đối tượng Inventory nếu tìm thấy, ngược lại trả về null.</returns>
+        public Inventory GetBySKU(int sku) // Giữ tên hàm GetById như gốc nếu bạn muốn
+        {
+            try
+            {
+                // Sử dụng tên biến SKU từ model Inventory.cs
+                return context.Inventories.FirstOrDefault(i => i.SKU == sku);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi lấy inventory theo SKU ({sku}): " + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Lấy số lượng tồn kho hiện tại cho một SKU (int Key).
+        /// Đổi tên từ GetStockByProductId cho rõ ràng hơn, giữ nguyên logic gốc.
+        /// Trả về 0 nếu không tìm thấy SKU hoặc có lỗi.
+        /// </summary>
+        /// <param name="sku">Mã SKU kiểu int.</param>
+        /// <returns>Số lượng tồn kho (int).</returns>
+        public int GetStockBySKU(int sku)
+        {
+            try
+            {
+                // Tìm bản ghi inventory
+                var inventoryRecord = context.Inventories.FirstOrDefault(i => i.SKU == sku);
+
+                // Sử dụng tên biến instock và trả về 0 nếu không tìm thấy bản ghi
+                return inventoryRecord?.instock ?? 0;
+
+                // Cách viết dài hơn tương đương với code gốc của bạn:
+                // return context.Inventories
+                //               .Where(i => i.SKU == sku)
+                //               .Select(i => i.instock) // Chọn cột instock
+                //               .FirstOrDefault(); // Lấy giá trị đầu tiên hoặc mặc định (0 cho int)
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi lấy số lượng tồn kho cho SKU ({sku}): " + ex.Message);
+                // Xem xét ghi log chi tiết hoặc ném lại lỗi
+                return 0; // Trả về 0 nếu có lỗi
+            }
         }
     }
 }

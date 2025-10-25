@@ -24,14 +24,11 @@ namespace DoAn.BUS
             return context.Products.FirstOrDefault(p => p.SKU == id) != null ? context.Products.FirstOrDefault(p => p.SKU == id) : new Product();
         }
 
-        public List<Product> GetProductsByStockAvailability(bool inStock)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Product> GetProductsSortedByPrice(bool ascending)
         {
-            throw new NotImplementedException();
+            return ascending ?
+                context.Products.OrderBy(p => p.Price).ToList() :
+                context.Products.OrderByDescending(p => p.Price).ToList();
         }
 
         public void InsertUpdate(Product product)
@@ -58,6 +55,40 @@ namespace DoAn.BUS
         public double GetImportPrice(int sku)
         {
             return context.Products.Where(p => p.SKU == sku).Select(p => p.ImportCost).FirstOrDefault();
+        }
+
+        public List<Product> GetProductsByCategory(string category)
+        {
+            return context.Products.Where(p => p.Category == category).ToList();
+        }
+
+        public List<Product> SearchProductsByName(string name)
+        {
+            return context.Products.Where(p => p.Name.Contains(name)).ToList();
+        }
+
+        public List<Product> GetProductsByPriceRange(double minPrice, double maxPrice)
+        {
+            return context.Products.Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
+        }
+
+        public List<Product> GetProductsSortedByName(bool ascending)
+        {
+            return ascending ?
+                context.Products.OrderBy(p => p.Name).ToList() :
+                context.Products.OrderByDescending(p => p.Name).ToList();
+        }
+
+        public List<Product> GetProductsSortedByCategory(bool ascending)
+        {
+            return ascending ?
+                context.Products.OrderBy(p => p.Category).ToList() :
+                context.Products.OrderByDescending(p => p.Category).ToList();
+        }
+
+        private void SubmitChanges()
+        {
+            context.SaveChanges();
         }
     }
 }

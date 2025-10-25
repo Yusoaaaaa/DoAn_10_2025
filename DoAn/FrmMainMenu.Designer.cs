@@ -39,20 +39,20 @@
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.SellingProductPanel = new System.Windows.Forms.Panel();
-            this.StoppedSellPanel = new System.Windows.Forms.Panel();
-            this.OrderNumber = new System.Windows.Forms.Panel();
-            this.Benefit = new System.Windows.Forms.Panel();
-            this.Income = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.sellingNumberLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.StoppedSellPanel = new System.Windows.Forms.Panel();
             this.StoppedSellingNumberLabel = new System.Windows.Forms.Label();
-            this.ProfitLabel = new System.Windows.Forms.Label();
-            this.IncomeLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.OrderNumber = new System.Windows.Forms.Panel();
             this.OrderNumberLabel = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.Benefit = new System.Windows.Forms.Panel();
+            this.IncomeLabel = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.Income = new System.Windows.Forms.Panel();
+            this.ProfitLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btnProductList = new System.Windows.Forms.Button();
@@ -75,45 +75,15 @@
             this.SellingProductPanel.Size = new System.Drawing.Size(295, 65);
             this.SellingProductPanel.TabIndex = 0;
             // 
-            // StoppedSellPanel
+            // sellingNumberLabel
             // 
-            this.StoppedSellPanel.BackColor = System.Drawing.Color.LightGray;
-            this.StoppedSellPanel.Controls.Add(this.StoppedSellingNumberLabel);
-            this.StoppedSellPanel.Controls.Add(this.label2);
-            this.StoppedSellPanel.Location = new System.Drawing.Point(312, 12);
-            this.StoppedSellPanel.Name = "StoppedSellPanel";
-            this.StoppedSellPanel.Size = new System.Drawing.Size(295, 65);
-            this.StoppedSellPanel.TabIndex = 1;
-            // 
-            // OrderNumber
-            // 
-            this.OrderNumber.BackColor = System.Drawing.Color.LightGray;
-            this.OrderNumber.Controls.Add(this.OrderNumberLabel);
-            this.OrderNumber.Controls.Add(this.label6);
-            this.OrderNumber.Location = new System.Drawing.Point(12, 83);
-            this.OrderNumber.Name = "OrderNumber";
-            this.OrderNumber.Size = new System.Drawing.Size(295, 65);
-            this.OrderNumber.TabIndex = 1;
-            // 
-            // Benefit
-            // 
-            this.Benefit.BackColor = System.Drawing.Color.LightGray;
-            this.Benefit.Controls.Add(this.IncomeLabel);
-            this.Benefit.Controls.Add(this.label5);
-            this.Benefit.Location = new System.Drawing.Point(313, 83);
-            this.Benefit.Name = "Benefit";
-            this.Benefit.Size = new System.Drawing.Size(295, 65);
-            this.Benefit.TabIndex = 1;
-            // 
-            // Income
-            // 
-            this.Income.BackColor = System.Drawing.Color.LightGray;
-            this.Income.Controls.Add(this.ProfitLabel);
-            this.Income.Controls.Add(this.label4);
-            this.Income.Location = new System.Drawing.Point(614, 83);
-            this.Income.Name = "Income";
-            this.Income.Size = new System.Drawing.Size(295, 65);
-            this.Income.TabIndex = 1;
+            this.sellingNumberLabel.AutoSize = true;
+            this.sellingNumberLabel.Location = new System.Drawing.Point(16, 31);
+            this.sellingNumberLabel.Name = "sellingNumberLabel";
+            this.sellingNumberLabel.Size = new System.Drawing.Size(35, 13);
+            this.sellingNumberLabel.TabIndex = 1;
+            this.sellingNumberLabel.Text = "label7";
+            this.sellingNumberLabel.Click += new System.EventHandler(this.sellingNumberLabel_Click);
             // 
             // label1
             // 
@@ -125,6 +95,25 @@
             this.label1.Text = "Sản phẩm đang bày bán";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // StoppedSellPanel
+            // 
+            this.StoppedSellPanel.BackColor = System.Drawing.Color.LightGray;
+            this.StoppedSellPanel.Controls.Add(this.StoppedSellingNumberLabel);
+            this.StoppedSellPanel.Controls.Add(this.label2);
+            this.StoppedSellPanel.Location = new System.Drawing.Point(312, 12);
+            this.StoppedSellPanel.Name = "StoppedSellPanel";
+            this.StoppedSellPanel.Size = new System.Drawing.Size(295, 65);
+            this.StoppedSellPanel.TabIndex = 1;
+            // 
+            // StoppedSellingNumberLabel
+            // 
+            this.StoppedSellingNumberLabel.AutoSize = true;
+            this.StoppedSellingNumberLabel.Location = new System.Drawing.Point(17, 31);
+            this.StoppedSellingNumberLabel.Name = "StoppedSellingNumberLabel";
+            this.StoppedSellingNumberLabel.Size = new System.Drawing.Size(35, 13);
+            this.StoppedSellingNumberLabel.TabIndex = 1;
+            this.StoppedSellingNumberLabel.Text = "label7";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -135,25 +124,24 @@
             this.label2.Text = "Sản phẩm ngừng kinh doanh";
             this.label2.Click += new System.EventHandler(this.label1_Click);
             // 
-            // label4
+            // OrderNumber
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 12);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(48, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Lợi nhận";
-            this.label4.Click += new System.EventHandler(this.label1_Click);
+            this.OrderNumber.BackColor = System.Drawing.Color.LightGray;
+            this.OrderNumber.Controls.Add(this.OrderNumberLabel);
+            this.OrderNumber.Controls.Add(this.label6);
+            this.OrderNumber.Location = new System.Drawing.Point(12, 83);
+            this.OrderNumber.Name = "OrderNumber";
+            this.OrderNumber.Size = new System.Drawing.Size(295, 65);
+            this.OrderNumber.TabIndex = 1;
             // 
-            // label5
+            // OrderNumberLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 12);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(57, 13);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Doanh thu";
-            this.label5.Click += new System.EventHandler(this.label1_Click);
+            this.OrderNumberLabel.AutoSize = true;
+            this.OrderNumberLabel.Location = new System.Drawing.Point(16, 25);
+            this.OrderNumberLabel.Name = "OrderNumberLabel";
+            this.OrderNumberLabel.Size = new System.Drawing.Size(35, 13);
+            this.OrderNumberLabel.TabIndex = 1;
+            this.OrderNumberLabel.Text = "label7";
             // 
             // label6
             // 
@@ -165,33 +153,15 @@
             this.label6.Text = "Số lượng đơn hàng";
             this.label6.Click += new System.EventHandler(this.label1_Click);
             // 
-            // sellingNumberLabel
+            // Benefit
             // 
-            this.sellingNumberLabel.AutoSize = true;
-            this.sellingNumberLabel.Location = new System.Drawing.Point(16, 31);
-            this.sellingNumberLabel.Name = "sellingNumberLabel";
-            this.sellingNumberLabel.Size = new System.Drawing.Size(35, 13);
-            this.sellingNumberLabel.TabIndex = 1;
-            this.sellingNumberLabel.Text = "label7";
-            this.sellingNumberLabel.Click += new System.EventHandler(this.sellingNumberLabel_Click);
-            // 
-            // StoppedSellingNumberLabel
-            // 
-            this.StoppedSellingNumberLabel.AutoSize = true;
-            this.StoppedSellingNumberLabel.Location = new System.Drawing.Point(17, 31);
-            this.StoppedSellingNumberLabel.Name = "StoppedSellingNumberLabel";
-            this.StoppedSellingNumberLabel.Size = new System.Drawing.Size(35, 13);
-            this.StoppedSellingNumberLabel.TabIndex = 1;
-            this.StoppedSellingNumberLabel.Text = "label7";
-            // 
-            // ProfitLabel
-            // 
-            this.ProfitLabel.AutoSize = true;
-            this.ProfitLabel.Location = new System.Drawing.Point(15, 25);
-            this.ProfitLabel.Name = "ProfitLabel";
-            this.ProfitLabel.Size = new System.Drawing.Size(35, 13);
-            this.ProfitLabel.TabIndex = 1;
-            this.ProfitLabel.Text = "label7";
+            this.Benefit.BackColor = System.Drawing.Color.LightGray;
+            this.Benefit.Controls.Add(this.IncomeLabel);
+            this.Benefit.Controls.Add(this.label5);
+            this.Benefit.Location = new System.Drawing.Point(313, 83);
+            this.Benefit.Name = "Benefit";
+            this.Benefit.Size = new System.Drawing.Size(295, 65);
+            this.Benefit.TabIndex = 1;
             // 
             // IncomeLabel
             // 
@@ -202,21 +172,55 @@
             this.IncomeLabel.TabIndex = 1;
             this.IncomeLabel.Text = "label7";
             // 
-            // OrderNumberLabel
+            // label5
             // 
-            this.OrderNumberLabel.AutoSize = true;
-            this.OrderNumberLabel.Location = new System.Drawing.Point(16, 25);
-            this.OrderNumberLabel.Name = "OrderNumberLabel";
-            this.OrderNumberLabel.Size = new System.Drawing.Size(35, 13);
-            this.OrderNumberLabel.TabIndex = 1;
-            this.OrderNumberLabel.Text = "label7";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(16, 12);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(57, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Doanh thu";
+            this.label5.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // Income
+            // 
+            this.Income.BackColor = System.Drawing.Color.LightGray;
+            this.Income.Controls.Add(this.ProfitLabel);
+            this.Income.Controls.Add(this.label4);
+            this.Income.Location = new System.Drawing.Point(614, 83);
+            this.Income.Name = "Income";
+            this.Income.Size = new System.Drawing.Size(295, 65);
+            this.Income.TabIndex = 1;
+            // 
+            // ProfitLabel
+            // 
+            this.ProfitLabel.AutoSize = true;
+            this.ProfitLabel.Location = new System.Drawing.Point(15, 25);
+            this.ProfitLabel.Name = "ProfitLabel";
+            this.ProfitLabel.Size = new System.Drawing.Size(35, 13);
+            this.ProfitLabel.TabIndex = 1;
+            this.ProfitLabel.Text = "label7";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 12);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(48, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Lợi nhận";
+            this.label4.Click += new System.EventHandler(this.label1_Click);
             // 
             // chart1
             // 
+            this.chart1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.AxisX.InterlacedColor = System.Drawing.Color.Transparent;
             chartArea1.AxisX.LineWidth = 0;
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Transparent;
             chartArea1.AxisX.MajorGrid.LineWidth = 0;
             chartArea1.AxisX.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
+            chartArea1.AxisX.MinorGrid.LineColor = System.Drawing.Color.Transparent;
+            chartArea1.AxisX2.LineColor = System.Drawing.Color.Silver;
             chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
             chartArea1.BackColor = System.Drawing.Color.Transparent;
             chartArea1.Name = "ChartArea1";
@@ -244,6 +248,7 @@
             // 
             // chart2
             // 
+            this.chart2.BackColor = System.Drawing.Color.Transparent;
             chartArea2.AxisX.LineWidth = 0;
             chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Transparent;
             chartArea2.AxisX.MajorGrid.LineWidth = 0;

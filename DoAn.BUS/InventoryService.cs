@@ -24,6 +24,37 @@ namespace DoAn.BUS
             return context.Inventories.FirstOrDefault(i => i.SKU == SKU);
         }
 
+        public List<Product> GetProductsByStockAvailability()
+        {
+            var productsInStock = from p in context.Products
+                                  join i in context.Inventories on p.SKU equals i.SKU
+                                  where i.instock > 0
+                                  select p;
+            return productsInStock.ToList();
+        }
+
+        public List<Product> GetProductsByOutOfStock()
+        {
+            var productsOutOfStock = from p in context.Products
+                                     join i in context.Inventories on p.SKU equals i.SKU
+                                     where i.instock == 0
+                                     select p;
+            return productsOutOfStock.ToList();
+        }
+
+        public List<Product> GetProductsSortedByStock(bool ascending)
+        {
+            return ascending ?
+                (from p in context.Products
+                 join i in context.Inventories on p.SKU equals i.SKU
+                 orderby i.instock ascending
+                 select p).ToList() :
+                (from p in context.Products
+                 join i in context.Inventories on p.SKU equals i.SKU
+                 orderby i.instock descending
+                 select p).ToList();
+        }
+
         public int GetStockByProductId(int SKU)
         {
             return context.Inventories
@@ -39,6 +70,18 @@ namespace DoAn.BUS
             context.SaveChanges();
         }
 
-        
+        public void SubmitChanges()
+        {
+            context.SaveChanges();
+        }
+        public void Delete(int id) 
+        {
+            var inventory = context.Inventories.FirstOrDefault(i => i.SKU == id);
+            if (inventory != null)
+            {
+                context.Inventories.Remove(inventory);
+                context.SaveChanges();
+            }
+        }
     }
 }

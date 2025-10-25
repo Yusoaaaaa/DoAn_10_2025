@@ -208,7 +208,7 @@ namespace DoAn
         //mở MDIChildren FrmDashboard
         private void btnDashboard_Click(object sender, EventArgs e)
         {
-            if (frmMainMenu == null)
+            /*if (frmMainMenu == null)
             {
                 frmMainMenu = new FrmMainMenu();
                 frmMainMenu.FormClosed += frmMainMenu_FormClosed;
@@ -220,7 +220,25 @@ namespace DoAn
             else
             {
                 frmMainMenu.Activate();
+            }*/
+            if(frmDashboard == null)
+            {
+                frmDashboard = new FrmDashboard();
+                frmDashboard.FormClosed += FrmDashboard_FormClosed;
+                frmDashboard.StartPosition = FormStartPosition.Manual;
+                frmDashboard.Location = new Point(260, 50);
+                frmDashboard.MdiParent = this;
+                frmDashboard.Show();
             }
+            else
+            {
+                frmDashboard.Activate();
+            }
+        }
+
+        private void FrmDashboard_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmDashboard = null;
         }
 
         private void frmMainMenu_FormClosed(object sender, FormClosedEventArgs e)

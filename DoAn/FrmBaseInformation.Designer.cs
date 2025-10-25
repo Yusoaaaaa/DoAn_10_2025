@@ -51,6 +51,7 @@
             this.colCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colGender = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colImportPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -156,6 +157,7 @@
             this.colCategory,
             this.colGender,
             this.colSize,
+            this.Status,
             this.colImportPrice,
             this.colPrice});
             this.dgvProducts.CurrentTheme.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
@@ -189,7 +191,7 @@
             this.dgvProducts.EnableHeadersVisualStyles = false;
             this.dgvProducts.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(234)))), ((int)(((byte)(237)))));
             this.dgvProducts.HeaderBackColor = System.Drawing.Color.Empty;
-            this.dgvProducts.HeaderBackColor = System.Drawing.Color.Empty;
+            this.dgvProducts.HeaderBgColor = System.Drawing.Color.Empty;
             this.dgvProducts.HeaderForeColor = System.Drawing.Color.Black;
             this.dgvProducts.Location = new System.Drawing.Point(15, 85);
             this.dgvProducts.Name = "dgvProducts";
@@ -206,6 +208,7 @@
             this.bunifuToolTip1.SetToolTipTitle(this.dgvProducts, "");
             this.dgvProducts.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellContentClick);
             this.dgvProducts.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellContentDoubleClick);
+            this.dgvProducts.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellDoubleClick);
             this.dgvProducts.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvProducts_CellFormatting);
             // 
             // colImage
@@ -261,6 +264,14 @@
             this.colSize.MinimumWidth = 6;
             this.colSize.Name = "colSize";
             this.colSize.ReadOnly = true;
+            // 
+            // Status
+            // 
+            this.Status.DataPropertyName = "Status";
+            this.Status.HeaderText = "Trạng Thái";
+            this.Status.MinimumWidth = 6;
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
             // 
             // colImportPrice
             // 
@@ -644,6 +655,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colCategory;
         private System.Windows.Forms.DataGridViewTextBoxColumn colGender;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.DataGridViewTextBoxColumn colImportPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPrice;
     }

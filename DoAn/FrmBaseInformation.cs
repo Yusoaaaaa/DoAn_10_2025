@@ -145,14 +145,7 @@ namespace DoAn
                         return;
                     }
 
-                    // Mở form Sửa (truyền sản phẩm vào constructor)
-                    using (BaseInformation_Addnew frmEdit = new BaseInformation_Addnew(productToEdit))
-                    {
-                        if (frmEdit.ShowDialog() == DialogResult.OK)
-                        {
-                            LoadData(); // Tải lại dữ liệu
-                        }
-                    }
+                   
                 }
                 catch (Exception ex)
                 {
@@ -362,6 +355,11 @@ namespace DoAn
         }
 
         private void dgvProducts_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
+        }
+
+        private void dgvProducts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             using (BaseInformation_Edit frmEdit = new BaseInformation_Edit())
             {

@@ -42,6 +42,9 @@ namespace DoAn.DAL.Models
 
         public double Price { get; set; }
 
+        [StringLength(30)]
+        public string Status { get; set; }
+
         public virtual Inventory Inventory { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

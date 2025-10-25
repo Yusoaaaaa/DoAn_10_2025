@@ -178,19 +178,7 @@ namespace DoAn.BUS
                 var productToDelete = context.Products.Find(sku); // Use Find for PK
                 if (productToDelete != null)
                 {
-                    // Handle related data if necessary (e.g., Inventory, Orders)
-                    // Option 1: Cascade delete configured in DbContext or DB? If so, just remove product.
-                    // Option 2: Manually delete related data
-                    /*
-                    var inventory = context.Inventories.FirstOrDefault(i => i.SKU == sku);
-                    if (inventory != null) context.Inventories.Remove(inventory);
-                    // Handle Orders? (Maybe set Product SKU to null or prevent deletion if orders exist?)
-                    var relatedOrders = context.Orders.Where(o => o.SKU == sku).ToList();
-                    if (relatedOrders.Any()) {
-                         Console.WriteLine($"Cannot delete product SKU {sku} as it has associated orders.");
-                         return false; // Or handle differently
-                    }
-                    */
+                
 
                     context.Products.Remove(productToDelete);
                     return context.SaveChanges() > 0;

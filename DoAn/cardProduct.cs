@@ -35,7 +35,7 @@ namespace DoAn
             }
             set
             {
-                Price.Text = value.ToString() + "VND";
+                Price.Text = value.ToString() + " VND";
             }
         }
         public string image

@@ -18,7 +18,8 @@ namespace DoAn
     {
 
 
-
+        public string TaiKhoan = "";
+        public string MatKhau = "";
         public string UserName = "";
         public int level = 0;
 
@@ -74,6 +75,9 @@ namespace DoAn
                         level = bus.GetAccountLevel(bus.GetAccountID(tenTk, mkTk));
                         
                         UserName = bus.GetAccountName(bus.GetAccountID(tenTk, mkTk));
+                        TaiKhoan = tenTk;
+                        MatKhau = mkTk;
+
                         this.DialogResult = DialogResult.OK;
                         // Lấy thông tin người dùng
                         

@@ -83,7 +83,7 @@ namespace DoAn
             try
             {
                 // 1. Thêm sản phẩm vào bảng Orders
-
+                
                 orderService.AddProductToOrder(
                     txtOrderID.Text,  // Mã đơn hàng
                     productFound.SKU, // SKU
@@ -219,15 +219,6 @@ namespace DoAn
         {
 
         }
-
-        private void lblStockInfo_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPrice_Click(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

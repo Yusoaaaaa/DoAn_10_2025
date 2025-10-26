@@ -28,8 +28,8 @@ namespace DoAn
         private void refreshPage()
         {
             int totalProducts = productService.GetAll().Count();
-            int availableProducts = productService.CountProductsAvail();
-            int unavailableProducts = productService.CountProductsNotAvail();
+            int availableProducts = inventoryService.countAvailableStock();
+            int unavailableProducts = inventoryService.countUnavailableStock();
             int totalOrders = orderService.CountOrders();
             double totalRevenue = orderService.CalculateTotalRevenue();
             double calculatedProfit = orderService.CalculateTotalProfit();

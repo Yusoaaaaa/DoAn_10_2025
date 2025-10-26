@@ -21,5 +21,10 @@ namespace DoAn
         {
             this.ControlBox = false;
         }
+
+        private void bunifuPictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

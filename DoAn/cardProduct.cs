@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoAn.BUS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,7 @@ namespace DoAn
 {
     public partial class cardProduct : UserControl
     {
+        private readonly InventoryService inventoryService = new InventoryService();
         public int id { get; set; }
         public string name
         {
@@ -83,6 +85,23 @@ namespace DoAn
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void bunifuButton21_Click(object sender, EventArgs e)
+        {
+            var inventory = inventoryService.GetById(id);
+            if (int.TryParse(textBox1.Text, out int number))
+            {
+                int newStock = stock + number;
+                stock = newStock;
+                inventory.instock = newStock;
+                textBox1.Text = "";
+                inventoryService.SubmitChanges();
+            }
+            else
+            {
+                MessageBox.Show("Không phải là số!");
+            }
         }
     }
 }

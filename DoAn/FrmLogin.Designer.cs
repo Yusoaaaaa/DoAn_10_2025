@@ -43,20 +43,20 @@
             Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties8 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
             this.bunifuElipseForm = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.pnlRight = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.lblClose = new System.Windows.Forms.Label();
+            this.bunifuBtnLogin = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.lLForgetPassWord = new System.Windows.Forms.LinkLabel();
+            this.bunifuChkRemember = new Bunifu.UI.WinForms.BunifuCheckBox();
             this.lblRemember = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
             this.lblEmail = new System.Windows.Forms.Label();
             this.lblLoginTitle = new System.Windows.Forms.Label();
-            this.bunifuDragControlPnlLeft = new Bunifu.Framework.UI.BunifuDragControl(this.components);
-            this.bunifuDragControlPnlRight = new Bunifu.Framework.UI.BunifuDragControl(this.components);
-            this.bunifuBtnLogin = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.bunifuChkRemember = new Bunifu.UI.WinForms.BunifuCheckBox();
             this.bunifuTxtPassword = new Bunifu.UI.WinForms.BunifuTextBox();
             this.bunifuTxtEmail = new Bunifu.UI.WinForms.BunifuTextBox();
+            this.bunifuDragControlPnlLeft = new Bunifu.Framework.UI.BunifuDragControl(this.components);
             this.pnlLeft = new System.Windows.Forms.Panel();
+            this.bunifuDragControlPnlRight = new Bunifu.Framework.UI.BunifuDragControl(this.components);
             this.pnlRight.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,6 +85,17 @@
             this.pnlRight.Size = new System.Drawing.Size(461, 600);
             this.pnlRight.TabIndex = 1;
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackgroundImage = global::DoAn.Properties.Resources.logo_190x190;
+            this.panel1.Location = new System.Drawing.Point(125, 20);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(158, 147);
+            this.panel1.TabIndex = 10;
+            // 
             // lblClose
             // 
             this.lblClose.AutoSize = true;
@@ -96,77 +107,6 @@
             this.lblClose.TabIndex = 9;
             this.lblClose.Text = "X";
             this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
-            // 
-            // lLForgetPassWord
-            // 
-            this.lLForgetPassWord.AutoSize = true;
-            this.lLForgetPassWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lLForgetPassWord.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(98)))), ((int)(((byte)(105)))));
-            this.lLForgetPassWord.Location = new System.Drawing.Point(291, 453);
-            this.lLForgetPassWord.Name = "lLForgetPassWord";
-            this.lLForgetPassWord.Size = new System.Drawing.Size(98, 15);
-            this.lLForgetPassWord.TabIndex = 3;
-            this.lLForgetPassWord.TabStop = true;
-            this.lLForgetPassWord.Text = "Quên mật khẩu?";
-            this.lLForgetPassWord.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lLForgetPassWord_LinkClicked);
-            // 
-            // lblRemember
-            // 
-            this.lblRemember.AutoSize = true;
-            this.lblRemember.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRemember.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(98)))), ((int)(((byte)(105)))));
-            this.lblRemember.Location = new System.Drawing.Point(73, 452);
-            this.lblRemember.Name = "lblRemember";
-            this.lblRemember.Size = new System.Drawing.Size(66, 15);
-            this.lblRemember.TabIndex = 5;
-            this.lblRemember.Text = "Ghi nhớ tôi";
-            // 
-            // lblPassword
-            // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Font = new System.Drawing.Font("Readex Pro Deca", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(98)))), ((int)(((byte)(105)))));
-            this.lblPassword.Location = new System.Drawing.Point(42, 346);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(67, 23);
-            this.lblPassword.TabIndex = 4;
-            this.lblPassword.Text = "Mật khẩu";
-            // 
-            // lblEmail
-            // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Font = new System.Drawing.Font("Readex Pro Deca", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(98)))), ((int)(((byte)(105)))));
-            this.lblEmail.Location = new System.Drawing.Point(42, 257);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(44, 23);
-            this.lblEmail.TabIndex = 3;
-            this.lblEmail.Text = "Email";
-            // 
-            // lblLoginTitle
-            // 
-            this.lblLoginTitle.AutoSize = true;
-            this.lblLoginTitle.Font = new System.Drawing.Font("Readex Pro Deca", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoginTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(34)))), ((int)(((byte)(40)))));
-            this.lblLoginTitle.Location = new System.Drawing.Point(40, 196);
-            this.lblLoginTitle.Name = "lblLoginTitle";
-            this.lblLoginTitle.Size = new System.Drawing.Size(246, 47);
-            this.lblLoginTitle.TabIndex = 2;
-            this.lblLoginTitle.Text = "WELCOME BACK";
-            // 
-            // bunifuDragControlPnlLeft
-            // 
-            this.bunifuDragControlPnlLeft.Fixed = true;
-            this.bunifuDragControlPnlLeft.Horizontal = true;
-            this.bunifuDragControlPnlLeft.TargetControl = this.pnlLeft;
-            this.bunifuDragControlPnlLeft.Vertical = true;
-            // 
-            // bunifuDragControlPnlRight
-            // 
-            this.bunifuDragControlPnlRight.Fixed = true;
-            this.bunifuDragControlPnlRight.Horizontal = true;
-            this.bunifuDragControlPnlRight.TargetControl = this.pnlRight;
-            this.bunifuDragControlPnlRight.Vertical = true;
             // 
             // bunifuBtnLogin
             // 
@@ -260,16 +200,18 @@
             this.bunifuBtnLogin.UseDefaultRadiusAndThickness = true;
             this.bunifuBtnLogin.Click += new System.EventHandler(this.BtnDangNhap_Click);
             // 
-            // panel1
+            // lLForgetPassWord
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackgroundImage = global::DoAn.Properties.Resources.logo_190x190;
-            this.panel1.Location = new System.Drawing.Point(147, 20);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(158, 147);
-            this.panel1.TabIndex = 10;
+            this.lLForgetPassWord.AutoSize = true;
+            this.lLForgetPassWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lLForgetPassWord.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(98)))), ((int)(((byte)(105)))));
+            this.lLForgetPassWord.Location = new System.Drawing.Point(291, 453);
+            this.lLForgetPassWord.Name = "lLForgetPassWord";
+            this.lLForgetPassWord.Size = new System.Drawing.Size(98, 15);
+            this.lLForgetPassWord.TabIndex = 3;
+            this.lLForgetPassWord.TabStop = true;
+            this.lLForgetPassWord.Text = "Quên mật khẩu?";
+            this.lLForgetPassWord.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lLForgetPassWord_LinkClicked);
             // 
             // bunifuChkRemember
             // 
@@ -323,6 +265,50 @@
             this.bunifuChkRemember.TabIndex = 2;
             this.bunifuChkRemember.ThreeState = false;
             this.bunifuChkRemember.ToolTipText = null;
+            // 
+            // lblRemember
+            // 
+            this.lblRemember.AutoSize = true;
+            this.lblRemember.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRemember.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(98)))), ((int)(((byte)(105)))));
+            this.lblRemember.Location = new System.Drawing.Point(73, 452);
+            this.lblRemember.Name = "lblRemember";
+            this.lblRemember.Size = new System.Drawing.Size(66, 15);
+            this.lblRemember.TabIndex = 5;
+            this.lblRemember.Text = "Ghi nhớ tôi";
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Font = new System.Drawing.Font("Readex Pro Deca", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(98)))), ((int)(((byte)(105)))));
+            this.lblPassword.Location = new System.Drawing.Point(42, 346);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(67, 23);
+            this.lblPassword.TabIndex = 4;
+            this.lblPassword.Text = "Mật khẩu";
+            // 
+            // lblEmail
+            // 
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Font = new System.Drawing.Font("Readex Pro Deca", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(98)))), ((int)(((byte)(105)))));
+            this.lblEmail.Location = new System.Drawing.Point(42, 257);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(44, 23);
+            this.lblEmail.TabIndex = 3;
+            this.lblEmail.Text = "Email";
+            // 
+            // lblLoginTitle
+            // 
+            this.lblLoginTitle.AutoSize = true;
+            this.lblLoginTitle.Font = new System.Drawing.Font("Readex Pro Deca", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoginTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(34)))), ((int)(((byte)(40)))));
+            this.lblLoginTitle.Location = new System.Drawing.Point(166, 195);
+            this.lblLoginTitle.Name = "lblLoginTitle";
+            this.lblLoginTitle.Size = new System.Drawing.Size(115, 47);
+            this.lblLoginTitle.TabIndex = 2;
+            this.lblLoginTitle.Text = "LOGIN";
             // 
             // bunifuTxtPassword
             // 
@@ -476,6 +462,13 @@
             this.bunifuTxtEmail.UseSystemPasswordChar = false;
             this.bunifuTxtEmail.WordWrap = true;
             // 
+            // bunifuDragControlPnlLeft
+            // 
+            this.bunifuDragControlPnlLeft.Fixed = true;
+            this.bunifuDragControlPnlLeft.Horizontal = true;
+            this.bunifuDragControlPnlLeft.TargetControl = this.pnlLeft;
+            this.bunifuDragControlPnlLeft.Vertical = true;
+            // 
             // pnlLeft
             // 
             this.pnlLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(34)))), ((int)(((byte)(40)))));
@@ -485,6 +478,13 @@
             this.pnlLeft.Name = "pnlLeft";
             this.pnlLeft.Size = new System.Drawing.Size(589, 600);
             this.pnlLeft.TabIndex = 0;
+            // 
+            // bunifuDragControlPnlRight
+            // 
+            this.bunifuDragControlPnlRight.Fixed = true;
+            this.bunifuDragControlPnlRight.Horizontal = true;
+            this.bunifuDragControlPnlRight.TargetControl = this.pnlRight;
+            this.bunifuDragControlPnlRight.Vertical = true;
             // 
             // FrmLogin
             // 

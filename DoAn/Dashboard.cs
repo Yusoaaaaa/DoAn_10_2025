@@ -1,27 +1,21 @@
 ﻿using DoAn.BUS;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace DoAn
 {
     public partial class Dashboard : Form
     {
-        
+
 
         //khai báo dịch vụ
         private readonly ProductService productService = new ProductService();
         private readonly InventoryService inventoryService = new InventoryService();
-       
-        
+
+
 
         //biến vị trí chuột dùng di chuyển form
         public Point mouseLocation;
@@ -61,7 +55,7 @@ namespace DoAn
 
             //cài đặt mặc định cho panel trạng thái
             panel2.Left = this.Width + 10;
-            
+
         }
         public UserControl CloneControl(UserControl original)
         {
@@ -94,6 +88,25 @@ namespace DoAn
                     this.Close();
                 }
             }
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
+
+
+            if (frmSetting == null)
+            {
+                frmSetting = new FrmSetting();
+                frmSetting.FormClosed += FrmDashboard_FormClosed;
+                frmSetting.MdiParent = this;
+                frmSetting.StartPosition = FormStartPosition.Manual;
+                frmSetting.Location = new Point(260, 50);
+                frmSetting.Show();
+            }
+            else
+            {
+                frmMainMenu.Activate();
+            }
         }
 
         private void mdiProp()
@@ -115,15 +128,20 @@ namespace DoAn
                 this.Close();
         }
 
+
+
+
+
         private void menuTransition_Tick(object sender, EventArgs e)
         {
             if (menuExpand == false)
             {
                 flowLayoutPaneldropdown.Height += 10;
-                if (flowLayoutPaneldropdown.Height >= 160)
+                if (flowLayoutPaneldropdown.Height >= 200)
                 {
                     menuTransition.Stop();
                     menuExpand = true;
+                    //btnMenu.ForeColor = Color.Black;
                 }
             }
             else
@@ -133,6 +151,8 @@ namespace DoAn
                 {
                     menuTransition.Stop();
                     menuExpand = false;
+                    //btnMenu.ForeColor = Color.Black;
+
                 }
             }
         }
@@ -171,6 +191,13 @@ namespace DoAn
 
         private void btnDashboard_Click(object sender, EventArgs e)
         {
+
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
+
+
             if (frmMainMenu == null)
             {
                 frmMainMenu = new FrmMainMenu();
@@ -193,6 +220,12 @@ namespace DoAn
 
         private void btnWareHouse_Click(object sender, EventArgs e)
         {
+
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
+
             if (frmDashboard == null)
             {
                 frmDashboard = new FrmDashboard();
@@ -215,6 +248,12 @@ namespace DoAn
 
         private void btnOrder_Click(object sender, EventArgs e)
         {
+
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
+
             if (FrmBanHang == null)
             {
                 FrmBanHang = new FrmBanHang();
@@ -237,6 +276,11 @@ namespace DoAn
 
         private void btnSetting_Click(object sender, EventArgs e)
         {
+
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
             if (frmSetting == null)
             {
                 frmSetting = new FrmSetting();
@@ -259,6 +303,10 @@ namespace DoAn
 
         private void btnReport_Click(object sender, EventArgs e)
         {
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
             if (frmReport == null)
             {
                 frmReport = new FrmReport();
@@ -272,7 +320,7 @@ namespace DoAn
             {
                 frmReport.Activate();
             }
-            
+
         }
 
         private void FrmReport_FormClosed(object sender, FormClosedEventArgs e)
@@ -302,6 +350,10 @@ namespace DoAn
 
         private void btnImport_Click(object sender, EventArgs e)
         {
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
             if (frmNhapHang == null)
             {
                 frmNhapHang = new FrmNhapHang();
@@ -315,11 +367,16 @@ namespace DoAn
             {
                 frmNhapHang.Activate();
             }
-            
+
         }
         private void btnStaff_Click(object sender, EventArgs e)
         {
-            if(frmNhanVien == null) {                
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
+            if (frmNhanVien == null)
+            {
                 frmNhanVien = new FrmNhanVien();
                 frmNhanVien.FormClosed += FrmNhanVien_FormClosed;
                 frmNhanVien.MdiParent = this;
@@ -399,6 +456,10 @@ namespace DoAn
 
         private void btnBaseInfo_Click(object sender, EventArgs e)
         {
+            foreach (Form childForm in this.MdiChildren)
+            {
+                childForm.Close();
+            }
             if (baseInformation == null)
             {
                 baseInformation = new BaseInformation();
@@ -431,6 +492,11 @@ namespace DoAn
                 mousePose.Offset(mouseLocation.X, mouseLocation.Y);
                 this.Location = mousePose;
             }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

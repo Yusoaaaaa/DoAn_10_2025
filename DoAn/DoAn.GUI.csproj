@@ -349,12 +349,38 @@
     <None Include="Resources\test.jpg.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Untitled %28512 x 512 px%291.png" />
+    <None Include="Resources\Untitled %28512 x 512 px%29.png" />
     <None Include="Resources\1.png" />
     <None Include="Resources\11.png" />
     <None Include="Resources\2.png" />
     <None Include="Resources\3.png" />
     <None Include="Resources\4.png" />
     <None Include="Resources\5.png" />
+    <None Include="Resources\12.png" />
+    <None Include="Resources\21.png" />
+    <None Include="Resources\13.png" />
+    <None Include="Resources\22.png" />
+    <None Include="Resources\31.png" />
+    <None Include="Resources\41.png" />
+    <None Include="Resources\23.png" />
+    <None Include="Resources\9.png" />
+    <None Include="Resources\8.png" />
+    <None Include="Resources\7.png" />
+    <None Include="Resources\6.png" />
+    <None Include="Resources\51.png" />
+    <None Include="Resources\14.png" />
+    <None Include="Resources\24.png" />
+    <None Include="Resources\32.png" />
+    <None Include="Resources\42.png" />
+    <None Include="Resources\91.png" />
+    <None Include="Resources\52.png" />
+    <None Include="Resources\61.png" />
+    <None Include="Resources\81.png" />
+    <None Include="Resources\71.png" />
+    <None Include="Resources\15.png" />
+    <None Include="Resources\25.png" />
+    <None Include="Resources\16.png" />
     <Content Include="Resources\btnAddProduct_BackgroundImage.png" />
     <None Include="Resources\txtSearch_BackgroundImage.png.png" />
     <None Include="Resources\pnlMain_BackgroundImage.png1.png" />
@@ -369,6 +395,8 @@
     <Content Include="Resources\edit_icon.png" />
     <None Include="Resources\edit_icon.png.png" />
     <None Include="Resources\edit_icon.png1.png" />
+    <None Include="Resources\IMG_9737_resized.JPG" />
+    <None Include="Resources\IMG_9737_resized1.JPG" />
     <Content Include="Resources\login_mainimage.png" />
     <None Include="Resources\logo final-02_resized %281%29.jpg" />
     <Content Include="Resources\pnlMain_BackgroundImage.png" />

@@ -553,6 +553,16 @@ namespace DoAn.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap qr_kheu_donate {
+            get {
+                object obj = ResourceManager.GetObject("qr kheu donate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap setting__1_ {
             get {
                 object obj = ResourceManager.GetObject("setting (1)", resourceCulture);

@@ -10,331 +10,325 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 
 namespace DoAn
 {
     public partial class FrmBanHang : Form
+    {
 
+
+        private ProductService productService;
+        private OrderService orderService;
+        private Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
+        private string _currentOrderID;
+        private Image placeholderImage;
+        //private List<OrderDetailViewModel> orderHistoryList;
+
+
+        public FrmBanHang()
         {
-            private ProductService productService;
-            private Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
-            private Image placeholderImage;
+            InitializeComponent();
 
-            public FrmBanHang()
-            {
-                InitializeComponent();
-                productService = new ProductService();
-            }
 
-            private void BaseInformation_Load(object sender, EventArgs e)
+        }
+
+
+
+        private void FrmBanHang_Load(object sender, EventArgs e)
+        {
+
+            dgvProducts.AutoGenerateColumns = false;
+            LoadData();
+
+        }
+
+        // Tải dữ liệu lên DataGridView
+        private void LoadData()
+        {
+            orderService = new OrderService();
+            productService = new ProductService();
+            List<Order> ListOrrder = orderService.GetAll(); // Lấy danh sách đơn hàng từ CSDL
+            dgvProducts.Rows.Clear();
+            foreach (Order item in ListOrrder)
             {
-                // Tạo một ảnh placeholder đơn giản
-                placeholderImage = new Bitmap(60, 60);
-                using (Graphics g = Graphics.FromImage(placeholderImage))
+                Product product = productService.GetById(item.SKU);
+                if (product != null)
                 {
-                    g.Clear(Color.Gainsboro);
+                    dgvProducts.Rows.Add(
+                        item.OrderID,
+                        item.SKU,
+                        product.Name,
+                        product.ImportCost,
+                        item.InvoiceStatus,
+                        product.Price,
+                        item.Quantity,
+                        item.InvoiceDate.ToString("dd/MM/yyyy")
+                    );
+                }
+            }
+            dgvProducts.ClearSelection();
+        }
+
+
+
+
+        private void dgvProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+        }
+
+
+        // Lọc 
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Lấy danh sách Tình Trạng (Status) TỪ CÁC HÀNG
+                var statuses = dgvProducts.Rows
+                    .Cast<DataGridViewRow>()
+                    .Where(r => !r.IsNewRow && r.Cells[4].Value != null) // Lấy từ Cell 4
+                    .Select(r => r.Cells[4].Value.ToString())
+                    .Where(s => !string.IsNullOrEmpty(s))
+                    .Distinct();
+
+                if (!statuses.Any())
+                {
+                    MessageBox.Show("Chưa có dữ liệu để lọc.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
 
-                // Thiết lập AutoGenerateColumns = false
-                // Điều này RẤT QUAN TRỌNG, để grid sử dụng các cột ta định nghĩa trong Designer
-                dgvProducts.AutoGenerateColumns = false;
-
-                // Tải dữ liệu
-                LoadData();
-            }
-
-            private void LoadData()
-            {
-                try
+                // 2. Mở Dialog (Code này của bạn đã đúng)
+                using (var dialog = new FilterDialog(statuses))
                 {
-                    var allProducts = productService.GetAll();
-                    // Gán nguồn dữ liệu
-                    dgvProducts.DataSource = allProducts;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi khi tải danh sách sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-            // Tải ảnh vào cột Ảnh
-            private void dgvProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-            {
-                // Chỉ xử lý cột 'colImage'
-                if (dgvProducts.Columns[e.ColumnIndex].Name == "colImage" && e.RowIndex >= 0)
-                {
-                    // Lấy đối tượng Product từ dòng hiện tại
-                    var product = dgvProducts.Rows[e.RowIndex].DataBoundItem as Product;
-                    if (product == null) return;
-
-                    string imagePath = product.Illustration;
-
-                    // Nếu đường dẫn trống hoặc file không tồn tại, dùng ảnh placeholder
-                    if (string.IsNullOrEmpty(imagePath) || !File.Exists(imagePath))
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        e.Value = placeholderImage;
-                        return;
-                    }
+                        string selectedStatus = dialog.SelectedStatus;
 
-                    // Tối ưu: Kiểm tra xem ảnh đã có trong cache chưa
-                    if (imageCache.ContainsKey(imagePath))
-                    {
-                        e.Value = imageCache[imagePath];
-                    }
-                    else
-                    {
-                        try
+                        dgvProducts.SuspendLayout(); // Tạm dừng vẽ
+
+                        // 3. Lọc trên các hàng (Rows)
+                        foreach (DataGridViewRow row in dgvProducts.Rows)
                         {
-                            // Tải ảnh từ file
-                            // Đọc file vào MemoryStream để tránh bị khóa file (lock)
-                            using (FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                            if (row.IsNewRow) continue;
+
+                            if (selectedStatus == "Tất cả")
                             {
-                                using (MemoryStream ms = new MemoryStream())
-                                {
-                                    fs.CopyTo(ms);
-                                    Image img = Image.FromStream(ms);
-
-                                    // Thêm vào cache và gán cho cell
-                                    imageCache[imagePath] = img;
-                                    e.Value = img;
-                                }
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            e.Value = placeholderImage;
-                        }
-                    }
-                }
-            }
-
-
-            // Xử lý nút Thêm
-            private void btnAddProduct_Click(object sender, EventArgs e)
-            {
-
-                using (BaseInformation_Addnew frmAdd = new BaseInformation_Addnew())
-                {
-                    if (frmAdd.ShowDialog() == DialogResult.OK)
-                    {
-                        LoadData();
-                    }
-                }
-            }
-
-            private void dgvProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
-            {
-                // Bỏ qua nếu click vào header
-                if (e.RowIndex < 0) return;
-
-                // Lấy SKU từ dòng được click
-                // Đảm bảo rằng cột colSKU tồn tại và có giá trị
-                if (dgvProducts.Rows[e.RowIndex].Cells["colSKU"].Value == null) return;
-
-                int sku = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["colSKU"].Value);
-
-                // 1. XỬ LÝ NÚT SỬA (colEdit)
-                
-
-                // 2. XỬ LÝ NÚT XÓA (colDelete)
-                if (dgvProducts.Columns[e.ColumnIndex].Name == "colDelete")
-                {
-                    try
-                    {
-                        string productName = dgvProducts.Rows[e.RowIndex].Cells["colName"].Value.ToString();
-                        var dialogResult = MessageBox.Show($"Bạn có chắc chắn muốn xóa sản phẩm '{productName}' (SKU: {sku}) không?",
-                                                         "Xác nhận xóa",
-                                                         MessageBoxButtons.YesNo,
-                                                         MessageBoxIcon.Warning);
-
-                        if (dialogResult == DialogResult.Yes)
-                        {
-                            bool success = productService.DeleteProduct(sku);
-                            if (success)
-                            {
-                                //MessageBox.Show("Xóa sản phẩm thành công!");
-                                LoadData(); // Tải lại dữ liệu
+                                row.Visible = true;
                             }
                             else
                             {
-                                MessageBox.Show("Xóa sản phẩm thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                string rowStatus = row.Cells[4].Value?.ToString() ?? "";
+                                row.Visible = (rowStatus == selectedStatus);
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi khi xóa sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        dgvProducts.ResumeLayout(); // Vẽ lại
                     }
                 }
             }
-
-            // Xử lý tìm kiếm
-            private void txtSearch_KeyUp(object sender, KeyEventArgs e)
+            catch (Exception ex)
             {
-                // Chỉ tìm kiếm khi nhấn Enter
-                if (e.KeyCode == Keys.Enter)
-                {
-                    try
-                    {
-                        string searchTerm = txtSearch.Text.ToLower().Trim();
-                        var allProducts = productService.GetAll();
-
-                        if (string.IsNullOrWhiteSpace(searchTerm))
-                        {
-                            // Nếu ô tìm kiếm trống, tải lại tất cả
-                            dgvProducts.DataSource = allProducts;
-                        }
-                        else
-                        {
-                            // Lọc theo Tên hoặc SKU
-                            var filteredList = allProducts.Where(p =>
-                                p.Name.ToLower().Contains(searchTerm) ||
-                                p.SKU.ToString().Contains(searchTerm)
-                            ).ToList();
-
-                            dgvProducts.DataSource = filteredList;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                MessageBox.Show("Lỗi khi lọc dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
 
-            // Hàm này không dùng nhưng Bunifu Tooltip cần
-            private void bunifuToolTip1_Popup(object sender, Bunifu.UI.WinForms.BunifuToolTip.PopupEventArgs e)
+        // Các hàm rỗng (cần cho designer)
+        private void dgvProducts_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void bunifuToolTip1_Popup(object sender, Bunifu.UI.WinForms.BunifuToolTip.PopupEventArgs e) { }
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
             {
+                string searchTerm = txtSearch.Text.ToLower().Trim();
 
-            }
+                // Ẩn tất cả các hàng trước khi lọc
+                dgvProducts.SuspendLayout(); // Tạm dừng việc vẽ DataGridView để tăng tốc
 
-            //Thêm form nhỏ cho filter theo Category và gender
-            public class FilterDialog : Form
-            {
-                public string SelectedCategory { get; private set; }
-                public string SelectedGender { get; private set; }
-
-                private ComboBox cboCategory;
-                private ComboBox cboGender;
-                private Button btnOK;
-                private Button btnCancel;
-
-                public FilterDialog(IEnumerable<string> categories, IEnumerable<string> genders)
+                foreach (DataGridViewRow row in dgvProducts.Rows)
                 {
-                    Text = "Filter sản phẩm";
-                    FormBorderStyle = FormBorderStyle.FixedDialog;
-                    StartPosition = FormStartPosition.CenterParent;
-                    Width = 350;
-                    Height = 220;
-                    Font = new Font("Segoe UI", 9F);
+                    if (row.IsNewRow) continue; // Bỏ qua hàng mới (nếu có)
 
-                    Label lblCategory = new Label { Text = "Loại sản phẩm:", Left = 20, Top = 20, Width = 100 };
-                    Label lblGender = new Label { Text = "Giới tính:", Left = 20, Top = 70, Width = 100 };
-
-                    cboCategory = new ComboBox { Left = 130, Top = 18, Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
-                    cboCategory.Items.Add("Tất cả");
-                    cboCategory.Items.AddRange(categories.Distinct().ToArray());
-                    cboCategory.SelectedIndex = 0;
-
-                    cboGender = new ComboBox { Left = 130, Top = 68, Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
-                    cboGender.Items.Add("Tất cả");
-                    cboGender.Items.AddRange(genders.Distinct().ToArray());
-                    cboGender.SelectedIndex = 0;
-
-                    btnOK = new Button { Text = "Áp dụng", Left = 130, Width = 80, Top = 120, DialogResult = DialogResult.OK };
-                    btnCancel = new Button { Text = "Hủy", Left = 230, Width = 80, Top = 120, DialogResult = DialogResult.Cancel };
-
-                    Controls.Add(lblCategory);
-                    Controls.Add(lblGender);
-                    Controls.Add(cboCategory);
-                    Controls.Add(cboGender);
-                    Controls.Add(btnOK);
-                    Controls.Add(btnCancel);
-
-                    AcceptButton = btnOK;
-                    CancelButton = btnCancel;
-                }
-
-                protected override void OnFormClosing(FormClosingEventArgs e)
-                {
-                    if (DialogResult == DialogResult.OK)
-                    {
-                        SelectedCategory = cboCategory.SelectedItem?.ToString() ?? "Tất cả";
-                        SelectedGender = cboGender.SelectedItem?.ToString() ?? "Tất cả";
-                    }
-                    base.OnFormClosing(e);
-                }
-            }
-
-            private void btnFilter_Click(object sender, EventArgs e)
-            {
-                try
-                {
-                    var allProducts = productService.GetAll();
-                    var categories = allProducts.Select(p => p.Category).Where(c => !string.IsNullOrEmpty(c));
-                    var genders = allProducts.Select(p => p.Gender).Where(g => !string.IsNullOrEmpty(g));
-
-                    using (var dialog = new FilterDialog(categories, genders))
-                    {
-                        if (dialog.ShowDialog() == DialogResult.OK)
-                        {
-                            string selectedCategory = dialog.SelectedCategory;
-                            string selectedGender = dialog.SelectedGender;
-
-                            var filtered = allProducts.AsQueryable();
-
-                            if (selectedCategory != "Tất cả")
-                                filtered = filtered.Where(p => p.Category == selectedCategory);
-
-                            if (selectedGender != "Tất cả")
-                                filtered = filtered.Where(p => p.Gender == selectedGender);
-
-                            dgvProducts.DataSource = filtered.ToList();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi khi lọc dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-
-
-            private void txtSearch_TextChange(object sender, EventArgs e)
-            {
-                try
-                {
-                    string searchTerm = txtSearch.Text.ToLower().Trim();
-                    var allProducts = productService.GetAll();
-
+                    // 1. Nếu ô tìm kiếm trống -> Hiển thị tất cả
                     if (string.IsNullOrWhiteSpace(searchTerm))
                     {
-                        dgvProducts.DataSource = allProducts;
+                        row.Visible = true;
                     }
                     else
                     {
-                        var filteredList = allProducts.Where(p =>
-                            // SKU
-                            p.SKU.ToString().Contains(searchTerm)
-                            ||
-                            // Tên sản phẩm
-                            (!string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(searchTerm))
-                            ||
-                            // Giá nhập
-                            p.ImportCost.ToString("N0").Replace(",", "").Contains(searchTerm)
-                            ||
-                            // Giá bán
-                            p.Price.ToString("N0").Replace(",", "").Contains(searchTerm)
-                        ).ToList();
+                        // 2. Lấy giá trị từ các Ô (Cells)
+                        string orderID = row.Cells[0].Value?.ToString()?.ToLower() ?? "";
+                        string sku = row.Cells[1].Value?.ToString() ?? "";
+                        string tenSP = row.Cells[2].Value?.ToString()?.ToLower() ?? "";
+                        string giaNhap = row.Cells[3].Value?.ToString()?.Replace(",", "") ?? "";
+                        string giaBan = row.Cells[5].Value?.ToString()?.Replace(",", "") ?? "";
+                        string soLuong = row.Cells[6].Value?.ToString() ?? "";
+                        string tinhTrang = row.Cells[4].Value?.ToString()?.ToLower() ?? "";
 
-                        dgvProducts.DataSource = filteredList;
+                        // 3. So sánh và quyết định ẩn/hiện
+                        bool isMatch = orderID.Contains(searchTerm) ||
+                                       sku.Contains(searchTerm) ||
+                                       tenSP.Contains(searchTerm) ||
+                                       giaNhap.Contains(searchTerm) ||
+                                       giaBan.Contains(searchTerm) ||
+                                       soLuong.Contains(searchTerm) ||
+                                       tinhTrang.Contains(searchTerm);
+
+                        row.Visible = isMatch;
                     }
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                dgvProducts.ResumeLayout(); // Vẽ lại DataGridView
+            }
+        }
+
+
+
+        // Đặt lớp này bên trong FrmBanHang.cs, ở dưới cùng
+        public class FilterDialog : Form
+        {
+            public string SelectedStatus { get; private set; }
+            private ComboBox cboStatus;
+            private Button btnOK;
+            private Button btnCancel;
+
+            // Constructor mới: Chỉ nhận vào danh sách Tình Trạng (statuses)
+            public FilterDialog(IEnumerable<string> statuses)
+            {
+                Text = "Lọc theo Tình Trạng";
+                FormBorderStyle = FormBorderStyle.FixedDialog;
+                StartPosition = FormStartPosition.CenterParent;
+                Width = 350;
+                Height = 180;
+                Font = new Font("Segoe UI", 9F);
+
+                Label lblStatus = new Label { Text = "Tình trạng đơn hàng:", Left = 20, Top = 20, Width = 110 };
+
+                cboStatus = new ComboBox { Left = 130, Top = 18, Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
+                cboStatus.Items.Add("Tất cả");
+                cboStatus.Items.AddRange(statuses.Distinct().ToArray()); // Nạp các trạng thái
+                cboStatus.SelectedIndex = 0;
+
+                // Di chuyển nút lên cao hơn
+                btnOK = new Button { Text = "Áp dụng", Left = 130, Width = 80, Top = 80, DialogResult = DialogResult.OK };
+                btnCancel = new Button { Text = "Hủy", Left = 230, Width = 80, Top = 80, DialogResult = DialogResult.Cancel };
+
+                Controls.Add(lblStatus);
+                Controls.Add(cboStatus);
+                Controls.Add(btnOK);
+                Controls.Add(btnCancel);
+
+                AcceptButton = btnOK;
+                CancelButton = btnCancel;
+            }
+
+            // Cập nhật hàm OnFormClosing
+            protected override void OnFormClosing(FormClosingEventArgs e)
+            {
+                if (DialogResult == DialogResult.OK)
                 {
-                    MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Chỉ lấy Tình Trạng (Status)
+                    SelectedStatus = cboStatus.SelectedItem?.ToString() ?? "Tất cả";
+                }
+                base.OnFormClosing(e);
+            }
+        }
+
+        private void btnAddOrder_Click(object sender, EventArgs e)
+        {
+            string orderIdToAddTo = "";
+
+            // === KỊCH BẢN 1: Người dùng ĐÃ CHỌN một đơn hàng ===
+            if (dgvProducts.SelectedRows.Count > 0)
+            {
+                // Lấy giá trị từ Cell[0] (cột OrderID) của hàng đang chọn
+                orderIdToAddTo = dgvProducts.SelectedRows[0].Cells[0].Value?.ToString();
+
+                if (!string.IsNullOrEmpty(orderIdToAddTo))
+                {
+                    // Mở form FrmOrder_Add ngay lập tức
+                    OpenAddProductForm(orderIdToAddTo);
+                }
+            }
+            else
+            {
+                DialogResult choice = MessageBox.Show(
+                    "Bạn chưa chọn đơn hàng.\n\n" +
+                    "  [Yes] = Tạo một Đơn Hàng Mới (tự động).\n" +
+                    "  [No]  = Tự nhập mã Đơn Hàng Cũ.\n",
+                    "Tạo Đơn Hàng Mới?",
+                    MessageBoxButtons.YesNoCancel, // Yes = Tạo mới, No = Tự nhập, Cancel = Hủy
+                    MessageBoxIcon.Question
+                );
+
+                if (choice == DialogResult.Yes)
+                {
+
+
+                    // Ví dụ: ORD251026223630
+                    orderIdToAddTo = $"ORD{DateTime.Now:dd}";
+
+                    // Mở form
+                    OpenAddProductForm(orderIdToAddTo);
+                }
+                else if (choice == DialogResult.No)
+                {
+                    // --- TỰ NHẬP OrderID (Logic cũ) ---
+                    string input = Interaction.InputBox(
+                        "Nhập mã đơn hàng bạn muốn thêm vào:",
+                        "Thêm vào Đơn Hàng Cũ",
+                        "" // Giá trị mặc định
+                    );
+
+                    if (!string.IsNullOrWhiteSpace(input))
+                    {
+                        orderIdToAddTo = input.Trim().ToUpper();
+                        OpenAddProductForm(orderIdToAddTo);
+                    }
+                    // Nếu input trống, người dùng đã nhấn Cancel (không làm gì cả)
                 }
             }
         }
+        /// <summary>
+        /// Hàm trợ giúp để mở FrmOrder_Add với một OrderID cụ thể
+        /// </summary>
+        private void OpenAddProductForm(string orderId)
+        {
+            // Kiểm tra xem OrderID có hợp lệ không
+            if (string.IsNullOrWhiteSpace(orderId))
+            {
+                MessageBox.Show("Mã đơn hàng không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                // Mở form thêm chi tiết
+                FrmOrder_Add frmAdd = new FrmOrder_Add(orderId);
+                var result = frmAdd.ShowDialog(); // Hiển thị form
+
+                // Nếu người dùng nhấn Save (OK) trên FrmOrder_Add
+                if (result == DialogResult.OK)
+                {
+                    // Tải lại DataGridView để thấy sản phẩm mới
+                    LoadData();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi mở form thêm sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvProducts_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            dgvProducts.ClearSelection();
+        }
     }
+}

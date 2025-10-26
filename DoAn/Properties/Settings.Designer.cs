@@ -22,5 +22,16 @@ namespace DoAn.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-I7OFKQ0\\SQLEXPRESS;Initial Catalog=StoreManagement;Integrated" +
+            " Security=True;TrustServerCertificate=True")]
+        public string StoreManagementConnectionString {
+            get {
+                return ((string)(this["StoreManagementConnectionString"]));
+            }
+        }
     }
 }

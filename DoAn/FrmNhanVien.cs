@@ -90,7 +90,7 @@ namespace DoAn
                 string chucVuText = ""; // Biến lưu trữ chuỗi chức vụ
                 // Chuyển đổi giá trị ChucVu thành chuỗi tương ứng
                 // 3 - Admin, 2 - Manager, 1 - Staff
-                switch (ChucVu) { case 3: chucVuText = "Admin"; break; case 2: chucVuText = "Manager"; break; case 1: chucVuText = "Staff"; break; }
+                switch (ChucVu) { case 2: chucVuText = "Manager"; break; case 1: chucVuText = "Staff"; break; }
                 CmbChucVu.Text = chucVuText;
 
                 // LƯU ĐƯỜNG DẪN ẢNH HIỆN TẠI TỪ DB VÀ HIỂN THỊ
@@ -163,7 +163,7 @@ namespace DoAn
             a.Email = txtEmail.Text;
             a.LoginName = txtAcc.Text;
             a.Pass = txtPass.Text;
-            a.AccStatus = CmbChucVu.SelectedItem.ToString() == "Admin" ? 3 : CmbChucVu.SelectedItem.ToString() == "Manager" ? 2 : 1;
+            a.AccStatus = CmbChucVu.SelectedItem.ToString() == "Manager" ? 2 : 1;
             a.Pos = CmbChucVu.Text;
 
             string action = a.AccountID == 0 ? "thêm mới" : "cập nhật";
@@ -342,6 +342,11 @@ namespace DoAn
             CmbChucVu.SelectedIndex = -1;
             avatar.Image = Properties.Resources.profile;
             txtHoTen.Focus();
+        }
+
+        private void CmbChucVu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

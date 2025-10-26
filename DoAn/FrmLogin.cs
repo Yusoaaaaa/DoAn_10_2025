@@ -52,17 +52,31 @@ namespace DoAn
                 int loginResult = bus.Login(tenTk, mkTk);
 
 
-                // GUI chỉ làm nhiệm vụ hiển thị thông báo
                 // Logic này giữ nguyên
                 switch (loginResult)
                 {
                     case 0: // Thành công
+                        if (bunifuChkRemember.Checked)
+                        {
+                            // Lưu thông tin đăng nhập vào file hoặc registry
+                            Properties.Settings.Default.Username = tenTk;
+                            Properties.Settings.Default.Password = mkTk;
+                            Properties.Settings.Default.Save();
+                        }
+                        else
+                        {
+                            // Xóa thông tin đăng nhập đã lưu
+                            Properties.Settings.Default.Username = "";
+                            Properties.Settings.Default.Password = "";
+                            Properties.Settings.Default.Save();
+                        }
                         MessageBox.Show("Đăng nhập thành công!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // ... (Mở Form Main) ...
+                        level = bus.GetAccountLevel(bus.GetAccountID(tenTk, mkTk));
+                        
+                        UserName = bus.GetAccountName(bus.GetAccountID(tenTk, mkTk));
                         this.DialogResult = DialogResult.OK;
                         // Lấy thông tin người dùng
-                        level = bus.GetAccountLevel(bus.GetAccountID(tenTk, mkTk));
-                        UserName = bus.GetAccountName(bus.GetAccountID(tenTk, mkTk));
+                        
                         this.Close();
                         break;
                     case 1:
@@ -101,11 +115,16 @@ namespace DoAn
         {
             FrmQuenMatKhau = null;
         }
+        
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
             // Đặt mật khẩu làm ký tự che giấu
             bunifuTxtPassword.UseSystemPasswordChar = true;
+            //  Tải thông tin đăng nhập đã lưu (nếu có) 
+            bunifuTxtEmail.Text = Properties.Settings.Default.Username;
+            bunifuTxtPassword.Text = Properties.Settings.Default.Password;
+            bunifuChkRemember.Checked = !string.IsNullOrEmpty(bunifuTxtEmail.Text);
         }
     }
 }

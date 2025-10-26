@@ -61,9 +61,20 @@ namespace DoAn.BUS
         {
             context.SaveChanges();
         }
+        public int ChangePassword(string email, string newPassword)
+        {
+            var account = GetByEmail(email);// Tìm tài khoản theo email
+            if (account != null)
+            {
+                account.Pass = newPassword;
+                context.SaveChanges();
+                return 0; // Thành công
+            }
+            return 1; // Không tìm thấy tài khoản
+        }
 
 
-
+       
 
 
 
@@ -161,6 +172,26 @@ namespace DoAn.BUS
                                 a.SDT.ToLower().Contains(searchKeyword))
                     .ToList();
             }
+        }
+        public int ChangePassword(string loginName, string oldPassword, string newPassword)
+        {
+            // 1. Tìm tài khoản bằng LoginName và Mật khẩu cũ
+            var account = context.Accounts.FirstOrDefault(a =>
+                (a.Email == loginName && a.Pass == oldPassword));
+
+            if (account == null)
+            {
+                // Phân biệt lỗi: kiểm tra tài khoản có tồn tại không
+                bool userExists = context.Accounts.Any(a => a.Email == loginName || a.LoginName == loginName);
+                return userExists ? 1 : 2; // 1: Mật khẩu cũ sai, 2: Không tìm thấy tài khoản
+            }
+
+            // 2. Cập nhật mật khẩu mới
+            account.Pass = newPassword;
+
+            context.SaveChanges();
+
+            return 0; // Thành công
         }
     }
 }

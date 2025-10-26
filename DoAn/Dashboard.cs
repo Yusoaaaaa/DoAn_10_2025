@@ -48,6 +48,7 @@ namespace DoAn
             flowLayoutPanelSidebar.Width = 40;
             flowLayoutPaneldropdown.Height = 40;
             btnStaff.Visible = false;
+            flowLayoutPanelInfo.Location = new Point(40,50);
 
             mdiProp();
 
@@ -76,13 +77,16 @@ namespace DoAn
                     {
                         btnStaff.Visible = false;
                         Email.Text = frmLogin.UserName;
-                        
+                        Taikhoan = frmLogin.TaiKhoan;
+                        Matkhau = frmLogin.MatKhau;
 
                     }
                     else
                     {
                         btnStaff.Visible = true;
                         Email.Text = frmLogin.UserName;
+                        Taikhoan = frmLogin.TaiKhoan;
+                        Matkhau = frmLogin.MatKhau;
 
                     }
                     this.Show();
@@ -532,6 +536,13 @@ namespace DoAn
         private void Email_Click(object sender, EventArgs e)
         {
 
+        }
+        string Taikhoan;
+        string Matkhau;
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            FrmDoiMatkhau frmDoiMatkhau = new FrmDoiMatkhau();
+            frmDoiMatkhau.ShowDialog();
         }
     }
 }

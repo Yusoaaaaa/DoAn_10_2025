@@ -145,7 +145,7 @@ namespace DoAn
         private void BtnAdd_Update_Click(object sender, EventArgs e)
         {
             // 1. KIỂM TRA DỮ LIỆU BẮT BUỘC
-            if (string.IsNullOrEmpty(txtHoTen.Text) || string.IsNullOrEmpty(txtAcc.Text) ||
+            if (string.IsNullOrEmpty(txtID.Text)|| string.IsNullOrEmpty(txtHoTen.Text) || string.IsNullOrEmpty(txtAcc.Text) ||
                 string.IsNullOrEmpty(txtPass.Text) || CmbChucVu.SelectedItem == null)
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -153,9 +153,14 @@ namespace DoAn
             }
 
             var a = new Account();
-
+            if(a.AccountID == null || a.AccountID == int.Parse(txtID.Text))
+            {
+                MessageBox.Show("Account ID không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
             // 2. GÁN DỮ LIỆU VÀ XÁC ĐỊNH HÀNH ĐỘNG
-            a.AccountID = string.IsNullOrEmpty(txtID.Text) ? 0 : int.Parse(txtID.Text);
+            a.AccountID = int.Parse(txtID.Text) ;
             a.Username = txtHoTen.Text;
             a.SDT = txtSDT.Text;
             a.Email = txtEmail.Text;

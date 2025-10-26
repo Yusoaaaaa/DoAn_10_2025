@@ -85,7 +85,7 @@
             this.PName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this.PName.Location = new System.Drawing.Point(8, 144);
             this.PName.Name = "PName";
-            this.PName.Size = new System.Drawing.Size(180, 17);
+            this.PName.Size = new System.Drawing.Size(180, 35);
             this.PName.TabIndex = 1;
             this.PName.Text = "Product name";
             // 
@@ -97,7 +97,7 @@
             this.Price.BackColor = System.Drawing.Color.Transparent;
             this.Price.Font = new System.Drawing.Font("Readex Pro Deca", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Price.ForeColor = System.Drawing.Color.DimGray;
-            this.Price.Location = new System.Drawing.Point(132, 165);
+            this.Price.Location = new System.Drawing.Point(121, 179);
             this.Price.Name = "Price";
             this.Price.Size = new System.Drawing.Size(48, 21);
             this.Price.TabIndex = 1;
@@ -148,7 +148,7 @@
             this.textBox1.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
             this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.textBox1.DefaultFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.DefaultText = "1";
+            this.textBox1.DefaultText = "";
             this.textBox1.FillColor = System.Drawing.Color.White;
             this.textBox1.HideSelection = true;
             this.textBox1.IconLeft = null;
@@ -156,8 +156,7 @@
             this.textBox1.IconPadding = 2;
             this.textBox1.IconRight = null;
             this.textBox1.IconRightCursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBox1.Lines = new string[] {
-        "1"};
+            this.textBox1.Lines = new string[0];
             this.textBox1.Location = new System.Drawing.Point(49, 217);
             this.textBox1.MaxLength = 3;
             this.textBox1.MinimumSize = new System.Drawing.Size(1, 1);
@@ -192,7 +191,7 @@
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBox1.SelectedText = "";
             this.textBox1.SelectionLength = 0;
-            this.textBox1.SelectionStart = 1;
+            this.textBox1.SelectionStart = 0;
             this.textBox1.ShortcutsEnabled = true;
             this.textBox1.Size = new System.Drawing.Size(45, 25);
             this.textBox1.Style = Bunifu.UI.WinForms.BunifuTextBox._Style.Bunifu;

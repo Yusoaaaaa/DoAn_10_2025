@@ -36,6 +36,8 @@ namespace DoAn
         FrmReport frmReport;
         FrmMainMenu frmMainMenu;
 
+        FrmMainMenu test = new FrmMainMenu();
+
         //khai báo trạng thái sidebar, menu container
         bool menuExpand = false;
         bool sidebarExpand = true;
@@ -62,43 +64,8 @@ namespace DoAn
             panel2.Left = this.Width + 10;
             panel2Status("Chào mừng bạn đến với\nhệ thống quản lý kho!");
 
-            //cài đặt cho carousel
-            /*for(int i = 0; i < 8; i++)
-            {
-                var uc = new cardProduct()
-                {
-                    id = 1,
-                    name = "test",
-                    image = "test.jpg",
-                    price = 33000,
-                    stock = 36,
-                    category = "giay"
-                };
-                flowLayoutPanel1.Controls.Add(uc);
-            }
-            duplicateEdges();
-
-            slideTimer.Interval = 10;
-            slideTimer.Tick += slideTimer_Tick;*/
-        }
-
-        //Clone cardProduct trước và sau
-        /*public void duplicateEdges()
-        {
-            var first = (cardProduct)flowLayoutPanel1.Controls[0];
-            var firstClone = CloneControl(first);
-            flowLayoutPanel1.Controls.Add(firstClone);
-
-            var last = (cardProduct)flowLayoutPanel1.Controls[flowLayoutPanel1.Controls.Count - 2];
-            var lastClone = CloneControl(last);
-            flowLayoutPanel1.Controls.Add(lastClone);
-        }*/
-
-        public UserControl CloneControl(UserControl original)
-        {
-            var clone = new cardProduct();
-            clone = (cardProduct)original;
-            return clone;
+            flowLayoutPanel1.Controls.Add(test);
+            test.Hide();
         }
 
 
@@ -110,10 +77,10 @@ namespace DoAn
             {
                 if (frmLogin.ShowDialog() == DialogResult.OK)
                 {
-                    if(frmLogin.level == 1)
+                    if (frmLogin.level == 1)
                     {
                         btnStaff.Visible = false;
-                    } 
+                    }
                     else
                     {
                         btnStaff.Visible = true;
@@ -177,6 +144,7 @@ namespace DoAn
                 flowLayoutPanelSidebar.Width -= 10;
                 flowLayoutPanelInfo.Left -= 10;
                 flowLayoutPanelInfo.Width += 10;
+                flowLayoutPanel1.Left += 10;
                 if (flowLayoutPanelSidebar.Width <= 40)
                 {
                     sidebarExpand = false;
@@ -189,6 +157,7 @@ namespace DoAn
                 flowLayoutPanelSidebar.Width += 10;
                 flowLayoutPanelInfo.Left += 10;
                 flowLayoutPanelInfo.Width -= 10;
+                flowLayoutPanel1.Left -= 10;
                 if (flowLayoutPanelSidebar.Width >= 260)
                 {
                     sidebarExpand = true;
@@ -221,7 +190,7 @@ namespace DoAn
             {
                 frmMainMenu.Activate();
             }*/
-            if(frmDashboard == null)
+            /*if (frmDashboard == null)
             {
                 frmDashboard = new FrmDashboard();
                 frmDashboard.FormClosed += FrmDashboard_FormClosed;
@@ -233,7 +202,9 @@ namespace DoAn
             else
             {
                 frmDashboard.Activate();
-            }
+            }*/
+
+            test.Activate();
         }
 
         private void FrmDashboard_FormClosed(object sender, FormClosedEventArgs e)
@@ -331,7 +302,7 @@ namespace DoAn
             {
                 frmReport.Activate();
             }
-            
+
         }
 
         private void FrmReport_FormClosed(object sender, FormClosedEventArgs e)
@@ -376,7 +347,7 @@ namespace DoAn
             {
                 frmSubMenu1.Activate();
             }
-            
+
         }
 
         private void FrmSubMenu1_FormClosed(object sender, FormClosedEventArgs e)
@@ -398,7 +369,7 @@ namespace DoAn
         //cài đặt panel status
         private async Task panel2Status(string status)
         {
-            if(labelStatus.Text.Length >= 20)
+            if (labelStatus.Text.Length >= 20)
             {
                 status = status.Insert(20, "\n");
             }
@@ -466,7 +437,7 @@ namespace DoAn
                 this.Location = mousePose;
             }
         }
-        
+
         private void slideTimer_Tick(object sender, EventArgs e)
         {
             /*flowLayoutPanel1.Left -= scrollSpeed * direction;
@@ -496,7 +467,8 @@ namespace DoAn
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (!isScrolling) {
+            if (!isScrolling)
+            {
                 direction = 1;
                 slideTimer.Start();
                 isScrolling = true;
@@ -506,6 +478,84 @@ namespace DoAn
         private void bunifuPanel1_Click(object sender, EventArgs e)
         {
 
+        }
+        bool isEnabled = false;
+        //test_overlay test = new test_overlay();
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (isEnabled == false)
+            {
+                //overlay.Show();
+                EnableBlur(this.Handle);
+                isEnabled = true;
+            }
+            else
+            {
+                //overlay.Hide();
+                DismissBlur(this.Handle);
+                isEnabled = false;
+            }   
+
+        }
+        internal enum accentState
+        {
+            ACCENT_DISABLED = 0,
+            ACCENT_ENABLE_GRADIENT = 1,
+            ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+            ACCENT_ENABLE_BLURBEHIND = 3,
+            ACCENT_ENABLE_ACRYLICBLURBEHIND = 4,
+            ACCENT_ENABLE_HOSTBACKDROP = 5,
+            ACCENT_INVALID_STATE = 6
+        }
+        internal enum windowCompositionAttribute
+        {
+            WCA_ACCENT_POLICY = 19
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct accentPolicy
+        {
+            public accentState accentState;
+            public int accentFlags;
+            public int gradientColor;
+            public int animationId;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WindowCompositionAttributeData
+        {
+            public int attribute;
+            public IntPtr data;
+            public int sizeOfData;
+        }
+        private void EnableBlur(IntPtr handle)
+        {
+            var accent = new accentPolicy();
+            accent.accentState = accentState.ACCENT_ENABLE_BLURBEHIND;
+            var accentStructSize = Marshal.SizeOf(accent);
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
+            var data = new WindowCompositionAttributeData();
+            data.attribute = (int)windowCompositionAttribute.WCA_ACCENT_POLICY;
+            data.sizeOfData = accentStructSize;
+            data.data = accentPtr;
+            SetWindowCompositionAttribute(handle, ref data);
+            Marshal.FreeHGlobal(accentPtr);
+        }
+        private void DismissBlur(IntPtr handle)
+        {
+            var accent = new accentPolicy();
+            accent.accentState = accentState.ACCENT_DISABLED;
+            var accentStructSize = Marshal.SizeOf(accent);
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
+            var data = new WindowCompositionAttributeData();
+            data.attribute = (int)windowCompositionAttribute.WCA_ACCENT_POLICY;
+            data.sizeOfData = accentStructSize;
+            data.data = accentPtr;
+            SetWindowCompositionAttribute(handle, ref data);
+            Marshal.FreeHGlobal(accentPtr);
         }
     }
 }

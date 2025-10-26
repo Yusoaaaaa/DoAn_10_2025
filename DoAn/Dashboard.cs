@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace DoAn
 {
+
     public partial class Dashboard : Form
     {
 
@@ -69,6 +70,7 @@ namespace DoAn
         private void Dashboard_Load(object sender, EventArgs e)
         {
 
+            
             using (FrmLogin frmLogin = new FrmLogin())
             {
                 if (frmLogin.ShowDialog() == DialogResult.OK)

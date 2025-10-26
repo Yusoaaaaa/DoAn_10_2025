@@ -131,9 +131,9 @@ namespace DoAn
             this.pnlMain.Controls.Add(this.lblTitle);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 0);
-            this.pnlMain.Margin = new System.Windows.Forms.Padding(20, 18, 20, 18);
+            this.pnlMain.Margin = new System.Windows.Forms.Padding(15, 15, 15, 15);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
+            this.pnlMain.Padding = new System.Windows.Forms.Padding(20, 20, 20, 20);
             this.pnlMain.ShowBorders = true;
             this.pnlMain.Size = new System.Drawing.Size(1315, 726);
             this.pnlMain.TabIndex = 0;
@@ -242,7 +242,7 @@ namespace DoAn
             this.BtnHienThi.OnPressedState.ForeColor = System.Drawing.Color.White;
             this.BtnHienThi.OnPressedState.IconLeftImage = null;
             this.BtnHienThi.OnPressedState.IconRightImage = null;
-            this.BtnHienThi.Size = new System.Drawing.Size(92, 48);
+            this.BtnHienThi.Size = new System.Drawing.Size(69, 39);
             this.BtnHienThi.TabIndex = 14;
             this.BtnHienThi.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.BtnHienThi.TextAlignment = System.Windows.Forms.HorizontalAlignment.Center;
@@ -354,7 +354,7 @@ namespace DoAn
             this.btnCancel.OnPressedState.ForeColor = System.Drawing.Color.Black;
             this.btnCancel.OnPressedState.IconLeftImage = null;
             this.btnCancel.OnPressedState.IconRightImage = null;
-            this.btnCancel.Size = new System.Drawing.Size(160, 48);
+            this.btnCancel.Size = new System.Drawing.Size(120, 39);
             this.btnCancel.TabIndex = 6;
             this.btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnCancel.TextAlignment = System.Windows.Forms.HorizontalAlignment.Center;
@@ -448,7 +448,7 @@ namespace DoAn
             this.btnSave.OnPressedState.ForeColor = System.Drawing.Color.White;
             this.btnSave.OnPressedState.IconLeftImage = null;
             this.btnSave.OnPressedState.IconRightImage = null;
-            this.btnSave.Size = new System.Drawing.Size(160, 48);
+            this.btnSave.Size = new System.Drawing.Size(120, 39);
             this.btnSave.TabIndex = 5;
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnSave.TextAlignment = System.Windows.Forms.HorizontalAlignment.Center;
@@ -475,6 +475,7 @@ namespace DoAn
             this.lblPrice.Text = "Giá";
             this.lblPrice.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
             this.lblPrice.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
+            this.lblPrice.Click += new System.EventHandler(this.lblPrice_Click);
             // 
             // COGs
             // 
@@ -1176,7 +1177,7 @@ namespace DoAn
             // FrmOrder_Add
             // 
             this.AcceptButton = this.btnSave;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
             this.CancelButton = this.btnCancel;

@@ -59,9 +59,11 @@
             this.txtSearch = new Bunifu.UI.WinForms.BunifuTextBox();
             this.btnAddProduct = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.bunifuFormDock1 = new Bunifu.UI.WinForms.BunifuFormDock();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // bunifuElipse1
@@ -113,6 +115,7 @@
             this.pnlMain.BorderColor = System.Drawing.Color.Transparent;
             this.pnlMain.BorderRadius = 15;
             this.pnlMain.BorderThickness = 1;
+            this.pnlMain.Controls.Add(this.pictureBox1);
             this.pnlMain.Controls.Add(this.dgvProducts);
             this.pnlMain.Controls.Add(this.panel1);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -621,6 +624,20 @@
             this.bunifuFormDock1.TitleBarOptions.TitleBarControl = null;
             this.bunifuFormDock1.TitleBarOptions.UseBackColorOnDockingIndicators = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::DoAn.Properties.Resources._12;
+            this.pictureBox1.Location = new System.Drawing.Point(956, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(23, 24);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            this.bunifuToolTip1.SetToolTip(this.pictureBox1, "");
+            this.bunifuToolTip1.SetToolTipIcon(this.pictureBox1, null);
+            this.bunifuToolTip1.SetToolTipTitle(this.pictureBox1, "");
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // BaseInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -634,6 +651,7 @@
             this.pnlMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -658,5 +676,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.DataGridViewTextBoxColumn colImportPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPrice;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

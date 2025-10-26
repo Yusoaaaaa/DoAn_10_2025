@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace DoAn
 {
+
     public partial class Dashboard : Form
     {
 
@@ -68,6 +69,7 @@ namespace DoAn
         private void Dashboard_Load(object sender, EventArgs e)
         {
 
+            
             using (FrmLogin frmLogin = new FrmLogin())
             {
                 if (frmLogin.ShowDialog() == DialogResult.OK)
@@ -343,7 +345,27 @@ namespace DoAn
                     frmLogin.ShowDialog();
                     if (frmLogin.DialogResult == DialogResult.OK)
                     {
+                        if (frmLogin.level == 1)
+                        {
+                            btnStaff.Visible = false;
+                            Email.Text = frmLogin.UserName;
+
+
+                        }
+                        else
+                        {
+                            btnStaff.Visible = true;
+                            Email.Text = frmLogin.UserName;
+
+                        }
                         this.Show();
+                        menuExpand = false;
+                        sidebarExpand = false;
+                        menuTransition.Interval = 10;
+                        flowLayoutPanelSidebar.Width = 40;
+                        flowLayoutPaneldropdown.Height = 40;
+                        btnStaff.Visible = false;
+                        panel2Status("Chào mừng bạn đến với\nhệ thống quản lý kho!");
                     }
                     else if (frmLogin.DialogResult == DialogResult.Yes)
                     {
@@ -510,6 +532,11 @@ namespace DoAn
         }
 
         private void Email_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bunifuShapes1_ShapeChanged(object sender, Bunifu.UI.WinForms.BunifuShapes.ShapeChangedEventArgs e)
         {
 
         }

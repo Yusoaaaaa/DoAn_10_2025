@@ -475,7 +475,7 @@ namespace DoAn
             this.lblPrice.Text = "Giá";
             this.lblPrice.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
             this.lblPrice.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
-            this.lblPrice.Click += new System.EventHandler(this.lblPrice_Click);
+            //this.lblPrice.Click += new System.EventHandler(this.lblPrice_Click);
             // 
             // COGs
             // 

@@ -1226,6 +1226,7 @@ namespace DoAn
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private DoAn.Dashboard.ClearPanel bunifuPanel2;
     }
 }
 

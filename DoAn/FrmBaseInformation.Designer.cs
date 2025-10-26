@@ -55,6 +55,7 @@
             this.colImportPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnFilter = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.txtSearch = new Bunifu.UI.WinForms.BunifuTextBox();
             this.btnAddProduct = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
@@ -62,6 +63,7 @@
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // bunifuElipse1
@@ -113,14 +115,16 @@
             this.pnlMain.BorderColor = System.Drawing.Color.Transparent;
             this.pnlMain.BorderRadius = 15;
             this.pnlMain.BorderThickness = 1;
+            this.pnlMain.Controls.Add(this.pictureBox1);
             this.pnlMain.Controls.Add(this.dgvProducts);
             this.pnlMain.Controls.Add(this.panel1);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 0);
+            this.pnlMain.Margin = new System.Windows.Forms.Padding(4);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Padding = new System.Windows.Forms.Padding(15);
+            this.pnlMain.Padding = new System.Windows.Forms.Padding(20, 18, 20, 18);
             this.pnlMain.ShowBorders = true;
-            this.pnlMain.Size = new System.Drawing.Size(985, 590);
+            this.pnlMain.Size = new System.Drawing.Size(1313, 726);
             this.pnlMain.TabIndex = 0;
             this.bunifuToolTip1.SetToolTip(this.pnlMain, "");
             this.bunifuToolTip1.SetToolTipIcon(this.pnlMain, null);
@@ -193,14 +197,15 @@
             this.dgvProducts.HeaderBackColor = System.Drawing.Color.Empty;
             this.dgvProducts.HeaderBgColor = System.Drawing.Color.Empty;
             this.dgvProducts.HeaderForeColor = System.Drawing.Color.Black;
-            this.dgvProducts.Location = new System.Drawing.Point(15, 85);
+            this.dgvProducts.Location = new System.Drawing.Point(20, 104);
+            this.dgvProducts.Margin = new System.Windows.Forms.Padding(4);
             this.dgvProducts.Name = "dgvProducts";
             this.dgvProducts.ReadOnly = true;
             this.dgvProducts.RowHeadersVisible = false;
             this.dgvProducts.RowHeadersWidth = 51;
             this.dgvProducts.RowTemplate.Height = 60;
             this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProducts.Size = new System.Drawing.Size(955, 490);
+            this.dgvProducts.Size = new System.Drawing.Size(1273, 604);
             this.dgvProducts.TabIndex = 1;
             this.dgvProducts.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
             this.bunifuToolTip1.SetToolTip(this.dgvProducts, "");
@@ -300,13 +305,29 @@
             this.panel1.Controls.Add(this.txtSearch);
             this.panel1.Controls.Add(this.btnAddProduct);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(15, 15);
+            this.panel1.Location = new System.Drawing.Point(20, 18);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(955, 70);
+            this.panel1.Size = new System.Drawing.Size(1273, 86);
             this.panel1.TabIndex = 0;
             this.bunifuToolTip1.SetToolTip(this.panel1, "");
             this.bunifuToolTip1.SetToolTipIcon(this.panel1, null);
             this.bunifuToolTip1.SetToolTipTitle(this.panel1, "");
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::DoAn.Properties.Resources._12;
+            this.pictureBox1.Location = new System.Drawing.Point(1278, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(35, 31);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
+            this.bunifuToolTip1.SetToolTip(this.pictureBox1, "");
+            this.bunifuToolTip1.SetToolTipIcon(this.pictureBox1, null);
+            this.bunifuToolTip1.SetToolTipTitle(this.pictureBox1, "");
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // btnFilter
             // 
@@ -358,7 +379,8 @@
             this.btnFilter.IdleIconLeftImage = null;
             this.btnFilter.IdleIconRightImage = null;
             this.btnFilter.IndicateFocus = false;
-            this.btnFilter.Location = new System.Drawing.Point(636, 16);
+            this.btnFilter.Location = new System.Drawing.Point(848, 20);
+            this.btnFilter.Margin = new System.Windows.Forms.Padding(4);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.OnDisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
             this.btnFilter.OnDisabledState.BorderRadius = 8;
@@ -392,7 +414,7 @@
             this.btnFilter.OnPressedState.ForeColor = System.Drawing.Color.Black;
             this.btnFilter.OnPressedState.IconLeftImage = null;
             this.btnFilter.OnPressedState.IconRightImage = null;
-            this.btnFilter.Size = new System.Drawing.Size(120, 39);
+            this.btnFilter.Size = new System.Drawing.Size(160, 48);
             this.btnFilter.TabIndex = 2;
             this.btnFilter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnFilter.TextAlignment = System.Windows.Forms.HorizontalAlignment.Center;
@@ -433,7 +455,8 @@
             this.txtSearch.IconRight = null;
             this.txtSearch.IconRightCursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSearch.Lines = new string[0];
-            this.txtSearch.Location = new System.Drawing.Point(3, 16);
+            this.txtSearch.Location = new System.Drawing.Point(4, 20);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(4);
             this.txtSearch.MaxLength = 32767;
             this.txtSearch.MinimumSize = new System.Drawing.Size(1, 1);
             this.txtSearch.Modified = false;
@@ -459,7 +482,7 @@
             stateProperties4.ForeColor = System.Drawing.Color.Empty;
             stateProperties4.PlaceholderForeColor = System.Drawing.Color.Empty;
             this.txtSearch.OnIdleState = stateProperties4;
-            this.txtSearch.Padding = new System.Windows.Forms.Padding(3);
+            this.txtSearch.Padding = new System.Windows.Forms.Padding(4);
             this.txtSearch.PasswordChar = '\0';
             this.txtSearch.PlaceholderForeColor = System.Drawing.Color.Silver;
             this.txtSearch.PlaceholderText = "Tìm theo tên hoặc SKU";
@@ -469,7 +492,7 @@
             this.txtSearch.SelectionLength = 0;
             this.txtSearch.SelectionStart = 0;
             this.txtSearch.ShortcutsEnabled = true;
-            this.txtSearch.Size = new System.Drawing.Size(350, 39);
+            this.txtSearch.Size = new System.Drawing.Size(467, 48);
             this.txtSearch.Style = Bunifu.UI.WinForms.BunifuTextBox._Style.Bunifu;
             this.txtSearch.TabIndex = 1;
             this.txtSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -535,7 +558,8 @@
             this.btnAddProduct.IdleIconLeftImage = null;
             this.btnAddProduct.IdleIconRightImage = null;
             this.btnAddProduct.IndicateFocus = false;
-            this.btnAddProduct.Location = new System.Drawing.Point(782, 16);
+            this.btnAddProduct.Location = new System.Drawing.Point(1043, 20);
+            this.btnAddProduct.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddProduct.Name = "btnAddProduct";
             this.btnAddProduct.OnDisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
             this.btnAddProduct.OnDisabledState.BorderRadius = 8;
@@ -569,7 +593,7 @@
             this.btnAddProduct.OnPressedState.ForeColor = System.Drawing.Color.White;
             this.btnAddProduct.OnPressedState.IconLeftImage = null;
             this.btnAddProduct.OnPressedState.IconRightImage = null;
-            this.btnAddProduct.Size = new System.Drawing.Size(155, 39);
+            this.btnAddProduct.Size = new System.Drawing.Size(207, 48);
             this.btnAddProduct.TabIndex = 0;
             this.btnAddProduct.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnAddProduct.TextAlignment = System.Windows.Forms.HorizontalAlignment.Center;
@@ -623,17 +647,19 @@
             // 
             // BaseInformation
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(985, 590);
+            this.ClientSize = new System.Drawing.Size(1313, 726);
             this.Controls.Add(this.pnlMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "BaseInformation";
             this.Text = "BaseInformation";
             this.Load += new System.EventHandler(this.BaseInformation_Load);
             this.pnlMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -658,5 +684,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.DataGridViewTextBoxColumn colImportPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPrice;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

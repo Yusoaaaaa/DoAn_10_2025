@@ -343,7 +343,27 @@ namespace DoAn
                     frmLogin.ShowDialog();
                     if (frmLogin.DialogResult == DialogResult.OK)
                     {
+                        if (frmLogin.level == 1)
+                        {
+                            btnStaff.Visible = false;
+                            Email.Text = frmLogin.UserName;
+
+
+                        }
+                        else
+                        {
+                            btnStaff.Visible = true;
+                            Email.Text = frmLogin.UserName;
+
+                        }
                         this.Show();
+                        menuExpand = false;
+                        sidebarExpand = false;
+                        menuTransition.Interval = 10;
+                        flowLayoutPanelSidebar.Width = 40;
+                        flowLayoutPaneldropdown.Height = 40;
+                        btnStaff.Visible = false;
+                        panel2Status("Chào mừng bạn đến với\nhệ thống quản lý kho!");
                     }
                     else if (frmLogin.DialogResult == DialogResult.Yes)
                     {

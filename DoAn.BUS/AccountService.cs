@@ -14,19 +14,20 @@ namespace DoAn.BUS
     public class AccountService
     {
         private StoreDBContext context = new StoreDBContext();
-        public Account GetAccount(string email, string password)
+        public Account GetAccount(string email , string password)
         {
-            return context.Accounts.FirstOrDefault(a => a.Email == email && a.Pass == password || a.LoginName == email);
+            return context.Accounts.FirstOrDefault(a => (a.Email == email && a.Pass == password) || (a.LoginName == email && a.Pass == password));
         }
         public int Login (String Email , String MatKhau)
         {
+            // Kiểm tra nhập liệu
             if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(MatKhau))
             {
                 return 1; // Lỗi nhập liệu, không cần gọi DAL
             }
             
             var account = GetAccount(Email,MatKhau); // Gọi DAL để lấy thông tin tài khoản
-
+            // Kiểm tra tài khoản
             if (account == null)
             {
                 return 1; // Sai tài khoản hoặc mật khẩu
@@ -49,8 +50,16 @@ namespace DoAn.BUS
         }
         public int GetAccountID(string loginName, string password)
         {
-            var account = context.Accounts.FirstOrDefault(a => a.LoginName == loginName && a.Pass == password);
+            var account = context.Accounts.FirstOrDefault(a => (a.Email == loginName && a.Pass == password) || (a.LoginName == loginName && a.Pass == password));
             return account != null ? account.AccountID : -1; // Trả về -1 nếu không tìm thấy tài khoản
+        }
+        public Account GetByEmail(string email)
+        {
+            return context.Accounts.FirstOrDefault(a => a.Email == email);
+        }
+        public void SaveChanges()
+        {
+            context.SaveChanges();
         }
 
 

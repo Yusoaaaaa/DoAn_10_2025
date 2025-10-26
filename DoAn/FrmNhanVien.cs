@@ -50,7 +50,7 @@ namespace DoAn
         {
             CmbChucVu.Items.Clear();
 
-            CmbChucVu.Items.Add("Admin");
+            
             CmbChucVu.Items.Add("Manager");
             CmbChucVu.Items.Add("Staff");
         }
@@ -65,7 +65,7 @@ namespace DoAn
                 if (e.Value is int ChucVu)
                 {
                     string chucVuText = "";
-                    switch (ChucVu) { case 3: chucVuText = "Admin"; break; case 2: chucVuText = "Manager"; break; case 1: chucVuText = "Staff"; break; }
+                    switch (ChucVu) { case 2: chucVuText = "Manager"; break; case 1: chucVuText = "Staff"; break; }
                     CmbChucVu.Text = chucVuText;
                     e.Value = chucVuText;
                     e.FormattingApplied = true;
@@ -89,12 +89,10 @@ namespace DoAn
                 int ChucVu = account.AccStatus; // Lấy giá trị ChucVu từ đối tượng Account
                 string chucVuText = ""; // Biến lưu trữ chuỗi chức vụ
                 // Chuyển đổi giá trị ChucVu thành chuỗi tương ứng
-                // 3 - Admin, 2 - Manager, 1 - Staff
+                
                 switch (ChucVu) { case 2: chucVuText = "Manager"; break; case 1: chucVuText = "Staff"; break; }
                 CmbChucVu.Text = chucVuText;
-
-                // LƯU ĐƯỜNG DẪN ẢNH HIỆN TẠI TỪ DB VÀ HIỂN THỊ
-                currentDBAvatarPath = account.Avatar; // <-- LƯU ĐƯỜNG DẪN CŨ
+                currentDBAvatarPath = account.Avatar; 
                 showAvatar(account.Avatar);
 
 

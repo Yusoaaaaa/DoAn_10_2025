@@ -75,10 +75,15 @@ namespace DoAn
                     if (frmLogin.level == 1)
                     {
                         btnStaff.Visible = false;
+                        Email.Text = frmLogin.UserName;
+                        
+
                     }
                     else
                     {
                         btnStaff.Visible = true;
+                        Email.Text = frmLogin.UserName;
+
                     }
                     this.Show();
                     panel2Status("Chào mừng bạn đến với\nhệ thống quản lý kho!");
@@ -495,6 +500,16 @@ namespace DoAn
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Username_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Email_Click(object sender, EventArgs e)
         {
 
         }

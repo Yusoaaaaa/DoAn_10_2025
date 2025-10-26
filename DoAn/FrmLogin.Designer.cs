@@ -91,9 +91,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackgroundImage = global::DoAn.Properties.Resources.logo_190x190;
-            this.panel1.Location = new System.Drawing.Point(125, 20);
+            this.panel1.Location = new System.Drawing.Point(136, 20);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(158, 147);
+            this.panel1.Size = new System.Drawing.Size(180, 180);
             this.panel1.TabIndex = 10;
             // 
             // lblClose
@@ -304,7 +304,7 @@
             this.lblLoginTitle.AutoSize = true;
             this.lblLoginTitle.Font = new System.Drawing.Font("Readex Pro Deca", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoginTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(34)))), ((int)(((byte)(40)))));
-            this.lblLoginTitle.Location = new System.Drawing.Point(166, 195);
+            this.lblLoginTitle.Location = new System.Drawing.Point(175, 195);
             this.lblLoginTitle.Name = "lblLoginTitle";
             this.lblLoginTitle.Size = new System.Drawing.Size(115, 47);
             this.lblLoginTitle.TabIndex = 2;

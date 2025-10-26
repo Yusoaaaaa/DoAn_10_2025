@@ -56,6 +56,7 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.10\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -189,6 +190,12 @@
     <Compile Include="FrmNhanVien.Designer.cs">
       <DependentUpon>FrmNhanVien.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmOrder_Add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmOrder_Add.Designer.cs">
+      <DependentUpon>FrmOrder_Add.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmQuenMatKhau.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmNhanVien.resx">
       <DependentUpon>FrmNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmOrder_Add.resx">
+      <DependentUpon>FrmOrder_Add.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmQuenMatKhau.resx">
       <DependentUpon>frmQuenMatKhau.cs</DependentUpon>
@@ -349,6 +359,7 @@
     <None Include="Resources\test.jpg.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\qr kheu donate.jpg" />
     <None Include="Resources\Untitled %28512 x 512 px%291.png" />
     <None Include="Resources\Untitled %28512 x 512 px%29.png" />
     <None Include="Resources\1.png" />

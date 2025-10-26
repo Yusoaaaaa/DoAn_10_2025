@@ -63,10 +63,6 @@ namespace DoAn
                         // Lấy thông tin người dùng
                         level = bus.GetAccountLevel(bus.GetAccountID(tenTk, mkTk));
                         UserName = bus.GetAccountName(bus.GetAccountID(tenTk, mkTk));
-
-
-
-
                         this.Close();
                         break;
                     case 1:

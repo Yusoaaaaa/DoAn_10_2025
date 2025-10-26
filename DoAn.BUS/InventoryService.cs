@@ -143,5 +143,25 @@ namespace DoAn.BUS
                 return 0; // Trả về 0 nếu có lỗi
             }
         }
+        public void UpdateStock(int sku, int newStock)
+        {
+            try
+            {
+                var inventoryRecord = context.Inventories.FirstOrDefault(i => i.SKU == sku);
+                if (inventoryRecord != null)
+                {
+                    inventoryRecord.instock = newStock;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine($"Không tìm thấy bản ghi inventory cho SKU: {sku}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi cập nhật số lượng tồn kho cho SKU ({sku}): " + ex.Message);
+            }
+        }
     }
 }

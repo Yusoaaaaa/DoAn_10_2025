@@ -15,325 +15,263 @@ namespace DoAn
 {
     public partial class FrmBanHang : Form
 
+    {
+        private InventoryService inventoryService;
+        private ProductService productService;
+        private Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
+        private OrderService orderService;
+        private List<Product> cart = new List<Product>();
+        private Image placeholderImage;
+        private Random _random = new Random();
+
+        public FrmBanHang()
         {
-            private ProductService productService;
-            private Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
-            private Image placeholderImage;
+            InitializeComponent();
+            productService = new ProductService();
+            orderService = new OrderService();
+            inventoryService = new InventoryService();
 
-            public FrmBanHang()
+        }
+
+        private void FrmBanHang_Load(object sender, EventArgs e)
+        {
+            dgvProducts.AutoGenerateColumns = false;
+            LoadData();
+            GenerateNewOrderID();
+            txtOrderID.ReadOnly = true;
+        }
+
+        private void LoadData()
+        {
+            try
             {
-                InitializeComponent();
-                productService = new ProductService();
+                dgvProducts.DataSource = null; // Xóa nguồn cũ
+                dgvProducts.DataSource = cart.ToList(); // Đặt nguồn mới là giỏ hàng
             }
-
-            private void BaseInformation_Load(object sender, EventArgs e)
+            catch (Exception ex)
             {
-                // Tạo một ảnh placeholder đơn giản
-                placeholderImage = new Bitmap(60, 60);
-                using (Graphics g = Graphics.FromImage(placeholderImage))
+                MessageBox.Show("Lỗi khi tải danh sách sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void GenerateNewOrderID()
+        {
+            int randomOrderId = _random.Next(100000, 1000000);
+            txtOrderID.Text = randomOrderId.ToString();
+        }
+
+        // Tải ảnh vào cột Ảnh
+        private void dgvProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Chỉ xử lý cột 'colImage'
+            if (dgvProducts.Columns[e.ColumnIndex].Name == "colImage" && e.RowIndex >= 0)
+            {
+                // Lấy đối tượng Product từ dòng hiện tại
+                var product = dgvProducts.Rows[e.RowIndex].DataBoundItem as Product;
+                if (product == null) return;
+
+                string imagePath = product.Illustration;
+
+                // Nếu đường dẫn trống hoặc file không tồn tại, dùng ảnh placeholder
+                if (string.IsNullOrEmpty(imagePath) || !File.Exists(imagePath))
                 {
-                    g.Clear(Color.Gainsboro);
+                    e.Value = placeholderImage;
+                    return;
                 }
 
-                // Thiết lập AutoGenerateColumns = false
-                // Điều này RẤT QUAN TRỌNG, để grid sử dụng các cột ta định nghĩa trong Designer
-                dgvProducts.AutoGenerateColumns = false;
-
-                // Tải dữ liệu
-                LoadData();
-            }
-
-            private void LoadData()
-            {
-                try
+                // Tối ưu: Kiểm tra xem ảnh đã có trong cache chưa
+                if (imageCache.ContainsKey(imagePath))
                 {
-                    var allProducts = productService.GetAll();
-                    // Gán nguồn dữ liệu
-                    dgvProducts.DataSource = allProducts;
+                    e.Value = imageCache[imagePath];
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Lỗi khi tải danh sách sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+                    try
+                    {
+                        // Tải ảnh từ file
+                        // Đọc file vào MemoryStream để tránh bị khóa file (lock)
+                        using (FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                        {
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                fs.CopyTo(ms);
+                                Image img = Image.FromStream(ms);
 
-            // Tải ảnh vào cột Ảnh
-            private void dgvProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-            {
-                // Chỉ xử lý cột 'colImage'
-                if (dgvProducts.Columns[e.ColumnIndex].Name == "colImage" && e.RowIndex >= 0)
-                {
-                    // Lấy đối tượng Product từ dòng hiện tại
-                    var product = dgvProducts.Rows[e.RowIndex].DataBoundItem as Product;
-                    if (product == null) return;
-
-                    string imagePath = product.Illustration;
-
-                    // Nếu đường dẫn trống hoặc file không tồn tại, dùng ảnh placeholder
-                    if (string.IsNullOrEmpty(imagePath) || !File.Exists(imagePath))
+                                // Thêm vào cache và gán cho cell
+                                imageCache[imagePath] = img;
+                                e.Value = img;
+                            }
+                        }
+                    }
+                    catch (Exception)
                     {
                         e.Value = placeholderImage;
-                        return;
-                    }
-
-                    // Tối ưu: Kiểm tra xem ảnh đã có trong cache chưa
-                    if (imageCache.ContainsKey(imagePath))
-                    {
-                        e.Value = imageCache[imagePath];
-                    }
-                    else
-                    {
-                        try
-                        {
-                            // Tải ảnh từ file
-                            // Đọc file vào MemoryStream để tránh bị khóa file (lock)
-                            using (FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
-                            {
-                                using (MemoryStream ms = new MemoryStream())
-                                {
-                                    fs.CopyTo(ms);
-                                    Image img = Image.FromStream(ms);
-
-                                    // Thêm vào cache và gán cho cell
-                                    imageCache[imagePath] = img;
-                                    e.Value = img;
-                                }
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            e.Value = placeholderImage;
-                        }
                     }
                 }
             }
+        }
 
 
-            // Xử lý nút Thêm
-            private void btnAddProduct_Click(object sender, EventArgs e)
+        // Xử lý nút Thêm
+        private void btnAddProduct_Click(object sender, EventArgs e)
+        {
+
+            string currentOrderID = txtOrderID.Text;
+
+            // === TRUYỀN OrderID VÀO FORM TRA CỨU ===
+            using (HienThiThongTInSKU frmTraCuu = new HienThiThongTInSKU(currentOrderID))
             {
-
-                using (BaseInformation_Addnew frmAdd = new BaseInformation_Addnew())
+                if (frmTraCuu.ShowDialog() == DialogResult.OK)
                 {
-                    if (frmAdd.ShowDialog() == DialogResult.OK)
-                    {
-                        LoadData();
-                    }
+                    Product product = frmTraCuu.ProductToAdd;
+                    cart.Add(product);
+                    LoadData(); // Cập nhật lại DataGridView
                 }
             }
+        }
 
-            private void dgvProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
+        // Hàm này không dùng nhưng Bunifu Tooltip cần
+        private void bunifuToolTip1_Popup(object sender, Bunifu.UI.WinForms.BunifuToolTip.PopupEventArgs e)
+        {
+
+        }
+
+        //Thêm form nhỏ cho filter theo Category và gender
+        public class FilterDialog : Form
+        {
+            public string SelectedCategory { get; private set; }
+            public string SelectedGender { get; private set; }
+
+            private ComboBox cboCategory;
+            private ComboBox cboGender;
+            private Button btnOK;
+            private Button btnCancel;
+
+            public FilterDialog(IEnumerable<string> categories, IEnumerable<string> genders)
             {
-                // Bỏ qua nếu click vào header
-                if (e.RowIndex < 0) return;
+                Text = "Filter sản phẩm";
+                FormBorderStyle = FormBorderStyle.FixedDialog;
+                StartPosition = FormStartPosition.CenterParent;
+                Width = 350;
+                Height = 220;
+                Font = new Font("Segoe UI", 9F);
 
-                // Lấy SKU từ dòng được click
-                // Đảm bảo rằng cột colSKU tồn tại và có giá trị
-                if (dgvProducts.Rows[e.RowIndex].Cells["colSKU"].Value == null) return;
+                Label lblCategory = new Label { Text = "Loại sản phẩm:", Left = 20, Top = 20, Width = 100 };
+                Label lblGender = new Label { Text = "Giới tính:", Left = 20, Top = 70, Width = 100 };
 
-                int sku = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["colSKU"].Value);
+                cboCategory = new ComboBox { Left = 130, Top = 18, Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
+                cboCategory.Items.Add("Tất cả");
+                cboCategory.Items.AddRange(categories.Distinct().ToArray());
+                cboCategory.SelectedIndex = 0;
 
-                // 1. XỬ LÝ NÚT SỬA (colEdit)
-                
+                cboGender = new ComboBox { Left = 130, Top = 68, Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
+                cboGender.Items.Add("Tất cả");
+                cboGender.Items.AddRange(genders.Distinct().ToArray());
+                cboGender.SelectedIndex = 0;
 
-                // 2. XỬ LÝ NÚT XÓA (colDelete)
-                if (dgvProducts.Columns[e.ColumnIndex].Name == "colDelete")
+                btnOK = new Button { Text = "Áp dụng", Left = 130, Width = 80, Top = 120, DialogResult = DialogResult.OK };
+                btnCancel = new Button { Text = "Hủy", Left = 230, Width = 80, Top = 120, DialogResult = DialogResult.Cancel };
+
+                Controls.Add(lblCategory);
+                Controls.Add(lblGender);
+                Controls.Add(cboCategory);
+                Controls.Add(cboGender);
+                Controls.Add(btnOK);
+                Controls.Add(btnCancel);
+
+                AcceptButton = btnOK;
+                CancelButton = btnCancel;
+            }
+
+            protected override void OnFormClosing(FormClosingEventArgs e)
+            {
+                if (DialogResult == DialogResult.OK)
                 {
-                    try
-                    {
-                        string productName = dgvProducts.Rows[e.RowIndex].Cells["colName"].Value.ToString();
-                        var dialogResult = MessageBox.Show($"Bạn có chắc chắn muốn xóa sản phẩm '{productName}' (SKU: {sku}) không?",
-                                                         "Xác nhận xóa",
-                                                         MessageBoxButtons.YesNo,
-                                                         MessageBoxIcon.Warning);
-
-                        if (dialogResult == DialogResult.Yes)
-                        {
-                            bool success = productService.DeleteProduct(sku);
-                            if (success)
-                            {
-                                //MessageBox.Show("Xóa sản phẩm thành công!");
-                                LoadData(); // Tải lại dữ liệu
-                            }
-                            else
-                            {
-                                MessageBox.Show("Xóa sản phẩm thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi khi xóa sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    SelectedCategory = cboCategory.SelectedItem?.ToString() ?? "Tất cả";
+                    SelectedGender = cboGender.SelectedItem?.ToString() ?? "Tất cả";
                 }
+                base.OnFormClosing(e);
             }
+        }
 
-            // Xử lý tìm kiếm
-            private void txtSearch_KeyUp(object sender, KeyEventArgs e)
+        
+
+
+
+
+
+            private void BtnThanhToan_Click(object sender, EventArgs e)
             {
-                // Chỉ tìm kiếm khi nhấn Enter
-                if (e.KeyCode == Keys.Enter)
+                // 1. Kiểm tra giỏ hàng
+                if (cart.Count == 0)
                 {
-                    try
-                    {
-                        string searchTerm = txtSearch.Text.ToLower().Trim();
-                        var allProducts = productService.GetAll();
-
-                        if (string.IsNullOrWhiteSpace(searchTerm))
-                        {
-                            // Nếu ô tìm kiếm trống, tải lại tất cả
-                            dgvProducts.DataSource = allProducts;
-                        }
-                        else
-                        {
-                            // Lọc theo Tên hoặc SKU
-                            var filteredList = allProducts.Where(p =>
-                                p.Name.ToLower().Contains(searchTerm) ||
-                                p.SKU.ToString().Contains(searchTerm)
-                            ).ToList();
-
-                            dgvProducts.DataSource = filteredList;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-
-            // Hàm này không dùng nhưng Bunifu Tooltip cần
-            private void bunifuToolTip1_Popup(object sender, Bunifu.UI.WinForms.BunifuToolTip.PopupEventArgs e)
-            {
-
-            }
-
-            //Thêm form nhỏ cho filter theo Category và gender
-            public class FilterDialog : Form
-            {
-                public string SelectedCategory { get; private set; }
-                public string SelectedGender { get; private set; }
-
-                private ComboBox cboCategory;
-                private ComboBox cboGender;
-                private Button btnOK;
-                private Button btnCancel;
-
-                public FilterDialog(IEnumerable<string> categories, IEnumerable<string> genders)
-                {
-                    Text = "Filter sản phẩm";
-                    FormBorderStyle = FormBorderStyle.FixedDialog;
-                    StartPosition = FormStartPosition.CenterParent;
-                    Width = 350;
-                    Height = 220;
-                    Font = new Font("Segoe UI", 9F);
-
-                    Label lblCategory = new Label { Text = "Loại sản phẩm:", Left = 20, Top = 20, Width = 100 };
-                    Label lblGender = new Label { Text = "Giới tính:", Left = 20, Top = 70, Width = 100 };
-
-                    cboCategory = new ComboBox { Left = 130, Top = 18, Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
-                    cboCategory.Items.Add("Tất cả");
-                    cboCategory.Items.AddRange(categories.Distinct().ToArray());
-                    cboCategory.SelectedIndex = 0;
-
-                    cboGender = new ComboBox { Left = 130, Top = 68, Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
-                    cboGender.Items.Add("Tất cả");
-                    cboGender.Items.AddRange(genders.Distinct().ToArray());
-                    cboGender.SelectedIndex = 0;
-
-                    btnOK = new Button { Text = "Áp dụng", Left = 130, Width = 80, Top = 120, DialogResult = DialogResult.OK };
-                    btnCancel = new Button { Text = "Hủy", Left = 230, Width = 80, Top = 120, DialogResult = DialogResult.Cancel };
-
-                    Controls.Add(lblCategory);
-                    Controls.Add(lblGender);
-                    Controls.Add(cboCategory);
-                    Controls.Add(cboGender);
-                    Controls.Add(btnOK);
-                    Controls.Add(btnCancel);
-
-                    AcceptButton = btnOK;
-                    CancelButton = btnCancel;
+                    MessageBox.Show("Giỏ hàng đang rỗng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
-                protected override void OnFormClosing(FormClosingEventArgs e)
-                {
-                    if (DialogResult == DialogResult.OK)
-                    {
-                        SelectedCategory = cboCategory.SelectedItem?.ToString() ?? "Tất cả";
-                        SelectedGender = cboGender.SelectedItem?.ToString() ?? "Tất cả";
-                    }
-                    base.OnFormClosing(e);
-                }
-            }
+                // 2. Lấy thông tin chung
+                string currentOrderID = txtOrderID.Text;
+                DateTime currentDate = DateTime.Now;
 
-            private void btnFilter_Click(object sender, EventArgs e)
-            {
                 try
                 {
-                    var allProducts = productService.GetAll();
-                    var categories = allProducts.Select(p => p.Category).Where(c => !string.IsNullOrEmpty(c));
-                    var genders = allProducts.Select(p => p.Gender).Where(g => !string.IsNullOrEmpty(g));
-
-                    using (var dialog = new FilterDialog(categories, genders))
-                    {
-                        if (dialog.ShowDialog() == DialogResult.OK)
+                    // 3. Nhóm giỏ hàng (đếm số lượng mỗi SKU)
+                    var groupedCart = cart
+                        .GroupBy(product => product.SKU) // Nhóm theo SKU
+                        .Select(group => new
                         {
-                            string selectedCategory = dialog.SelectedCategory;
-                            string selectedGender = dialog.SelectedGender;
+                            SKU = group.Key,
+                            Quantity = group.Count(), // Đếm số lượng
+                            ProductName = group.First().Name // Lấy tên để báo lỗi
+                        });
 
-                            var filtered = allProducts.AsQueryable();
-
-                            if (selectedCategory != "Tất cả")
-                                filtered = filtered.Where(p => p.Category == selectedCategory);
-
-                            if (selectedGender != "Tất cả")
-                                filtered = filtered.Where(p => p.Gender == selectedGender);
-
-                            dgvProducts.DataSource = filtered.ToList();
+                    // 4. === KIỂM TRA TỒN KHO TRƯỚC KHI BÁN ===
+                    foreach (var item in groupedCart)
+                    {
+                        int currentStock = inventoryService.GetStockBySKU(item.SKU);
+                        if (currentStock < item.Quantity)
+                        {
+                            MessageBox.Show($"Không đủ hàng cho sản phẩm '{item.ProductName}' (SKU: {item.SKU}).\nChỉ còn {currentStock} sản phẩm trong kho.", "Lỗi tồn kho", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return; // Dừng thanh toán
                         }
                     }
+
+                    // 5. === NẾU TỒN KHO OK, TIẾN HÀNH LƯU ===
+                    foreach (var item in groupedCart)
+                    {
+                        // a. Tạo dòng hóa đơn
+                        Order orderLine = new Order
+                        {
+                            OrderID = currentOrderID,
+                            InvoiceDate = currentDate,
+                            SKU = item.SKU,
+                            Quantity = item.Quantity
+                        };
+
+                        // b. Lưu dòng hóa đơn
+                        orderService.Add(orderLine);
+
+                        // c. Trừ tồn kho (dùng số âm)
+                        inventoryService.UpdateStock(item.SKU, -item.Quantity);
+                    }
+
+                    // 6. Thông báo thành công
+                    double tongTien = cart.Sum(product => product.Price);
+                    MessageBox.Show($"Tạo hóa đơn {currentOrderID} thành công! \nTổng tiền: {tongTien:N0} VNĐ", "Thanh toán thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // 7. Dọn dẹp
+                    cart.Clear();
+                    LoadData();
+                    GenerateNewOrderID();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Lỗi khi lọc dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-
-
-            private void txtSearch_TextChange(object sender, EventArgs e)
-            {
-                try
-                {
-                    string searchTerm = txtSearch.Text.ToLower().Trim();
-                    var allProducts = productService.GetAll();
-
-                    if (string.IsNullOrWhiteSpace(searchTerm))
-                    {
-                        dgvProducts.DataSource = allProducts;
-                    }
-                    else
-                    {
-                        var filteredList = allProducts.Where(p =>
-                            // SKU
-                            p.SKU.ToString().Contains(searchTerm)
-                            ||
-                            // Tên sản phẩm
-                            (!string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(searchTerm))
-                            ||
-                            // Giá nhập
-                            p.ImportCost.ToString("N0").Replace(",", "").Contains(searchTerm)
-                            ||
-                            // Giá bán
-                            p.Price.ToString("N0").Replace(",", "").Contains(searchTerm)
-                        ).ToList();
-
-                        dgvProducts.DataSource = filteredList;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Lỗi khi thanh toán: " + ex.Message, "Lỗi nghiêm trọng", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

@@ -103,9 +103,10 @@ namespace DoAn
         }
         private void btnProductList_Click(object sender, EventArgs e)
         {
-            using (FrmDashboard frmDashboard = new FrmDashboard())
+            using (BaseInformation frmBaseInformation = new BaseInformation())
             {
-                frmDashboard.ShowDialog();
+                frmBaseInformation.ShowDialog();
+
             }
         }
 

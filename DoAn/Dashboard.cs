@@ -142,7 +142,7 @@ namespace DoAn
             if (menuExpand == false)
             {
                 flowLayoutPaneldropdown.Height += 10;
-                if (flowLayoutPaneldropdown.Height >= 200)
+                if (flowLayoutPaneldropdown.Height >= 160)
                 {
                     menuTransition.Stop();
                     menuExpand = true;

@@ -11,7 +11,12 @@ namespace DoAn.BUS
 {
     public class InventoryService
     {
-        StoreDBContext context = new StoreDBContext();
+        
+        private StoreDBContext context;
+        public InventoryService()
+        {
+            context = new StoreDBContext();
+        }
         public List<Inventory> GetAll()
         {
             return context.Inventories.ToList();
@@ -64,12 +69,6 @@ namespace DoAn.BUS
         /// <param name="sku">Mã SKU kiểu int.</param>
         /// <returns>Số lượng tồn kho (int).</returns>
         /// 
-
-
-
-
-
-
         public List<Product> GetProductsByStockAvailability()
         {
             var productsInStock = from p in context.Products
@@ -120,47 +119,95 @@ namespace DoAn.BUS
 
 
 
-        public int GetStockBySKU(int sku)
+        /// <summary>
+        /// Lấy số lượng tồn kho hiện tại của một SKU
+        /// </summary>
+        public int GetStockLevel(int sku)
         {
             try
             {
-                // Tìm bản ghi inventory
-                var inventoryRecord = context.Inventories.FirstOrDefault(i => i.SKU == sku);
-
-                // Sử dụng tên biến instock và trả về 0 nếu không tìm thấy bản ghi
-                return inventoryRecord?.instock ?? 0;
-
-                // Cách viết dài hơn tương đương với code gốc của bạn:
-                // return context.Inventories
-                //               .Where(i => i.SKU == sku)
-                //               .Select(i => i.instock) // Chọn cột instock
-                //               .FirstOrDefault(); // Lấy giá trị đầu tiên hoặc mặc định (0 cho int)
+                var inventoryItem = context.Inventories.Find(sku);
+                if (inventoryItem != null)
+                {
+                    return inventoryItem.instock;
+                }
+                return 0; // Hết hàng hoặc không tìm thấy
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Lỗi khi lấy số lượng tồn kho cho SKU ({sku}): " + ex.Message);
-                // Xem xét ghi log chi tiết hoặc ném lại lỗi
-                return 0; // Trả về 0 nếu có lỗi
+                return 0; // Lỗi -> xem như hết hàng
             }
         }
-        public void UpdateStock(int sku, int newStock)
+        /// <summary>
+        /// Kiểm tra xem có đủ hàng trong kho không
+        /// </summary>
+        public bool IsInStock(int sku, int requiredQuantity)
+        {
+            return GetStockLevel(sku) >= requiredQuantity;
+        }
+        /// <summary>
+        /// Cập nhật tồn kho (có thể dùng số âm để trừ kho)
+        /// </summary>
+        public bool UpdateStock(int sku, int quantityChange)
         {
             try
             {
-                var inventoryRecord = context.Inventories.FirstOrDefault(i => i.SKU == sku);
-                if (inventoryRecord != null)
+                var inventoryItem = context.Inventories.Find(sku);
+                if (inventoryItem == null)
                 {
-                    inventoryRecord.instock = newStock;
-                    context.SaveChanges();
+                    // Nếu chưa có trong kho, tạo mới (ví dụ: nhập hàng)
+                    if (quantityChange > 0)
+                    {
+                        inventoryItem = new Inventory
+                        {
+                            SKU = sku,
+                            instock = quantityChange
+                            // LastUpdated = DateTime.Now
+                        };
+                        context.Inventories.Add(inventoryItem);
+                    }
+                    else
+                    {
+                        // Nếu trừ kho mà không có -> lỗi
+                        throw new Exception("Không tìm thấy sản phẩm trong kho để trừ.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine($"Không tìm thấy bản ghi inventory cho SKU: {sku}");
+                    // Cập nhật số lượng
+                    inventoryItem.instock += quantityChange;
                 }
+
+                context.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Lỗi khi cập nhật số lượng tồn kho cho SKU ({sku}): " + ex.Message);
+                // Ghi log lỗi
+                Console.WriteLine("Lỗi cập nhật kho: " + ex.Message);
+                return false;
+            }
+        }
+        /// <summary>
+        /// Cập nhật (trừ) tồn kho sau khi bán hàng
+        /// </summary>
+        public void UpdateStockAfterSale(int sku, int quantitySold)
+        {
+            var inventoryItem = context.Inventories.FirstOrDefault(i => i.SKU == sku);
+            if (inventoryItem != null)
+            {
+                if (inventoryItem.instock < quantitySold)
+                {
+                    throw new Exception("Lỗi logic: Số lượng bán vượt quá tồn kho.");
+                }
+
+                inventoryItem.instock -= quantitySold;
+                context.SaveChanges();
+            }
+            else
+            {
+                // Trường hợp này không nên xảy ra nếu đã check ở form
+                throw new Exception($"Không tìm thấy tồn kho cho SKU: {sku}");
             }
         }
     }

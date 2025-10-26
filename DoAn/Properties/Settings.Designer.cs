@@ -22,5 +22,16 @@ namespace DoAn.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\\SQLEXPRESS;Initial Catalog=StoreManagement;Integrated Secur" +
+            "ity=True;TrustServerCertificate=True")]
+        public string SMCstring {
+            get {
+                return ((string)(this["SMCstring"]));
+            }
+        }
     }
 }

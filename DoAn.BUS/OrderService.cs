@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DoAn.DAL;
 using DoAn.DAL.Models;
+using System.Data.Entity;
 
 namespace DoAn.BUS
 {
@@ -109,6 +110,106 @@ namespace DoAn.BUS
             int year = DateTime.Now.Year;
             // Implementation to get orders by specific month
             return context.Orders.Where(o => o.InvoiceDate.Year == year && o.SKU == id).Sum(o => (int?)o.Quantity) ?? 0;
+        }
+        public List<Order> GetOrderItems(string orderId)
+        {
+            try
+            {
+                // Dùng .Include() để EF tự động JOIN bảng Product
+                // Nó sẽ lấy thông tin Product dựa trên SKU
+                return context.Orders
+                               .Include(o => o.Product) // Tải kèm thông tin Product
+                               .Where(o => o.OrderID == orderId)
+                               .ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Loi khi lay chi tiet don hang: " + ex.Message);
+                return new List<Order>();
+            }
+        }
+        //// <summary>
+        /// Lấy danh sách lịch sử các sản phẩm đã bán (JOIN Orders và Products)
+        /// </summary>
+
+        /// <summary>
+        /// Thêm/cập nhật sản phẩm vào một đơn hàng
+        /// </summary>
+        /// <param name="orderId">Mã đơn hàng (ví dụ: ORD25001)</param>
+        /// <param name="sku">Mã sản phẩm (ví dụ: 1001)</param>
+        /// <param name="quantity">Số lượng cần thêm</param>
+        public void AddProductToOrder(string orderId, int sku, int quantity)
+        {
+            // 1. Validation cơ bản
+            if (quantity <= 0)
+            {
+                throw new Exception("Số lượng phải lớn hơn 0.");
+            }
+            if (string.IsNullOrWhiteSpace(orderId))
+            {
+                throw new Exception("Mã đơn hàng không được để trống.");
+            }
+
+            try
+            {
+                // 2. Kiểm tra xem sản phẩm đã có trong đơn hàng này chưa
+                var existingItem = context.Orders.Find(orderId, sku);
+
+                if (existingItem != null)
+                {
+                    // 3a. NẾU ĐÃ CÓ: Chỉ cần cộng thêm số lượng
+                    existingItem.Quantity += quantity;
+                }
+                else
+                {
+                    // 3b. NẾU CHƯA CÓ: Tạo một dòng Order (mặt hàng) mới
+                    DateTime invoiceDate;
+                    string invoiceStatus;
+
+                    var otherItemInOrder = context.Orders.FirstOrDefault(o => o.OrderID == orderId);
+                    if (otherItemInOrder != null)
+                    {
+                        // Đơn hàng đã có từ trước, lấy thông tin cũ
+                        invoiceDate = otherItemInOrder.InvoiceDate;
+                        invoiceStatus = otherItemInOrder.InvoiceStatus;
+                    }
+                    else
+                    {
+                        invoiceDate = DateTime.Now.Date; // Ngày hôm nay
+                        invoiceStatus = "Pending"; // Trạng thái mặc định
+                    }
+
+                    // Tạo đối tượng Order mới
+                    var newItem = new Order
+                    {
+                        OrderID = orderId,
+                        SKU = sku,
+                        Quantity = quantity,
+                        InvoiceDate = invoiceDate,
+                        InvoiceStatus = invoiceStatus
+                    };
+
+                    // Thêm vào CSDL
+                    context.Orders.Add(newItem);
+                }
+
+                // 4. Lưu tất cả thay đổi vào CSDL
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Ném lỗi ra ngoài để Form (btnSave) có thể bắt được
+                throw new Exception("Lỗi khi thêm sản phẩm vào đơn hàng: " + ex.Message);
+            }
+        }
+        public List<Order> GetOrdersByDate()
+        {
+            DateTime today = DateTime.Now.Date;
+            return context.Orders.Where(o => DbFunctions.TruncateTime(o.InvoiceDate) == today).ToList();
+        }
+        public List<Order> GetOrdersSortedByDate()
+        {
+            return context.Orders.OrderByDescending(o => o.InvoiceDate).ToList();
         }
     }
 }

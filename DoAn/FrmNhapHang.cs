@@ -60,6 +60,7 @@ namespace DoAn
         // Tải ảnh vào cột Ảnh
         private void dgvProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            if (e.RowIndex < 0) return;
             // Chỉ xử lý cột 'colImage'
             if (dgvProducts.Columns[e.ColumnIndex].Name == "colImage" && e.RowIndex >= 0)
             {

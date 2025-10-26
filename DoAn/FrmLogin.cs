@@ -1,5 +1,6 @@
-﻿using DoAn.DAL.Models;
+﻿using DoAn.BUS;
 using DoAn.DAL;
+using DoAn.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,12 +10,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DoAn.BUS;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace DoAn
 {
     public partial class FrmLogin : Form
     {
+
+
+
+        public string UserName = "";
         public int level = 0;
 
         frmQuenMatKhau FrmQuenMatKhau;
@@ -55,6 +60,13 @@ namespace DoAn
                         MessageBox.Show("Đăng nhập thành công!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         // ... (Mở Form Main) ...
                         this.DialogResult = DialogResult.OK;
+                        // Lấy thông tin người dùng
+                        level = bus.GetAccountLevel(bus.GetAccountID(tenTk, mkTk));
+                        UserName = bus.GetAccountName(bus.GetAccountID(tenTk, mkTk));
+
+
+
+
                         this.Close();
                         break;
                     case 1:

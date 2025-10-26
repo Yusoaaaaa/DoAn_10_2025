@@ -35,6 +35,36 @@ namespace DoAn.BUS
             return 0; // Đăng nhập thành công
         }
 
+
+        //Lấy ID tài khoản  
+        public int GetAccountLevel(int id)
+        {
+            var account = context.Accounts.FirstOrDefault(a => a.AccountID == id);
+            return account != null ? account.AccStatus : -1; // Trả về -1 nếu không tìm thấy tài khoản
+        }
+        public string GetAccountName(int id)
+        {
+            var account = context.Accounts.FirstOrDefault(a => a.AccountID == id);
+            return account != null ? account.Username : ""; // Trả về chuỗi rỗng nếu không tìm thấy tài khoản
+        }
+        public int GetAccountID(string loginName, string password)
+        {
+            var account = context.Accounts.FirstOrDefault(a => a.LoginName == loginName && a.Pass == password);
+            return account != null ? account.AccountID : -1; // Trả về -1 nếu không tìm thấy tài khoản
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         public List<Account> GetAll() //Lấy tất cả tài khoản
         {
             return context.Accounts.ToList();
